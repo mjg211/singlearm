@@ -5,7 +5,8 @@
 #' determined using \code{opchar_gs()}. A range of plots are available, of which
 #' the expected sample size and power curves will be printed by default.
 #'
-#' @param opchar An object of class \code{"sa_opchar_gs"}, as returned by \code{opchar_gs()}.
+#' @param x An object of class \code{"sa_opchar_gs"}, as returned by \code{opchar_gs()}.
+#' @param ... Included for compatibility with the generic. Not currently used.
 #' @param output A logical variable indicating whether the outputs described below
 #' should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is returned
@@ -23,7 +24,9 @@
 #' @seealso \code{\link{des_gs}}, \code{\link{opchar_gs}}, \code{\link{est_gs}}, \code{\link{pval_gs}},
 #' and \code{\link{ci_gs}}, and their associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_gs <- function(opchar, output = F) {
+plot.sa_opchar_gs <- function(x, ..., output = F) {
+
+  opchar <- x
 
   ##### Input Checking #########################################################
 

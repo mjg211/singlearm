@@ -14,16 +14,16 @@ des_bivariate <- function() {
   dbivar_11_max_list <- list()
   for (n in Nmin:Nmax) {
     if (is.null(theta)) {
-      dbivar_00_list[[n]]     <- dbivar(n, piR0, piT0, Inf)
-      dbivar_01_list[[n]]     <- dbivar(n, piR0, piT1, Inf)
-      dbivar_10_list[[n]]     <- dbivar(n, piR1, piT0, Inf)
-      dbivar_11_min_list[[n]] <- dbivar(n, piR1, piT1, Inf)
-      dbivar_11_max_list[[n]] <- dbivar(n, piR1, piT1, 0)
+      dbivar_00_list[[n]]     <- dbivariate(n, piR0, piT0, Inf)
+      dbivar_01_list[[n]]     <- dbivariate(n, piR0, piT1, Inf)
+      dbivar_10_list[[n]]     <- dbivariate(n, piR1, piT0, Inf)
+      dbivar_11_min_list[[n]] <- dbivariate(n, piR1, piT1, Inf)
+      dbivar_11_max_list[[n]] <- dbivariate(n, piR1, piT1, 0)
     } else {
-      dbivar_00_list[[n]]     <- dbivar(n, piR0, piT0, theta)
-      dbivar_01_list[[n]]     <- dbivar(n, piR0, piT1, theta)
-      dbivar_10_list[[n]]     <- dbivar(n, piR1, piT0, theta)
-      dbivar_11_min_list[[n]] <- dbivar(n, piR1, piT1, theta)
+      dbivar_00_list[[n]]     <- dbivariate(n, piR0, piT0, theta)
+      dbivar_01_list[[n]]     <- dbivariate(n, piR0, piT1, theta)
+      dbivar_10_list[[n]]     <- dbivariate(n, piR1, piT0, theta)
+      dbivar_11_min_list[[n]] <- dbivariate(n, piR1, piT1, theta)
       dbivar_11_max_list[[n]] <- dbivar_11_min_list[[n]]
     }
   }
@@ -43,14 +43,14 @@ des_bivariate <- function() {
   dbivar_max1_list <- list()
   dbivar_max2_list <- list()
   for (n in Nmin:Nmax) {
-    dbivar_00_list[[n]]     <- dbivar(n, piR0, piT0, theta)
-    dbivar_01_list[[n]]     <- dbivar(n, piR0, piT1, theta)
-    dbivar_10_list[[n]]     <- dbivar(n, piR1, piT0, theta)
-    dbivar_11_list[[n]]     <- dbivar(n, piR1, piT1, theta)
-    dbivar_max1_list[[n]]   <- cbind(dbinom(0:n, n, piR0),
+    dbivar_00_list[[n]]     <- dbivariate(n, piR0, piT0, theta)
+    dbivar_01_list[[n]]     <- dbivariate(n, piR0, piT1, theta)
+    dbivar_10_list[[n]]     <- dbivariate(n, piR1, piT0, theta)
+    dbivar_11_list[[n]]     <- dbivariate(n, piR1, piT1, theta)
+    dbivar_max1_list[[n]]   <- cbind(stats::dbinom(0:n, n, piR0),
                                      matrix(0, nrow = n + 1, ncol = n))
     dbivar_max2_list[[n]]   <- rbind(matrix(0, nrow = n, ncol = n + 1),
-                                     dbinom(0:n, n, piT0))
+                                     stats::dbinom(0:n, n, piT0))
   }
 
 }

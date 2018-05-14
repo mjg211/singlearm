@@ -10,7 +10,7 @@
 #' Support is available to simultaneously plot the stopping boundaries of
 #' multiple applicable designs, using faceting.
 #'
-#' @param des An object of class \code{"sa_des_fixed"}, as returned by
+#' @param x An object of class \code{"sa_des_fixed"}, as returned by
 #' \code{des_fixed()}.
 #' @param ... Additional objects of class \code{"sa_des_fixed"}. These will be
 #' grouped in to a list named \code{"add_des"}.
@@ -38,7 +38,9 @@
 #' \code{\link{est_fixed}}, \code{\link{pval_fixed}}, \code{\link{ci_fixed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_des_fixed <- function(des, ..., output = F) {
+plot.sa_des_fixed <- function(x, ..., output = F) {
+
+  des <- x
 
   ##### Input Checking #########################################################
 

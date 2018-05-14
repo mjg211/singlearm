@@ -5,11 +5,13 @@
 \title{Plot the point estimates, and the point estimation procedures performance, in
 a single-stage single-arm trial design for a single binary endpoint}
 \usage{
-\method{plot}{sa_est_fixed}(est, output = F)
+\method{plot}{sa_est_fixed}(x, ..., output = F)
 }
 \arguments{
-\item{est}{An object of class \code{"sa_est_fixed"}, as returned by
+\item{x}{An object of class \code{"sa_est_fixed"}, as returned by
 \code{est_fixed()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described
 below should be returned.}

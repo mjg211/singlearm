@@ -81,22 +81,22 @@ ci_fixed <- function(des, pi, alpha = des$alpha,
     Sys.sleep(2)
     message("You have chosen to use the following methods to construct confidence intervals\n")
     if ("aggresti_coull" %in% method) {
-      message("  • Aggresti-Coull.")
+      message("  \u2022 Aggresti-Coull.")
     }
     if ("clopper_pearson" %in% method) {
-      message("  • Clopper-Pearson.")
+      message("  \u2022 Clopper-Pearson.")
     }
     if ("jeffreys" %in% method) {
-      message("  • Jeffreys.")
+      message("  \u2022 Jeffreys.")
     }
     if ("mid_p" %in% method) {
-      message("  • Mid-p.")
+      message("  \u2022 Mid-p.")
     }
     if ("wald" %in% method) {
-      message("  • Wald.")
+      message("  \u2022 Wald.")
     }
     if ("wilson" %in% method) {
-      message("  • Wilson.")
+      message("  \u2022 Wilson.")
     }
     Sys.sleep(2)
     message("\nNow beginning the required calculations...")

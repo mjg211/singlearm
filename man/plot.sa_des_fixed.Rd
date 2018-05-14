@@ -5,10 +5,10 @@
 \title{Plot the stopping boundaries of single-stage single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_des_fixed}(des, ..., output = F)
+\method{plot}{sa_des_fixed}(x, ..., output = F)
 }
 \arguments{
-\item{des}{An object of class \code{"sa_des_fixed"}, as returned by
+\item{x}{An object of class \code{"sa_des_fixed"}, as returned by
 \code{des_fixed()}.}
 
 \item{...}{Additional objects of class \code{"sa_des_fixed"}. These will be

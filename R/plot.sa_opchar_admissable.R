@@ -5,7 +5,8 @@
 #' determined using \code{opchar_admissable()}. A range of plots are available, of which
 #' the expected sample size and power curves will be printed by default.
 #'
-#' @param opchar An object of class \code{"sa_opchar_admissable"}, as returned by \code{opchar_admissable()}.
+#' @param x An object of class \code{"sa_opchar_admissable"}, as returned by \code{opchar_admissable()}.
+#' @param ... Included for compatibility with the generic. Not currently used.
 #' @param output A logical variable indicating whether the outputs described below
 #' should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is returned
@@ -23,7 +24,9 @@
 #' @seealso \code{\link{des_admissable}}, \code{\link{opchar_admissable}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_admissable <- function(opchar, output = F) {
+plot.sa_opchar_admissable <- function(x, ..., output = F) {
+
+  opchar <- x
 
   ##### Input Checking #########################################################
 

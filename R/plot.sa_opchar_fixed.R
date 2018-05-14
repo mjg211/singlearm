@@ -5,8 +5,9 @@
 #' determined using \code{opchar_fixed()}. A range of plots are available, of
 #' which the power curve will be printed by default.
 #'
-#' @param opchar An object of class \code{"sa_opchar_fixed"}, as returned by
+#' @param x An object of class \code{"sa_opchar_fixed"}, as returned by
 #' \code{opchar_fixed()}.
+#' @param ... Included for compatibility with the generic. Not currently used.
 #' @param output A logical variable indicating whether the outputs described
 #' below should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is
@@ -27,7 +28,9 @@
 #' \code{\link{est_fixed}}, \code{\link{pval_fixed}}, \code{\link{ci_fixed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_fixed <- function(opchar, output = F) {
+plot.sa_opchar_fixed <- function(x, ..., output = F) {
+
+  opchar <- x
 
   ##### Input Checking #########################################################
 

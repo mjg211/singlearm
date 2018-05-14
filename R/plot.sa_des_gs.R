@@ -10,7 +10,7 @@
 #' group sequential single-arm clinical trial designs for a single binary primary
 #' endpoint, using faceting.
 #'
-#' @param des An object of class \code{"sa_des_gs"}, as returned by \code{des_gs()}.
+#' @param x An object of class \code{"sa_des_gs"}, as returned by \code{des_gs()}.
 #' @param ... Additional objects of class \code{"sa_des_gs"}. These will be grouped
 #' in to a list named \code{"add_des"}.
 #' @param output A logical variable indicating whether the outputs described below
@@ -33,7 +33,9 @@
 #' \code{\link{pval_gs}}, \code{\link{ci_gs}}, and their associated \code{plot}
 #' family of functions.
 #' @export
-plot.sa_des_gs <- function(des, ..., output = F) {
+plot.sa_des_gs <- function(x, ..., output = F) {
+
+  des <- x
 
   ##### Input Checking #########################################################
 

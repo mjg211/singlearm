@@ -228,7 +228,7 @@ check_sa_des_fixed <- function(des, name) {
   }
   if (any(length(des$des$n) != 1, des$des$n%%1 != 0, !is.finite(des$des$n),
           des$des$n < 1)) {
-    stop(name, "$des$n must be a single integer in [1,∞)")
+    stop(name, "$des$n must be a single integer in [1,\u221e)")
   }
   if (any(length(des$des$a) != 1, des$des$a%%1 != 0, !is.finite(des$des$a),
           des$des$a < 0, des$des$a >= des$des$n)) {
@@ -260,11 +260,11 @@ check_sa_des_gs <- function(des, name) {
   }
   if (any(length(des$des$J) != 1, des$des$J%%1 != 0, !is.finite(des$des$J),
           des$des$J < 2)) {
-    stop(name, "$des$J must belong to ℕ₁")
+    stop(name, "$des$J must belong to \u2115\u2081")
   }
   if (any(length(des$des$n) != des$des$J, des$des$n%%1 != 0,
           !is.finite(des$des$n), des$des$n < 1)) {
-    stop(name, "$des$n must be a numeric vector of length ", name, "$des$J containing integers in [1,∞)")
+    stop(name, "$des$n must be a numeric vector of length ", name, "$des$J containing integers in [1,\u221e)")
   }
   if (any(!is.numeric(des$des$a), length(des$des$a) != des$des$J)) {
     stop(name, "$des$a must be a numeric vector of length ", name, "$des$J")
@@ -277,19 +277,19 @@ check_sa_des_gs <- function(des, name) {
       stop("Elements of ", name, "$des$a must be strictly less than their corresponding element in ", name, "$des$r")
     }
     if (any(des$des$a[j] > -Inf & des$des$a[j] < 0, des$des$a[j] == Inf)) {
-      stop("Elements in ", name, "$des$a must belong to ℕ∪{-∞}")
+      stop("Elements in ", name, "$des$a must belong to \u2115\u222a{-\u221e}")
     }
     if (is.finite(des$des$a[j])) {
       if (des$des$a[j]%%1 != 0) {
-        stop("Elements in ", name, "$des$a must belong to ℕ∪{-∞}")
+        stop("Elements in ", name, "$des$a must belong to \u2115\u222a{-\u221e}")
       }
     }
     if (des$des$r[j] <= 0) {
-      stop("Elements in ", name, "$des$r must belong to ℕ∪{∞}")
+      stop("Elements in ", name, "$des$r must belong to \u2115\u222a{\u221e}")
     }
     if (is.finite(des$des$r[j])) {
       if (des$des$r[j]%%1 != 0) {
-        stop("Elements in ", name, "$des$r must belong to ℕ∪{∞}")
+        stop("Elements in ", name, "$des$r must belong to \u2115\u222a{\u221e}")
       }
     }
   }

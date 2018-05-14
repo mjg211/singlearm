@@ -2,7 +2,7 @@
 # design
 cr_gs <- function(pi, s, m, J, a, r, n) {
   if (J == 1) {
-    cr         <- pbinom(r - s - 1, n - m, pi, lower.tail = F)
+    cr         <- stats::pbinom(r - s - 1, n - m, pi, lower.tail = F)
   } else {
     if (m <= n[1]) {
       if (s >= r[1]) {
@@ -16,11 +16,11 @@ cr_gs <- function(pi, s, m, J, a, r, n) {
                                  (poss_s[, 1] %in% max(0, a[1] + 1):
                                     min(n[1], r[1] - 1) &
                                     poss_s[, 1] + poss_s[, 2] >= r[2])), ]
-        cr     <- sum(dbinom(poss_s[, 1] - s, n[1] - m, pi)*
-                             dbinom(poss_s[, 2], n[2], pi))
+        cr     <- sum(stats::dbinom(poss_s[, 1] - s, n[1] - m, pi)*
+                        stats::dbinom(poss_s[, 2], n[2], pi))
       }
     } else {
-      cr       <- pbinom(r[2] - s - 1, sum(n) - m, pi, lower.tail = F)
+      cr       <- stats::pbinom(r[2] - s - 1, sum(n) - m, pi, lower.tail = F)
     }
   }
   return(cr)
@@ -41,7 +41,7 @@ pmf_curtailed <- function(pi, J, J_curt, a_curt, r_curt, n, n_curt, k) {
                                                        function(n) rep(n,
                                                                        n + 1))),
                                          each = len_pi),
-                                 f = dbinom(s, m, pi))
+                                 f = stats::dbinom(s, m, pi))
   N             <- c(0, cumsum(n))
   full_k        <- NULL
   for (i in 1:length(k)) {

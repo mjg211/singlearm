@@ -16,7 +16,7 @@ check_sm_gs <- function(s, m, des) {
       all(as.numeric(row[1:2]) ==
           as.numeric(c(s, m)))},
       s = s[i], m = m[i])) == 0) {
-      stop("States (sᵢ,mᵢ) defined by s = (s₁,s₂,…) and m = (m₁,m₂,…) must belong to the set of possible terminal states for design")
+      stop("States (s\u1d62,m\u1d62) defined by s = (s\u2081,s\u2082,\u2026) and m = (m\u2081,m\u2082,\u2026) must belong to the set of possible terminal states for design")
     }
   }
   return(list(s = s, m = m))

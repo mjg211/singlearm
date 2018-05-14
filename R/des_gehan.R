@@ -45,10 +45,10 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha = 1,
   ##### Main Computations ######################################################
 
   n1          <- 1
-  rej_error   <- dbinom(0, n1, pi1)
+  rej_error   <- stats::dbinom(0, n1, pi1)
   while (rej_error > beta1) {
     n1        <- n1 + 1
-    rej_error <- dbinom(0, n1, pi1)
+    rej_error <- stats::dbinom(0, n1, pi1)
   }
   s1          <- 0:n1
   n2          <- numeric(n1 + 1)
@@ -59,15 +59,15 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha = 1,
       n2[s1 + 1] <- n2[s1 + 1] + 1
     }
   }
-  a1   <- tail(which(cumsum(n2) == 0), n = 1) - 1
+  a1   <- utils::tail(which(cumsum(n2) == 0), n = 1) - 1
   if (n2[n1 + 1] == 0) {
     r1 <- max(which(n2 > 0))
   } else {
     r1 <- Inf
   }
   opchar <- tibble::as_tibble(matrix(c(n1, n2, a1, r1,
-                                       unlist(int_opchar_gehan(pi1, a1, r1, n1,
-                                                               n2, 1:2))[-1],
+                                       as.numeric(int_opchar_gehan(pi1, a1, r1, n1,
+                                                               n2, 1:2)[-1]),
                                        n1 + max(n2)), nrow = 1))
   colnames(opchar) <- c("n1", paste("n2(", 0:n1, ")", sep = ""),
                         "a1", "r1", "ESS(pi1)", "VSS(pi1)", "Med(pi1)", "S1(pi1)",

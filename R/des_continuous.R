@@ -27,9 +27,10 @@ des_continuous <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
 
   ##### Main Computations ######################################################
 
-  delta1     <- d - sigma*qnorm(1 - pi1)
-  delta0     <- d - sigma*qnorm(1 - pi0)
-  penalty    <- ((qnorm(1 - alpha) + qnorm(1 - beta))*sigma/(delta1 - delta0))^2
+  delta1     <- d - sigma*stats::qnorm(1 - pi1)
+  delta0     <- d - sigma*stats::qnorm(1 - pi0)
+  penalty    <- ((stats::qnorm(1 - alpha) +
+                    stats::qnorm(1 - beta))*sigma/(delta1 - delta0))^2
   if (parallel) {
     parallel <- cpus
   }
@@ -65,8 +66,8 @@ des_continuous <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
     N       <- cumsum(n)
     I       <- N/(sigma^2)
     Sigma   <- cov_gs_continuous(J, I)
-    perf_H0 <- perf_ef(0, J, r, a, I, N, Sigma)
-    perf_H1 <- perf_ef(delta1 - delta0, J, r, a, I, N, Sigma)
+    perf_H0 <- opchar_ef(0, J, r, a, I, N, Sigma)
+    perf_H1 <- opchar_ef(delta1 - delta0, J, r, a, I, N, Sigma)
   } else if (efficacy) {
     fitness <- function(...){
       -obj_fn_gs_continuous_e(...)
@@ -97,8 +98,8 @@ des_continuous <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
     N       <- cumsum(n)
     I       <- N/(sigma^2)
     Sigma   <- cov_gs_continuous(J, I)
-    perf_H0 <- perf_e(0, J, r, I, N, Sigma)
-    perf_H1 <- perf_e(delta1 - delta0, J, r, I, N, Sigma)
+    perf_H0 <- opchar_e(0, J, r, I, N, Sigma)
+    perf_H1 <- opchar_e(delta1 - delta0, J, r, I, N, Sigma)
   } else {
     fitness <- function(...){
       -obj_fn_gs_continuous_f(...)
@@ -129,8 +130,8 @@ des_continuous <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
     N       <- cumsum(n)
     I       <- N/(sigma^2)
     Sigma   <- cov_gs_continuous(J, I)
-    perf_H0 <- perf_f(0, J, a, I, N, Sigma)
-    perf_H1 <- perf_f(delta1 - delta0, J, a, I, N, Sigma)
+    perf_H0 <- opchar_f(0, J, a, I, N, Sigma)
+    perf_H1 <- opchar_f(delta1 - delta0, J, a, I, N, Sigma)
   }
 
   des <- list(J = J, a = a, r = r, n = n, perf_H0 = perf_H0, perf_H1 = perf_H1)

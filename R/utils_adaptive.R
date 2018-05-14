@@ -18,7 +18,7 @@ pmf_adaptive <- function(pi, a1, r1, n1, n2, k) {
                                                         function(n)
                                                           rep(n, n + 1))),
                                           each = len_pi),
-                                  f = dbinom(s, m, pi))
+                                  f = stats::dbinom(s, m, pi))
   terminal      <- terminal_states_adaptive(a1, r1, n1, n2, k)
   rows_terminal <- nrow(terminal)
   pmf           <- tibble::tibble(pi = rep(int_pi, each = rows_terminal),
@@ -145,8 +145,8 @@ des_adaptive_n2forn1 <- function(pi0, pi1, alpha, beta, n1, n2min, n2max,
   nombeta       <<- beta
   n1            <<- n1
   w             <<- w
-  dbinomial_pi0 <<- dbinom(0:n1, n1, pi0)
-  dbinomial_pi1 <<- dbinom(0:n1, n1, pi1)
+  dbinomial_pi0 <<- stats::dbinom(0:n1, n1, pi0)
+  dbinomial_pi1 <<- stats::dbinom(0:n1, n1, pi1)
   if (monotonic) {
     dc_ef                <<- NULL
     dc_pf                <<- NULL
@@ -156,8 +156,8 @@ des_adaptive_n2forn1 <- function(pi0, pi1, alpha, beta, n1, n2min, n2max,
       dc_pf_n            <-  matrix(0, nrow = n1 + 1, ncol = n + 1)
       dc_ss_n            <-  matrix(0, nrow = n1 + 1, ncol = n + 1)
       for (s in 0:n1) {
-        dc_ef_n[s + 1, ] <-  1 - pbinom(n:0 - s, n, pi0)
-        dc_pf_n[s + 1, ] <-  1 - pbinom(n:0 - s, n, pi1)
+        dc_ef_n[s + 1, ] <-  1 - stats::pbinom(n:0 - s, n, pi0)
+        dc_pf_n[s + 1, ] <-  1 - stats::pbinom(n:0 - s, n, pi1)
         dc_ss_n[s + 1, ] <-  n1 + n
       }
       dc_ef              <<- cbind(dc_ef, dc_ef_n)
@@ -170,8 +170,8 @@ des_adaptive_n2forn1 <- function(pi0, pi1, alpha, beta, n1, n2min, n2max,
   } else {
     quantiles <-  unlist(sapply(n2min:n2max, function(x){-1:(x - 1)}))
     sam_sizes <-  rep(n2min:n2max, n2min:n2max + 1)
-    dc_ef     <<- pbinom(quantiles, sam_sizes, pi0, lower.tail = F)
-    dc_pf     <<- pbinom(quantiles, sam_sizes, pi1, lower.tail = F)
+    dc_ef     <<- stats::pbinom(quantiles, sam_sizes, pi0, lower.tail = F)
+    dc_pf     <<- stats::pbinom(quantiles, sam_sizes, pi1, lower.tail = F)
     dc_ss     <<- rep(n1 + n2min:n2max, n2min:n2max + 1)
     dc        <<- cbind(dc_ef, dc_pf, dc_ss)
     dc        <<- dc[order(dc[, 1]), ]
@@ -202,7 +202,7 @@ des_adaptive_n2forn1 <- function(pi0, pi1, alpha, beta, n1, n2min, n2max,
     r1      <- sign(suppressWarnings(min(which(D0 == 1)) - 1))*
                  suppressWarnings(min(which(D0 == 1)) - 1)
     c2      <- rep(NA, n1 + 1)
-    c2[which(!(D0 %in% c(0, 1)))] <- qbinom(D0[which(!(D0 %in% c(0, 1)))],
+    c2[which(!(D0 %in% c(0, 1)))] <- stats::qbinom(D0[which(!(D0 %in% c(0, 1)))],
                                             n2[which(!(D0 %in% c(0, 1)))], pi0,
                                             lower.tail = F) + 1
     r2      <- 0:n1 + c2

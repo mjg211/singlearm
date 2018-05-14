@@ -95,25 +95,25 @@ est_gs <- function(des, k, pi, method = c("bias_adj", "bias_sub", "conditional",
     Sys.sleep(2)
     message("You have chosen to use the following methods to construct point estimates\n")
     if ("naive" %in% method) {
-      message("  • Naive.")
+      message("  \u2022 Naive.")
     }
     if ("bias_adj" %in% method) {
-      message("  • Bias-adjusted.")
+      message("  \u2022 Bias-adjusted.")
     }
     if ("bias_sub" %in% method) {
-      message("  • Bias-subtracted.")
+      message("  \u2022 Bias-subtracted.")
     }
     if ("conditional" %in% method) {
-      message("  • Conditional.")
+      message("  \u2022 Conditional.")
     }
     if ("mue" %in% method) {
-      message("  • MUE.")
+      message("  \u2022 MUE.")
     }
     if ("umvue" %in% method) {
-      message("  • UMVUE.")
+      message("  \u2022 UMVUE.")
     }
     if ("umvcue" %in% method) {
-      message("  • UMVCUE.")
+      message("  \u2022 UMVCUE.")
     }
     Sys.sleep(2)
     message("\nNow beginning the required calculations...")

@@ -7,8 +7,9 @@
 #' available, of which the p-values and the expected p-value curve will be
 #' printed by default.
 #'
-#' @param pval An object of class \code{"sa_pval_fixed"}, as returned by
+#' @param x An object of class \code{"sa_pval_fixed"}, as returned by
 #' \code{pval_fixed()}.
+#' @param ... Included for compatibility with the generic. Not currently used.
 #' @param output A logical variable indicating whether the outputs described
 #' below should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is
@@ -30,7 +31,9 @@
 #' \code{\link{est_fixed}}, \code{\link{pval_fixed}}, \code{\link{ci_fixed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_pval_fixed <- function(pval, output = F) {
+plot.sa_pval_fixed <- function(x, ..., output = F) {
+
+  pval <- x
 
   ##### Input Checking #########################################################
 

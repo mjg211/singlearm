@@ -4,7 +4,7 @@ pmf_variable <- function(pi, J, v, a, n, dbinom_pi, dsamsize) {
     dbinom_pi                 <- matrix(0, nrow = max(n) + 1, ncol = max(n) + 1)
     unique_n                  <- unique(as.vector(n))
     for (i in unique_n) {
-      dbinom_pi[1:(i + 1), i] <- dbinom(0:i, i, pi)
+      dbinom_pi[1:(i + 1), i] <- stats::dbinom(0:i, i, pi)
     }
   }
   if (missing(dsamsize)) {

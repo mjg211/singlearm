@@ -5,10 +5,12 @@
 \title{Plot the point estimates, and the point estimation procedures performance, in a group sequential
 single-arm trial design for a single binary endpoint}
 \usage{
-\method{plot}{sa_est_gs}(est, output = F)
+\method{plot}{sa_est_gs}(x, ..., output = F)
 }
 \arguments{
-\item{est}{An object of class \code{"sa_est_gs"}, as returned by \code{est_gs()}.}
+\item{x}{An object of class \code{"sa_est_gs"}, as returned by \code{est_gs()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described below
 should be returned.}

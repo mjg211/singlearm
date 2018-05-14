@@ -6,7 +6,8 @@
 #' determined using \code{ci_gs()}. A range of plots are available, of which
 #' the confidence intervals and the coverage probability curve will be printed by default.
 #'
-#' @param ci An object of class \code{"sa_ci_gs"}, as returned by \code{ci_gs()}.
+#' @param x An object of class \code{"sa_ci_gs"}, as returned by \code{ci_gs()}.
+#' @param ... Included for compatibility with the generic. Not currently used.
 #' @param output A logical variable indicating whether the outputs described below
 #' should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is returned
@@ -26,7 +27,9 @@
 #' \code{\link{pval_gs}}, \code{\link{ci_gs}}, and their associated \code{plot}
 #' family of functions.
 #' @export
-plot.sa_ci_gs <- function(ci, output = F) {
+plot.sa_ci_gs <- function(x, ..., output = F) {
+
+  ci <- x
 
   ##### Input Checking #########################################################
 

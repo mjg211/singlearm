@@ -69,10 +69,10 @@ pval_fixed <- function(des, pi, method = c("exact", "normal"), summary = F) {
     Sys.sleep(2)
     message("You have chosen to use the following methods to construct p-values\n")
     if ("exact" %in% method) {
-      message("  • Exact.")
+      message("  \u2022 Exact.")
     }
     if ("normal" %in% method) {
-      message("  • Normal.")
+      message("  \u2022 Normal.")
     }
     Sys.sleep(2)
     message("\nBeginning the required calculations...")

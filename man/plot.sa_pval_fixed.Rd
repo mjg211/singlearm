@@ -5,11 +5,13 @@
 \title{Plot the p-values, and the p-value calculation procedures performance, in a
 single-stage single-arm trial design for a single binary endpoint}
 \usage{
-\method{plot}{sa_pval_fixed}(pval, output = F)
+\method{plot}{sa_pval_fixed}(x, ..., output = F)
 }
 \arguments{
-\item{pval}{An object of class \code{"sa_pval_fixed"}, as returned by
+\item{x}{An object of class \code{"sa_pval_fixed"}, as returned by
 \code{pval_fixed()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described
 below should be returned.}

@@ -87,13 +87,13 @@ ci_gs <- function(des, k, pi, alpha = des$alpha,
     Sys.sleep(2)
     message("You have chosen to use the following methods to construct confidence intervals\n")
     if ("naive" %in% method) {
-      message("  • Naive.")
+      message("  \u2022 Naive.")
     }
     if ("exact" %in% method) {
-      message("  • exact.")
+      message("  \u2022 exact.")
     }
     if ("mid_p" %in% method) {
-      message("  • Mid-p.")
+      message("  \u2022 Mid-p.")
     }
     Sys.sleep(2)
     message("\nNow beginning the required calculations...")

@@ -76,41 +76,41 @@ dbivariate <- function(n, piR, piT, theta) {
   } else if (all(pi > 0) | all(pi[1:3] > 0, pi[4] == 0)) {
     for (sR in 0:n) {
       for (sT in 0:n) {
-        dbivariate_piRT[sR + 1, sT + 1]       <- dbinom(sT, n, piT)*
-                                                   sum(dbinom(0:min(sR, sT), sT,
+        dbivariate_piRT[sR + 1, sT + 1]       <- stats::dbinom(sT, n, piT)*
+                                                   sum(stats::dbinom(0:min(sR, sT), sT,
                                                               pi[1]/piT)*
-                                                   dbinom(sR - 0:min(sR, sT),
+                                                         stats::dbinom(sR - 0:min(sR, sT),
                                                           n - sT,
                                                           pi[2]/(1 - piT)))
       }
     }
   } else if (piR == 0) {
-    dbivariate_piRT[1, 1:(n + 1)]             <- dbinom(0:n, n, piT)
+    dbivariate_piRT[1, 1:(n + 1)]             <- stats::dbinom(0:n, n, piT)
   } else if (piT == 0) {
-    dbivariate_piRT[1:(n + 1), 1]             <- dbinom(0:n, n, piT)
+    dbivariate_piRT[1:(n + 1), 1]             <- stats::dbinom(0:n, n, piT)
   } else if (pi[2] == pi[3] & pi[2] == 0) {
     for (s in 0:n) {
-      dbivariate_piRT[s + 1, s + 1]           <- dbinom(s, n, piR)
+      dbivariate_piRT[s + 1, s + 1]           <- stats::dbinom(s, n, piR)
     }
   } else if (pi[1] == pi[4] & pi[1] == 0) {
     for (s in 0:n) {
-      dbivariate_piRT[s + 1, n - s + 1]       <- dbinom(s, n, piR)
+      dbivariate_piRT[s + 1, n - s + 1]       <- stats::dbinom(s, n, piR)
     }
   } else if (pi[1] == 0) {
     for (sT in 0:n) {
-      dbivariate_piRT[1:(n - sT + 1), sT + 1] <- dbinom(sT, n, piT)*
-                                                   dbinom(0:(n - sT), n - sT,
+      dbivariate_piRT[1:(n - sT + 1), sT + 1] <- stats::dbinom(sT, n, piT)*
+        stats::dbinom(0:(n - sT), n - sT,
                                                           piR/(1 - piT))
     }
   } else if (pi[2] == 0) {
     for (sT in 0:n) {
-      dbivariate_piRT[1:(sT + 1), sT + 1]     <- dbinom(sT, n, piT)*
-                                                   dbinom(0:sT, sT, piR/piT)
+      dbivariate_piRT[1:(sT + 1), sT + 1]     <- stats::dbinom(sT, n, piT)*
+        stats::dbinom(0:sT, sT, piR/piT)
     }
   } else if (pi[3] == 0) {
     for (sR in 0:n) {
-      dbivariate_piRT[sR + 1, 1:(sR + 1)]     <- dbinom(sR, n, piR)*
-                                                   dbinom(0:sR, sR, piT/piR)
+      dbivariate_piRT[sR + 1, 1:(sR + 1)]     <- stats::dbinom(sR, n, piR)*
+        stats::dbinom(0:sR, sR, piT/piR)
     }
   }
   return(dbivariate_piRT)

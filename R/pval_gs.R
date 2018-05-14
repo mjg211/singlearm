@@ -85,16 +85,16 @@ pval_gs <- function(des, k, pi, method = c("conditional", "mle", "naive",
     Sys.sleep(2)
     message("You have chosen to use the following methods to construct confidence intervals\n")
     if ("naive" %in% method) {
-      message("  • Naive.")
+      message("  \u2022 Naive.")
     }
     if ("mle" %in% method) {
-      message("  • MLE-ordering.")
+      message("  \u2022 MLE-ordering.")
     }
     if ("umvue" %in% method) {
-      message("  • UMVUE-ordering.")
+      message("  \u2022 UMVUE-ordering.")
     }
     if ("conditional" %in% method) {
-      message("  • Conditional.")
+      message("  \u2022 Conditional.")
     }
     Sys.sleep(2)
     message("\nNow beginning the required calculations...")

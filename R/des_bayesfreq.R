@@ -88,18 +88,18 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
     message("     P(\u03c0\u2080) = P(", pi0, ") \u2264 \u03b1 = ", alpha, ", P(\u03c0\u2081) = P(", pi1, ") \u2265 1 - \u03b2 = ", 1 - beta, ".\n")
     Sys.sleep(2)
     message("You have chosen to restrict the allowed possible sample size N = n such that\n")
-    message("  • N \u2265 ", Nmin, ".")
-    message("  • N \u2264 ", Nmax, ".\n")
+    message("  \u2022 N \u2265 ", Nmin, ".")
+    message("  \u2022 N \u2264 ", Nmax, ".\n")
     if (equal_n) {
       Sys.sleep(2)
       if (J == 2) {
         message("You have chosen to restrict the allowed values of the n\u2c7c, j = 1,2, such that\n")
-        message("  • n\u2081 = n\u2082.\n")
+        message("  \u2022 n\u2081 = n\u2082.\n")
       }
     }
     Sys.sleep(2)
     message("You have chosen to restrict the allowed values in a and r such that\n")
-    message("  • a", sub_num(J), " + 1 = r", sub_num(J), ".")
+    message("  \u2022 a", sub_num(J), " + 1 = r", sub_num(J), ".")
     Sys.sleep(2)
     message("\nNow beginning the required calculations...")
   }
@@ -109,14 +109,14 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
   prob_s1_n1   <- matrix(0, nrow = Nmax + 1, ncol = Nmax)
   Beta         <- beta(mu, nu)
   for (n1 in 1:Nmax) {
-    prob_s1_n1[1:(n1 + 1), n1] <- choose(n1, 0:n1)*
-                                    beta(mu + 0:n1, nu + n1 - 0:n1)/Beta
+    prob_s1_n1[1:(n1 + 1), n1] <- choose(n1, 0:n1)*beta(mu + 0:n1,
+                                                        nu + n1 - 0:n1)/Beta
   }
   dbinomial_pi0 <- matrix(0, Nmax + 1, Nmax)
   dbinomial_pi1 <- matrix(0, Nmax + 1, Nmax)
   for (n in 1:Nmax) {
-    dbinomial_pi0[1:(n + 1), n] <- dbinom(0:n, n, pi0)
-    dbinomial_pi1[1:(n + 1), n] <- dbinom(0:n, n, pi1)
+    dbinomial_pi0[1:(n + 1), n] <- stats::dbinom(0:n, n, pi0)
+    dbinomial_pi1[1:(n + 1), n] <- stats::dbinom(0:n, n, pi1)
   }
   if (J == 2) {
     prob_s2_s1n1n2 <- array(0, c(Nmax + 1, Nmax + 1, Nmax, Nmax))
@@ -135,7 +135,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
       for (n2 in 1:Nmax) {
         for (s1 in 0:n1) {
           cond_s2 <- prob_s2_s1n1n2[1:(n2 + 1), s1 + 1, n1, n2]
-          prob    <- pbeta(pi0, mu + s1 + 0:n2, nu + n1 + n2 - s1 - 0:n2,
+          prob    <- stats::pbeta(pi0, mu + s1 + 0:n2, nu + n1 + n2 - s1 - 0:n2,
                            lower.tail = F)
           PP_TS_s1n1n2[s1 + 1, n1, n2] <- sum(cond_s2[which(prob > PT)])
         }
@@ -152,10 +152,10 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
     for (n in Nmin:Nmax) {
       for (a in 0:(n - 1)) {
         r      <- a + 1
-        RB_pi0 <- sum(prob_s1_n1[(r + 1):(n + 1), n]*pbeta(pi0, mu + r:n,
+        RB_pi0 <- sum(prob_s1_n1[(r + 1):(n + 1), n]*stats::pbeta(pi0, mu + r:n,
                                                            nu + n - r:n))
         RF_pi0 <- sum(dbinomial_pi0[(r + 1):(n + 1), n])
-        AB_pi1 <- sum(prob_s1_n1[1:(a + 1), n]*pbeta(pi1, mu + 0:a,
+        AB_pi1 <- sum(prob_s1_n1[1:(a + 1), n]*stats::pbeta(pi1, mu + 0:a,
                                                      nu + n - 0:a,
                                                      lower.tail = F))
         AF_pi1 <- sum(dbinomial_pi1[1:(a + 1), n])
@@ -201,12 +201,12 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                     suppressWarnings(min(which(PP_TS >= PU)) - 1)
         if (r1 < Inf) {
           RB_pi0[1]  <- sum(prob_s1_n1[(r1 + 1):(n1 + 1), n1]*
-                              pbeta(pi0, mu + r1:n1, nu + n1 - r1:n1))/
+                              stats::pbeta(pi0, mu + r1:n1, nu + n1 - r1:n1))/
                           sum(prob_s1_n1[(r1 + 1):(n1 + 1), n1])
           RF_pi0[1]  <- sum(dbinomial_pi0[(r1 + 1):(n1 + 1), n1])
         }
         if (a1 > -Inf) {
-          AB_pi1[1]  <- sum(prob_s1_n1[1:(a1 + 1), n1]*pbeta(pi1, mu + 0:a1,
+          AB_pi1[1]  <- sum(prob_s1_n1[1:(a1 + 1), n1]*stats::pbeta(pi1, mu + 0:a1,
                                                              nu + n1 - 0:a1,
                                                              lower.tail = F))/
                           sum(prob_s1_n1[1:(a1 + 1), n1])
@@ -242,7 +242,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                     s     <- s1 + s2
                     numer <- numer + sum(choose(n1, s1)*choose(n2, s2)*
                                            beta(mu + s, nu + n - s)*
-                                           pbeta(pi0, mu + s, nu + n - s)/Beta)
+                                           stats::pbeta(pi0, mu + s, nu + n - s)/Beta)
                     denom <- denom + sum(choose(n1, s1)*choose(n2, s2)*
                                            beta(mu + s, nu + n - s)/Beta)
                     freq  <- freq + dbinomial_pi0[s1 + 1, n1]*
@@ -261,7 +261,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                     s     <- s1 + s2
                     numer <- numer + sum(choose(n1, s1)*choose(n2, s2)*
                                            beta(mu + s, nu + n - s)*
-                                           pbeta(pi1, mu + s, nu + n - s,
+                                           stats::pbeta(pi1, mu + s, nu + n - s,
                                                  lower.tail = F)/Beta)
                     denom <- denom + sum(choose(n1, s1)*choose(n2, s2)*
                                            beta(mu + s, nu + n - s)/Beta)
@@ -318,7 +318,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
     if (J == 1) {
       colnames(feasible) <- c("n", "a", "r", "PredPB(pi0)", "PB(pi1)", "PF(pi0)",
                               "PF(pi1)")
-      feasible           <- dplyr::arrange(feasible, n, desc(`PB(pi1)`))
+      feasible           <- dplyr::arrange(feasible, n, dplyr::desc(`PB(pi1)`))
       des                <- list(J = J, n = as.numeric(feasible$n[1]),
                                  a = as.numeric(feasible$a[1]),
                                  r = as.numeric(feasible$r[1]), pi0 = pi0,
@@ -333,10 +333,10 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                               "PETF(pi1)", "max(N)")
       if (optimality == "ess") {
         feasible         <- dplyr::arrange(feasible, ESSB, `max(N)`,
-                                           desc(`margPB(pi1)`))
+                                           dplyr::desc(`margPB(pi1)`))
       } else {
         feasible         <- dplyr::arrange(feasible, `max(N)`, ESSB,
-                                           desc(`margPB(pi1)`))
+                                           dplyr::desc(`margPB(pi1)`))
       }
       des                <- list(J = J, n = as.numeric(feasible[1, 1:2]),
                                  a = as.numeric(feasible[1, 3:4]),

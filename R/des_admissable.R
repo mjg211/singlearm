@@ -204,40 +204,40 @@ des_admissable <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
     message("     P(\u03c0\u2080) = P(", pi0, ") \u2264 \u03b1 = ", alpha, ", P(\u03c0\u2081) = P(", pi1, ") \u2265 1 - \u03b2 = ", 1 - beta, ".\n")
     Sys.sleep(2)
     message("You have chosen to restrict the allowed possible sample size N = n such that\n")
-    message("  • N \u2265 ", Nmin, ".")
-    message("  • N \u2264 ", Nmax, ".\n")
+    message("  \u2022 N \u2265 ", Nmin, ".")
+    message("  \u2022 N \u2264 ", Nmax, ".\n")
     if (equal_n) {
       Sys.sleep(2)
       if (J == 2) {
         message("You have chosen to restrict the allowed values of the n\u2c7c, j = 1,2, such that\n")
-        message("  • n\u2081 = n\u2082.\n")
+        message("  \u2022 n\u2081 = n\u2082.\n")
       } else {
         message("You have chosen to restrict the allowed values of the n\u2c7c, j = 1,\u2026,", J, " such that\n")
-        message("  • n\u2081 = \u22ef = n", sub_num(J), ".\n")
+        message("  \u2022 n\u2081 = \u22ef = n", sub_num(J), ".\n")
       }
     }
     Sys.sleep(2)
     message("You have chosen to restrict the allowed values in a and r such that\n")
-    message("  • a", sub_num(J), " + 1 = r", sub_num(J), ".")
+    message("  \u2022 a", sub_num(J), " + 1 = r", sub_num(J), ".")
     if (!futility) {
       if (J == 2) {
-        message("  • a\u2081 = -\u221e.\n")
+        message("  \u2022 a\u2081 = -\u221e.\n")
       } else if (J == 3) {
-        message("  • a\u2081 = a\u2082 = -\u221e.\n")
+        message("  \u2022 a\u2081 = a\u2082 = -\u221e.\n")
       } else {
-        message("  • a\u2081 = \u22ef = a", sub_num(J - 1), "= -\u221e.")
+        message("  \u2022 a\u2081 = \u22ef = a", sub_num(J - 1), "= -\u221e.")
       }
     }
     if (ensign) {
-      message("  • a\u2081 = 0.")
+      message("  \u2022 a\u2081 = 0.")
     }
     if (!efficacy) {
       if (J == 2) {
-        message("  • r\u2081 = \u221e.\n")
+        message("  \u2022 r\u2081 = \u221e.\n")
       } else if (J == 3) {
-        message("  • r\u2081 = r\u2082 = \u221e.\n")
+        message("  \u2022 r\u2081 = r\u2082 = \u221e.\n")
       } else {
-        message("  • r\u2081 = ⋯ = r", sub_num(J - 1), "= \u221e.")
+        message("  \u2022 r\u2081 = \u22ef = r", sub_num(J - 1), "= \u221e.")
       }
     }
     Sys.sleep(2)

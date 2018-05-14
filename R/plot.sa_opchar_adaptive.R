@@ -5,7 +5,8 @@
 #' determined using \code{opchar_adaptive()}. A range of plots are available, of which
 #' the expected sample size and power curves will be printed by default.
 #'
-#' @param opchar An object of class \code{"sa_opchar_adaptive"}, as returned by \code{opchar_adaptive()}.
+#' @param x An object of class \code{"sa_opchar_adaptive"}, as returned by \code{opchar_adaptive()}.
+#' @param ... Included for compatibility with the generic. Not currently used.
 #' @param output A logical variable indicating whether the outputs described below
 #' should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is returned
@@ -23,7 +24,9 @@
 #' @seealso \code{\link{des_adaptive}}, \code{\link{opchar_adaptive}}, and their
 #' associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_adaptive <- function(opchar, output = F) {
+plot.sa_opchar_adaptive <- function(x, ..., output = F) {
+
+  opchar <- x
 
   ##### Input Checking #########################################################
 

@@ -37,7 +37,7 @@ obj_fn_gs_continuous_ef <- function(parameters, J, delta, alpha, beta, sigma,
   } else if (optimality == "alt-ess") {
     return(O + perf_H1$ESS)
   } else {
-    max_ess <- -suppressWarnings(optim(par = 0.5*delta, fn = max_ess_ef,
+    max_ess <- -suppressWarnings(stats::optim(par = 0.5*delta, fn = max_ess_ef,
                                        J = J, r = r, a = a, I = I, N = N,
                                        Sigma = Sigma)$value)
     return(O + max_ess)

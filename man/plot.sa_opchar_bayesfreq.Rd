@@ -5,10 +5,12 @@
 \title{Plot the operating characteristics of Bayesian-frequentist single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_opchar_bayesfreq}(opchar, output = F)
+\method{plot}{sa_opchar_bayesfreq}(x, ..., output = F)
 }
 \arguments{
-\item{opchar}{An object of class \code{"sa_opchar_bayesfreq"}, as returned by \code{opchar_bayesfreq()}.}
+\item{x}{An object of class \code{"sa_opchar_bayesfreq"}, as returned by \code{opchar_bayesfreq()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described below
 should be returned.}

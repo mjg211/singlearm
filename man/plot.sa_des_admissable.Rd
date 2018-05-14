@@ -5,11 +5,13 @@
 \title{Plot the stopping boundaries of admissable group sequential single-arm trial
 designs for a single binary endpoint}
 \usage{
-\method{plot}{sa_des_admissable}(des, output = F)
+\method{plot}{sa_des_admissable}(x, ..., output = F)
 }
 \arguments{
-\item{des}{An object of class \code{"sa_des_admissable"}, as returned by
+\item{x}{An object of class \code{"sa_des_admissable"}, as returned by
 \code{des_admissable()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described
 below should be returned.}

@@ -11,8 +11,9 @@
 #' of the weight-space each of the designs is optimal, and to illuminate the
 #' expected sample size characteristics of the admissable designs.
 #'
-#' @param des An object of class \code{"sa_des_admissable"}, as returned by
+#' @param x An object of class \code{"sa_des_admissable"}, as returned by
 #' \code{des_admissable()}.
+#' @param ... Included for compatibility with the generic. Not currently used.
 #' @param output A logical variable indicating whether the outputs described
 #' below should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is
@@ -30,7 +31,9 @@
 #' @seealso \code{\link{des_admissable}}, \code{\link{opchar_admissable}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_des_admissable <- function(des, output = F) {
+plot.sa_des_admissable <- function(x, ..., output = F) {
+
+  x <- des
 
   ##### Input Checking #########################################################
 

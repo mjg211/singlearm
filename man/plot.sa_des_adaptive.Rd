@@ -5,10 +5,10 @@
 \title{Plot the second stage sample sizes of two-stage adaptive single-arm trial
 designs for a single binary endpoint}
 \usage{
-\method{plot}{sa_des_adaptive}(des, ..., output = F)
+\method{plot}{sa_des_adaptive}(x, ..., output = F)
 }
 \arguments{
-\item{des}{An object of class \code{"sa_des_adaptive"}, as returned by \code{des_adaptive()}.}
+\item{x}{An object of class \code{"sa_des_adaptive"}, as returned by \code{des_adaptive()}.}
 
 \item{...}{Additional objects of class \code{"sa_des_adaptive"}. These will be grouped
 in to a list named \code{"add_des"}.}

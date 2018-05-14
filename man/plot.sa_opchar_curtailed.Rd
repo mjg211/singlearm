@@ -5,10 +5,12 @@
 \title{Plot the operating characteristics of curtailed group sequential single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_opchar_curtailed}(opchar, output = F)
+\method{plot}{sa_opchar_curtailed}(x, ..., output = F)
 }
 \arguments{
-\item{opchar}{An object of class \code{"sa_opchar_curtailed"}, as returned by \code{opchar_curtailed()}.}
+\item{x}{An object of class \code{"sa_opchar_curtailed"}, as returned by \code{opchar_curtailed()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described below
 should be returned.}

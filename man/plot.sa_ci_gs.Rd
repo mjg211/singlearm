@@ -5,10 +5,12 @@
 \title{Plot the confidence intervals, and the confidence interval determination procedures
 performance, in a group sequential single-arm trial design for a single binary endpoint}
 \usage{
-\method{plot}{sa_ci_gs}(ci, output = F)
+\method{plot}{sa_ci_gs}(x, ..., output = F)
 }
 \arguments{
-\item{ci}{An object of class \code{"sa_ci_gs"}, as returned by \code{ci_gs()}.}
+\item{x}{An object of class \code{"sa_ci_gs"}, as returned by \code{ci_gs()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described below
 should be returned.}

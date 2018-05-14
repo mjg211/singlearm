@@ -144,8 +144,8 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
     message("     P(\u03c0\u2080) = P(", pi0, ") \u2264 \u03b1 = ", alpha, ", P(\u03c0\u2081) = P(", pi1, ") \u2265 1 - \u03b2 = ", 1 - beta, ".\n")
     Sys.sleep(2)
     message("You have chosen to restrict the allowed possible sample size N = n such that\n")
-    message("  • N \u2265 ", Nmin, ".")
-    message("  • N \u2264 ", Nmax, ".\n")
+    message("  \u2022 N \u2265 ", Nmin, ".")
+    message("  \u2022 N \u2264 ", Nmax, ".\n")
     Sys.sleep(2)
     if (exact) {
       message("You have chosen to compute the optimal design using exact binomial calculations.\n")
@@ -168,7 +168,7 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
                                                T))[, 2:1]
   } else {
     possible  <- Nmin:Nmax
-    possible  <- cbind(possible, round(possible*pi0 + qnorm(1 - alpha)*
+    possible  <- cbind(possible, round(possible*pi0 + stats::qnorm(1 - alpha)*
                                          sqrt(possible*pi0*(1 - pi0))))
   }
   possible    <- possible[which(possible[, 1] > possible[, 2] &
@@ -203,7 +203,7 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
                                       `R1(pi1)` = `P(pi1)`, `S1(pi0)` = 1,
                                       `S1(pi1)` = 1, `cum(S1(pi0))` = 1,
                                       `cum(S1(pi1))` = 1)
-    feasible         <- dplyr::arrange(feasible, n, desc(`P(pi1)`))
+    feasible         <- dplyr::arrange(feasible, n, dplyr::desc(`P(pi1)`))
     feasible[, 4:19] <- dplyr::mutate_if(feasible[, 4:19], is.integer,
                                            as.double)
     des                <- list(n = as.numeric(feasible[1, 1]),

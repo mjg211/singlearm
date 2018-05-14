@@ -10,7 +10,7 @@
 #' two-stage adaptive single-arm clinical trial designs for a single binary primary
 #' endpoint.
 #'
-#' @param des An object of class \code{"sa_des_adaptive"}, as returned by \code{des_adaptive()}.
+#' @param x An object of class \code{"sa_des_adaptive"}, as returned by \code{des_adaptive()}.
 #' @param ... Additional objects of class \code{"sa_des_adaptive"}. These will be grouped
 #' in to a list named \code{"add_des"}.
 #' @param output A logical variable indicating whether the outputs described below
@@ -32,7 +32,9 @@
 #' @seealso \code{\link{des_adaptive}}, \code{\link{opchar_adaptive}}, and their
 #' associated \code{plot} family of functions.
 #' @export
-plot.sa_des_adaptive <- function(des, ..., output = F) {
+plot.sa_des_adaptive <- function(x, ..., output = F) {
+
+  des <- x
 
   ##### Input Checking #########################################################
 

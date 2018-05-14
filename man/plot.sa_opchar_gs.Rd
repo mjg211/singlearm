@@ -5,10 +5,12 @@
 \title{Plot the operating characteristics of group sequential single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_opchar_gs}(opchar, output = F)
+\method{plot}{sa_opchar_gs}(x, ..., output = F)
 }
 \arguments{
-\item{opchar}{An object of class \code{"sa_opchar_gs"}, as returned by \code{opchar_gs()}.}
+\item{x}{An object of class \code{"sa_opchar_gs"}, as returned by \code{opchar_gs()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described below
 should be returned.}

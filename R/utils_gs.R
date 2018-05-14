@@ -13,7 +13,7 @@ pmf_gs <- function(pi, J, a, r, n, k) {
                                                        function(n) rep(n,
                                                                        n + 1))),
                                          each = len_pi),
-                                 `f(s,m|pi)` = dbinom(s, m, pi))
+                                 `f(s,m|pi)` = stats::dbinom(s, m, pi))
   terminal      <- terminal_states_gs(J, a, r, n, k)
   rows_terminal <- nrow(terminal)
   pmf           <- tibble::tibble(pi = rep(int_pi, each = rows_terminal),
@@ -142,7 +142,7 @@ terminal_states_gs <- function(J, a, r, n, k) {
 # Function for use in determining ESS across a beta prior
 ess_gs_beta <- function(pi, J, a, r, n, N, beta_prior) {
   return(int_opchar_gs(pi, J, a, r, n, N, 1:J)$ESS*
-           dbeta(pi, beta_prior[1], beta_prior[2]))
+           stats::dbeta(pi, beta_prior[1], beta_prior[2]))
 }
 
 # Function for finding UMVUE in a group sequential design
@@ -201,8 +201,8 @@ est_gs_bias_adj <- function(s, m, J, a, r, n) {
   } else if (s == m) {
     return(1)
   } else {
-    return(uniroot(int_est_gs_bias_adj, c(0, 1), J = J, a = a, r = r, n = n,
-                   pi_mle = s/m)$root)
+    return(stats::uniroot(int_est_gs_bias_adj, c(0, 1), J = J, a = a, r = r,
+                          n = n, pi_mle = s/m)$root)
   }
 }
 
@@ -214,7 +214,7 @@ est_gs_cond_mle <- function(s, m, k, a, r, n) {
       range <- max(0, a[1] + 1):min(r[1] - 1, n[1])
       return(-(sum(choose(n[1], range)*(pi^(range - 1))*
                      ((1 - pi)^(n[1] - range - 1))*(range - pi*n[1])))/
-               sum(dbinom(range, n[1], pi)) + s/pi -
+               sum(stats::dbinom(range, n[1], pi)) + s/pi -
                (m - s)/(1 - pi))
     } else {
       continuation_k   <- iterpc::getall(iterpc::iterpc(max(n[1:(k - 1)]) + 1,
@@ -249,8 +249,8 @@ est_gs_cond_mle <- function(s, m, k, a, r, n) {
     } else if (s >= min(r[1] - 1, n[1]) + n[2]) {
       return(1)
     } else {
-      return(uniroot(int_est_gs_cond_mle, c(10^-10, 1 - 10^-10), s = s, m = m,
-                     k = 2, a = a, r = r, n = n)$root)
+      return(stats::uniroot(int_est_gs_cond_mle, c(10^-10, 1 - 10^-10), s = s,
+                            m = m, k = 2, a = a, r = r, n = n)$root)
     }
   } else {
     if (s <= max(0, a[k] + 1)) {
@@ -258,8 +258,8 @@ est_gs_cond_mle <- function(s, m, k, a, r, n) {
     } else if (s >= min(r[k - 1] - 1, n[k - 1]) + n[k]) {
       return(1)
     } else {
-      return(uniroot(int_est_gs_cond_mle, c(10^-10, 1 - 10^-10), s = s, m = m,
-                     k = k, a = a, r = r, n = n)$root)
+      return(stats::uniroot(int_est_gs_cond_mle, c(10^-10, 1 - 10^-10), s = s,
+                            m = m, k = k, a = a, r = r, n = n)$root)
     }
   }
 }
@@ -271,10 +271,10 @@ est_gs_mue <- function(s, m, k, J, a, r, n) {
   } else if (s == m) {
     return(1)
   } else {
-    return(uniroot(function(pi, s, m, k, J, a, r, n)
-                     pval_gs_umvue(pi, s, m, k, J, a, r, n) - 0.5, c(0, 1),
-                   s = s, m = m, k = as.numeric(k), J = J, a = a, r = r,
-                   n = n)$root)
+    return(stats::uniroot(function(pi, s, m, k, J, a, r, n)
+                          pval_gs_umvue(pi, s, m, k, J, a, r, n) - 0.5, c(0, 1),
+                          s = s, m = m, k = as.numeric(k), J = J, a = a, r = r,
+                          n = n)$root)
   }
 }
 
@@ -302,7 +302,7 @@ pval_gs_umvue <- function(pi, s, m, k, J, a, r, n) {
 # Function for finding conditional p-value in a group sequential design
 pval_gs_cond <- function(pi, s, m, k, J, a, r, n) {
   if (k == 1) {
-    return(pbinom(s - 1, n[1], pi, F))
+    return(stats::pbinom(s - 1, n[1], pi, F))
   } else {
     pmf <- pmf_gs(pi, J, a, r, n, k)
     return(sum(pmf$`f(s,m|pi)`[which(pmf$s >= s)]))
@@ -332,14 +332,14 @@ ci_gs_exact <- function(s, m, k, J, a, r, n, alpha) {
   if (s == 0) {
     Clow <- 0
   } else {
-    Clow <- uniroot(int_ci_gs_exact_clow, c(0, 1), s = s, m = m, k = k, J = J,
-                    a = a, r = r, n = n, alpha = alpha/2)$root
+    Clow <- stats::uniroot(int_ci_gs_exact_clow, c(0, 1), s = s, m = m, k = k,
+                           J = J, a = a, r = r, n = n, alpha = alpha/2)$root
   }
   if (s == m) {
     Cupp <- 1
   } else {
-    Cupp <- uniroot(int_ci_gs_exact_cupp, c(0, 1), s = s, m = m, k = k, J = J,
-                    a = a, r = r, n = n, alpha = alpha/2)$root
+    Cupp <- stats::uniroot(int_ci_gs_exact_cupp, c(0, 1), s = s, m = m, k = k,
+                           J = J, a = a, r = r, n = n, alpha = alpha/2)$root
   }
   return(c(Clow, Cupp))
 }
@@ -384,14 +384,14 @@ ci_gs_mid_p <- function(s, m, k, J, a, r, n, alpha) {
   if (s == 0) {
     Clow <- 0
   } else {
-    Clow <- uniroot(ci_gs_mid_p_Clow, c(0, 1), s = s, m = m, k = k, J = J,
-                    a = a, r = r, n = n, alpha = alpha)$root
+    Clow <- stats::uniroot(ci_gs_mid_p_Clow, c(0, 1), s = s, m = m, k = k,
+                           J = J, a = a, r = r, n = n, alpha = alpha)$root
   }
   if (s == m) {
     Cupp <- 1
   } else {
-    Cupp <- uniroot(ci_gs_mid_p_Cupp, c(0, 1), s = s, m = m, k = k, J = J,
-                    a = a, r = r, n = n, alpha = alpha)$root
+    Cupp <- stats::uniroot(ci_gs_mid_p_Cupp, c(0, 1), s = s, m = m, k = k,
+                           J = J, a = a, r = r, n = n, alpha = alpha)$root
   }
   return(c(Clow, Cupp))
 }

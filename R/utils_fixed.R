@@ -3,7 +3,7 @@ pmf_fixed <- function(pi, n1) {
   len_pi <- length(pi)
   return(tibble::tibble(pi = rep(pi, each = n1 + 1), s = rep(0:n1, len_pi),
                         m = rep(n1, (n1 + 1)*len_pi),
-                        `f(s,m|pi)` = dbinom(s, m, pi)))
+                        `f(s,m|pi)` = stats::dbinom(s, m, pi)))
 }
 
 # Function for determining operating characteristics of fixed design
@@ -31,17 +31,18 @@ terminal_states_fixed <- function(n) {
 
 # Function for finding p-value, using the exact method, in a fixed design
 pval_fixed_exact <- function(s, m, pi0) {
-  return(pbinom(s - 1, m, pi0, lower.tail = F))
+  return(stats::pbinom(s - 1, m, pi0, lower.tail = F))
 }
 
 # Function for finding p-value, using the normal method, in a fixed design
 pval_fixed_normal <- function(s, m, pi0) {
-  return(pnorm(s/m, pi0, sqrt(pi0*(1 - pi0)/m), lower.tail = F))
+  return(stats::pnorm(s/m, pi0, sqrt(pi0*(1 - pi0)/m), lower.tail = F))
 }
 
 # Function for determining Agresti-Coull CI in a fixed design
 ci_fixed_agresti_coull <- function(s, m, alpha) {
-  req_qnorm <- ifelse(s %in% c(0, m), qnorm(alpha), qnorm(alpha/2))
+  req_qnorm <- ifelse(s %in% c(0, m), stats::qnorm(alpha),
+                      stats::qnorm(alpha/2))
   m_tilde   <- m + req_qnorm^2
   pi_tilde  <- (s + 0.5*req_qnorm^2)/m_tilde
   factor    <- req_qnorm*sqrt(pi_tilde*(1 - pi_tilde)/m_tilde)
@@ -69,8 +70,8 @@ ci_fixed_clopper_pearson <- function(s, m, alpha) {
     Clow <- (alpha/2)^(1/m)
     Cupp <- 1
   } else {
-    Clow <- qbeta(alpha/2, s, m - s + 1, lower.tail = T)
-    Cupp <- qbeta(1 - alpha/2, s + 1, m - s, lower.tail = T)
+    Clow <- stats::qbeta(alpha/2, s, m - s + 1)
+    Cupp <- stats::qbeta(1 - alpha/2, s + 1, m - s)
   }
   return(c(Clow, Cupp))
 }
@@ -79,13 +80,13 @@ ci_fixed_clopper_pearson <- function(s, m, alpha) {
 ci_fixed_jeffreys <- function(s, m, alpha) {
   if (s == 0) {
     Clow <- 0
-    Cupp <- qbeta(1 - alpha, s + 0.5, m - s + 0.5)
+    Cupp <- stats::qbeta(1 - alpha, s + 0.5, m - s + 0.5)
   } else if (s == m) {
-    Clow <- qbeta(alpha, s + 0.5, m - s + 0.5)
+    Clow <- stats::qbeta(alpha, s + 0.5, m - s + 0.5)
     Cupp <- 1
   } else {
-    Clow <- qbeta(alpha/2, s + 0.5, m - s + 0.5)
-    Cupp <- qbeta(1 - alpha/2, s + 0.5, m - s + 0.5)
+    Clow <- stats::qbeta(alpha/2, s + 0.5, m - s + 0.5)
+    Cupp <- stats::qbeta(1 - alpha/2, s + 0.5, m - s + 0.5)
   }
   return(c(Clow, Cupp))
 }
@@ -99,11 +100,13 @@ ci_fixed_mid_p <- function(s, m, alpha) {
     Clow <- alpha^(1/m)
     Cupp <- 1
   } else {
-    Clow <- uniroot(function(pi, s, m, alpha) 0.5*dbinom(s, m, pi) +
-                      pbinom(s, m, pi, F) - alpha/2,
-                    c(0, s/m), s = s, m = m, alpha = alpha)$root
-    Cupp <- uniroot(function(pi, s, m, alpha) 0.5*dbinom(s, m, pi) +
-                      pbinom(s - 1, m, pi) - alpha/2,
+    Clow <- stats::uniroot(function(pi, s, m, alpha)
+                             0.5*stats::dbinom(s, m, pi) +
+                             stats::pbinom(s, m, pi, F) - alpha/2,
+                           c(0, s/m), s = s, m = m, alpha = alpha)$root
+    Cupp <- stats::uniroot(function(pi, s, m, alpha)
+                             0.5*stats::dbinom(s, m, pi) +
+                             stats::pbinom(s - 1, m, pi) - alpha/2,
                     c(s/m, 1), s = s, m = m, alpha = alpha)$root
   }
   return(c(Clow, Cupp))
@@ -117,7 +120,7 @@ ci_fixed_wald <- function(s, m, alpha) {
     Clow   <- Cupp <- 1
   } else {
     pi_hat <- s/m
-    factor <- qnorm(1 - alpha/2)*sqrt(pi_hat*(1 - pi_hat)/m)
+    factor <- stats::qnorm(1 - alpha/2)*sqrt(pi_hat*(1 - pi_hat)/m)
     Clow   <- pi_hat - factor
     Cupp   <- pi_hat + factor
     Clow   <- ifelse(Clow < 0, 0, ifelse(Clow > 1, 1, Clow))
@@ -129,7 +132,8 @@ ci_fixed_wald <- function(s, m, alpha) {
 # Function for determining Wilson CI in a fixed design
 ci_fixed_wilson <- function(s, m, alpha) {
   pi_hat <- s/m
-  z      <- ifelse(s %in% c(0, m), qnorm(1 - alpha), -qnorm(alpha/2))
+  z      <- ifelse(s %in% c(0, m), stats::qnorm(1 - alpha),
+                   -stats::qnorm(alpha/2))
   z2     <- z^2
   factor <- sqrt(pi_hat*(1 - pi_hat)/m + z2/(4*m^2))
   if (s != 0) {

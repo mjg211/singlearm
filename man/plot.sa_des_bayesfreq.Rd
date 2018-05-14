@@ -5,10 +5,10 @@
 \title{Plot the stopping boundaries of Bayesian-frequentist single-arm trial designs
 for a single binary endpoint}
 \usage{
-\method{plot}{sa_des_bayesfreq}(des, ..., output = F)
+\method{plot}{sa_des_bayesfreq}(x, ..., output = F)
 }
 \arguments{
-\item{des}{An object of class \code{"sa_des_bayesfreq"}, as returned by
+\item{x}{An object of class \code{"sa_des_bayesfreq"}, as returned by
 \code{des_bayesfreq()}.}
 
 \item{...}{Additional objects of class \code{"sa_des_bayesfreq"}. These will

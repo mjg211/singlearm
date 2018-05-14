@@ -5,10 +5,10 @@
 \title{Plot the stopping boundaries of curtailed single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_des_curtailed}(des, ..., output = F)
+\method{plot}{sa_des_curtailed}(x, ..., output = F)
 }
 \arguments{
-\item{des}{An object of class \code{"sa_des_gs"}, as returned by \code{des_gs()}.}
+\item{x}{An object of class \code{"sa_des_gs"}, as returned by \code{des_gs()}.}
 
 \item{...}{Additional objects of class \code{"sa_des_gs"}. These will be grouped
 in to a list named \code{"add_des"}.}

@@ -16,7 +16,8 @@ pmf_bayesfreq <- function(mu, nu, J, a, r, n, k) {
                                                           function(n)
                                                             rep(n, n + 1))),
                                             each = len_mu),
-                                    f = choose(m, s)*beta(mu + s, nu + m - s)/
+                                    f = choose(m, s)*
+                                          beta(mu + s, nu + m - s)/
                                           beta(mu, nu))
   if (J == 1) {
     terminal         <- terminal_states_fixed(n)

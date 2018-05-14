@@ -16,8 +16,6 @@
 #' \item \code{\link{des_curtailed}}: Determines curtailed single- or two-stage
 #' group sequential single-arm trial designs for a single binary primary outcome
 #' variable.
-#' \item \code{\link{des_deviation}}: Determines two-stage group sequential
-#' designs for handling under/over-enrolment.
 #' \item \code{\link{des_fixed}}: Determines a single-stage single-arm trial
 #' design for a single binary primary outcome variable.
 #' \item \code{\link{des_gehan}}: Determines two-stage Gehan designs for a
@@ -36,10 +34,6 @@
 #' characteristics of designs determined using \code{\link{des_bayesfreq}}.
 #' \item \code{\link{opchar_curtailed}}: Determines the operating
 #' characteristics of designs determined using \code{\link{des_curtailed}}.
-#' \item \code{\link{opchar_deviation}}: Determines the operating
-#' characteristics of designs determined using \code{\link{des_deviation}}. In
-#' addition, it will determine the operating characteristics of designs
-#' determined using \code{\link{des_gs}} under under/over-enrolment.
 #' \item \code{\link{opchar_fixed}}: Determines the operating characteristics of
 #' designs determined using \code{\link{des_fixed}}.
 #' \item \code{\link{opchar_gs}}: Determines the operating characteristics of

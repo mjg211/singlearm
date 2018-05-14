@@ -6,11 +6,13 @@
 procedures performance, in a single-stage single-arm trial design for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_ci_fixed}(ci, output = F)
+\method{plot}{sa_ci_fixed}(x, ..., output = F)
 }
 \arguments{
-\item{ci}{An object of class \code{"sa_ci_fixed"}, as returned by
+\item{x}{An object of class \code{"sa_ci_fixed"}, as returned by
 \code{ci_fixed()}.}
+
+\item{...}{Included for compatibility with the generic. Not currently used.}
 
 \item{output}{A logical variable indicating whether the outputs described
 below should be returned.}
