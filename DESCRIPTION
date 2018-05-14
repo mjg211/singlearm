@@ -13,10 +13,12 @@ LazyData: true
 Depends: R (>= 3.3.2)
 Imports: Rcpp (>= 0.12.14),
            tibble,
-           dplyr,
+           plyr,
            ggplot2 (>= 2.2.1),
            ggthemes,
-           iterpc
+           iterpc,
+           pryr,
+           dplyr
 Enhances: clinfun, OneArmPhaseTwoStudy
 LinkingTo: Rcpp
 Date: 2018-03-24
