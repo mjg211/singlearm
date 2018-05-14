@@ -22,7 +22,7 @@ Imports: Rcpp (>= 0.12.14),
            stringi
 Enhances: clinfun, OneArmPhaseTwoStudy
 LinkingTo: Rcpp
-Date: 2018-03-24
+Date: 2018-05-14
 URL: http://github.com/mjg211/singlearm
 BugReports: http://github.com/mjg211/singlearm/issues
 RoxygenNote: 6.0.1
