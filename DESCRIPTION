@@ -4,7 +4,7 @@ Title: Design and analysis of single-arm clinical trials
 Version: 1.0
 Authors@R: c(person(given = "Michael", family = "Grayling",
                     email = "michael.grayling@mrc-bsu.cam.ac.uk",
-                    role = c("aut", "cre")))‘CEoptim’ ‘GA’ ‘ggrepel’ ‘mvtnorm’ ‘tidyr’
+                    role = c("aut", "cre")))
 Description: This package provides a suite of functions for designing,
     analysing, and visualising single-arm clinical trials.
 License: GPL-3
