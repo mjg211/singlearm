@@ -1,0 +1,5 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^build-history$
+^README\.Rmd$
+^README-.*\.png$

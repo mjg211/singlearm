@@ -1,0 +1,25 @@
+Package: singlearm
+Type: Package
+Title: Design and analysis of single-arm clinical trials
+Version: 1.0
+Authors@R: c(person(given = "Michael", family = "Grayling",
+                    email = "michael.grayling@mrc-bsu.cam.ac.uk",
+                    role = c("aut", "cre")))
+Description: This package provides a suite of functions for designing,
+    analysing, and visualising single-arm clinical trials.
+License: GPL-3
+Encoding: UTF-8
+LazyData: true
+Depends: R (>= 3.3.2)
+Imports: Rcpp (>= 0.12.14),
+           tibble,
+           dplyr,
+           ggplot2 (>= 2.2.1),
+           ggthemes,
+           iterpc
+Enhances: clinfun, OneArmPhaseTwoStudy
+LinkingTo: Rcpp
+Date: 2018-03-24
+URL: http://github.com/mjg211/singlearm
+BugReports: http://github.com/mjg211/singlearm/issues
+RoxygenNote: 6.0.1
