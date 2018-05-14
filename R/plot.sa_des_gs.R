@@ -98,7 +98,7 @@ plot.sa_des_gs <- function(des, ..., output = F) {
                                                             shape = status)) +
       ggplot2::geom_point() +
       ggplot2::xlab(expression(italic(m))) +
-      ggplot2::ylab(expression(italic(s[m]))) +
+      ggplot2::ylab(expression(italic(s))) +
       ggplot2::scale_color_manual(values = c("gray50",
                                              "firebrick2",
                                              "green4")) +
@@ -177,7 +177,7 @@ plot.sa_des_gs <- function(des, ..., output = F) {
                                                             shape = status)) +
       ggplot2::geom_point(size = 1) +
       ggplot2::xlab(expression(italic(m))) +
-      ggplot2::ylab(expression(italic(s[m]))) +
+      ggplot2::ylab(expression(italic(s))) +
       ggplot2::scale_color_manual(values = c("gray50",
                                              "firebrick2",
                                              "green4")) +
