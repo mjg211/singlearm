@@ -6,7 +6,7 @@
 #' determined using \code{pval_gs()}. A range of plots are available, of which
 #' the p-values and the expected p-value curve will be printed by default.
 #'
-#' @param est An object of class \code{"sa_pval_gs"}, as returned by \code{pval_gs()}.
+#' @param pval An object of class \code{"sa_pval_gs"}, as returned by \code{pval_gs()}.
 #' @param output A logical variable indicating whether the outputs described below
 #' should be returned.
 #' @return If \code{output = TRUE}, a list containing the following elements is returned

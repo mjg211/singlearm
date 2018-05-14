@@ -81,7 +81,7 @@ pval_gs <- function(des, k, pi, method = c("conditional", "mle", "naive",
     message("p-value determination for group-sequential single-arm trials with a single binary endpoint")
     message(rep("-", 10))
     Sys.sleep(2)
-    message("You have chosen to make your calculations conditional on k ∈ {", k[1], ",...,", k[length(k)], "}.\n")
+    message("You have chosen to make your calculations conditional on k \u2208 {", k[1], ",...,", k[length(k)], "}.\n")
     Sys.sleep(2)
     message("You have chosen to use the following methods to construct confidence intervals\n")
     if ("naive" %in% method) {

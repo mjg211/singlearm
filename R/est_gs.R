@@ -91,7 +91,7 @@ est_gs <- function(des, k, pi, method = c("bias_adj", "bias_sub", "conditional",
     message("Point estimation for group-sequential single-arm trials with a single binary endpoint")
     message(rep("-", 10))
     Sys.sleep(2)
-    message("You have chosen to make your calculations conditional on k ∈ {", k[1], ",...,", k[length(k)], "}.\n")
+    message("You have chosen to make your calculations conditional on k \u2208 {", k[1], ",...,", k[length(k)], "}.\n")
     Sys.sleep(2)
     message("You have chosen to use the following methods to construct point estimates\n")
     if ("naive" %in% method) {

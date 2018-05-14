@@ -7,7 +7,7 @@
 #' available, of which the p-values and the expected p-value curve will be
 #' printed by default.
 #'
-#' @param est An object of class \code{"sa_pval_fixed"}, as returned by
+#' @param pval An object of class \code{"sa_pval_fixed"}, as returned by
 #' \code{pval_fixed()}.
 #' @param output A logical variable indicating whether the outputs described
 #' below should be returned.

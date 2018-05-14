@@ -8,11 +8,11 @@ single-stage single-arm trial design for a single binary endpoint}
 \method{plot}{sa_pval_fixed}(pval, output = F)
 }
 \arguments{
+\item{pval}{An object of class \code{"sa_pval_fixed"}, as returned by
+\code{pval_fixed()}.}
+
 \item{output}{A logical variable indicating whether the outputs described
 below should be returned.}
-
-\item{est}{An object of class \code{"sa_pval_fixed"}, as returned by
-\code{pval_fixed()}.}
 }
 \value{
 If \code{output = TRUE}, a list containing the following elements is

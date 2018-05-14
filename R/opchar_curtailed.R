@@ -99,7 +99,7 @@ opchar_curtailed <- function(des, ..., k, pi, summary = F) {
     message("Operating characteristic determination for curtailed group-sequential single-arm trials with a single binary endpoint")
     message(rep("-", 10))
     Sys.sleep(2)
-    message("You have chosen to make your calculations conditional on k ∈ {", k[1], ",...,", k[length(k)], "}.\n")
+    message("You have chosen to make your calculations conditional on k \u2208 {", k[1], ",...,", k[length(k)], "}.\n")
     Sys.sleep(2)
     message("Beginning the required calculations...")
   }

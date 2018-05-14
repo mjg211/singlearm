@@ -26,7 +26,7 @@
 #' }
 #' @examples
 #' # Find the optimal two-stage Bayesian-frequentist design for the default
-#' parameters
+#' # parameters
 #' des <- des_bayesfreq()
 #' # Plot the stopping boundaries
 #' plot(des)

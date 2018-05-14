@@ -71,7 +71,7 @@ opchar_fixed <- function(des, ..., pi, summary = F) {
     }
     for (i in 1:num_add_des) {
       if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
-        stop("Each supplied design must have been designed for the same value of π₀")
+        stop("Each supplied design must have been designed for the same value of \u03c0\u2080")
       }
     }
   }

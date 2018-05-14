@@ -8,10 +8,10 @@ single-arm trial design for a single binary endpoint}
 \method{plot}{sa_pval_gs}(pval, output = F)
 }
 \arguments{
+\item{pval}{An object of class \code{"sa_pval_gs"}, as returned by \code{pval_gs()}.}
+
 \item{output}{A logical variable indicating whether the outputs described below
 should be returned.}
-
-\item{est}{An object of class \code{"sa_pval_gs"}, as returned by \code{pval_gs()}.}
 }
 \value{
 If \code{output = TRUE}, a list containing the following elements is returned

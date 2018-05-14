@@ -83,18 +83,18 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
     message(rep("-", 10))
     Sys.sleep(2)
     message("\nYou have chosen to test the following hypotheses\n")
-    message("     H₀: π ≤ π₀ = ", pi0, ", H₁: π > π₀ = ", pi0, ".\n")
+    message("     H\u2080: \u03c0 \u2264 \u03c0\u2080 = ", pi0, ", H\u2081: \u03c0 > \u03c0\u2080 = ", pi0, ".\n")
     message("with the following error constraints\n")
-    message("     P(π₀) = P(", pi0, ") ≤ α = ", alpha, ", P(π₁) = P(", pi1, ") ≥ 1 - β = ", 1 - beta, ".\n")
+    message("     P(\u03c0\u2080) = P(", pi0, ") \u2264 \u03b1 = ", alpha, ", P(\u03c0\u2081) = P(", pi1, ") \u2265 1 - \u03b2 = ", 1 - beta, ".\n")
     Sys.sleep(2)
-    message("You have chosen to restrict the allowed maximal possible sample size N such that\n")
-    message("  • N ≥ ", Nmin, ".")
-    message("  • N ≤ ", Nmax, ".\n")
+    message("You have chosen to restrict the allowed possible sample size N = n such that\n")
+    message("  • N \u2265 ", Nmin, ".")
+    message("  • N \u2264 ", Nmax, ".\n")
     if (equal_n) {
       Sys.sleep(2)
       if (J == 2) {
-        message("You have chosen to restrict the allowed values of the nⱼ, j = 1,2, such that\n")
-        message("  • n₁ = n₂.\n")
+        message("You have chosen to restrict the allowed values of the n\u2c7c, j = 1,2, such that\n")
+        message("  • n\u2081 = n\u2082.\n")
       }
     }
     Sys.sleep(2)

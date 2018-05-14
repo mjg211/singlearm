@@ -9,11 +9,11 @@ single binary endpoint}
 \method{plot}{sa_ci_fixed}(ci, output = F)
 }
 \arguments{
+\item{ci}{An object of class \code{"sa_ci_fixed"}, as returned by
+\code{ci_fixed()}.}
+
 \item{output}{A logical variable indicating whether the outputs described
 below should be returned.}
-
-\item{est}{An object of class \code{"sa_ci_fixed"}, as returned by
-\code{ci_fixed()}.}
 }
 \value{
 If \code{output = TRUE}, a list containing the following elements is

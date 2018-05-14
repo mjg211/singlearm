@@ -8,7 +8,7 @@
 #' plots are available, of which the confidence intervals and the coverage
 #' probability curve will be printed by default.
 #'
-#' @param est An object of class \code{"sa_ci_fixed"}, as returned by
+#' @param ci An object of class \code{"sa_ci_fixed"}, as returned by
 #' \code{ci_fixed()}.
 #' @param output A logical variable indicating whether the outputs described
 #' below should be returned.

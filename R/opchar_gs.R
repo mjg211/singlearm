@@ -98,7 +98,7 @@ opchar_gs <- function(des, ..., k, pi, summary = F) {
     message("Operating Characteristic Determination for Group-Sequential Single-arm Trials with a Single Binary Endpoint")
     message(rep("-", 10))
     Sys.sleep(2)
-    message("You have chosen to make your calculations conditional on k ∈ {", k[1], ",...,", k[length(k)], "}.\n")
+    message("You have chosen to make your calculations conditional on k \u2208 {", k[1], ",...,", k[length(k)], "}.\n")
     Sys.sleep(2)
     message("Beginning the required calculations...")
   }
