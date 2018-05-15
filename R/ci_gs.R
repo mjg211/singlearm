@@ -125,7 +125,7 @@ ci_gs <- function(des, k, pi, alpha = des$alpha,
       message("... ", i, " confidence intervals determined...")
     }
   }
-  ci     <- dplyr::mutate(ci, `l(s,m)` = `cupp(s,m)` - `cupp(s,m)`)
+  ci     <- dplyr::mutate(ci, `l(s,m)` = `cupp(s,m)` - `clow(s,m)`)
   pmf    <- pmf_gs(pi, J, a, r, n, k)
   len_pi <- length(pi)
   perf   <- tibble::tibble(pi = rep(pi, len_method),
