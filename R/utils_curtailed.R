@@ -121,8 +121,8 @@ int_opchar_curtailed <- function(pi, J, J_curt, a_curt, r_curt, n, n_curt, N,
     }
     cum_S          <- cumsum(S <- A + R)
     if (any(cum_S == 0.5)){
-      Med          <- 0.5*(N_curt[which(cum_S == 0.5)] +
-                             N_curt[which(cum_S == 0.5) + 1])
+      Med          <- 0.5*(N_curt[which(cum_S == 0.5)[1]] +
+                             N_curt[which(cum_S > 0.5)[1]])
     } else {
       Med          <- N_curt[which(cum_S > 0.5)[1]]
     }

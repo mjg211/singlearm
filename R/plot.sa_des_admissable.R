@@ -33,7 +33,7 @@
 #' @export
 plot.sa_des_admissable <- function(x, ..., output = F) {
 
-  x <- des
+  des <- x
 
   ##### Input Checking #########################################################
 

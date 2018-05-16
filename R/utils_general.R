@@ -168,9 +168,18 @@ check_ensign <- function(ensign, futility){
 
 check_k <- function(k, des, add_des) {
   num_add_des <- length(add_des)
-  Js <- c(des$des$J, rep(0, num_add_des))
-  for (i in 1:num_add_des) {
-    Js[i + 1] <- eval(add_des)$des$J
+  if (num_add_des > 0) {
+    Js <- c(des$des$J, rep(0, num_add_des))
+    for (i in 1:num_add_des) {
+      Js[i + 1] <- eval(add_des)$des$J
+    }
+    if (!all(k %in% 1:max(Js))) {
+      stop("k must contain values in [1,max(J)]")
+    }
+  } else {
+    if (!all(k %in% 1:des$J)) {
+      stop("k must contain values in [1,des$J].")
+    }
   }
 }
 
