@@ -9,7 +9,7 @@ cr_gs <- function(pi, s, m, J, a, r, n) {
         cr     <- 1
       } else {
         vals   <- unique(c(s:(s + n[1] - m), 0:n[2]))
-        poss_s <- as.matrix(expand.grid(rep(list(vals, 2)))
+        poss_s <- as.matrix(expand.grid(rep(list(vals), 2)))
         poss_s <- poss_s[which(poss_s[, 1] %in% s:(s + n[1] - m) &
                                  poss_s[, 2] %in% 0:n[2]), ]
         poss_s <- poss_s[which(poss_s[, 1] >= r[1] |

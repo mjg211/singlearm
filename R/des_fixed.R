@@ -164,8 +164,7 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
   }
   pmf         <- tibble::as_tibble(plyr::rbind.fill(pmf))
   if (exact) {
-    possible  <- iterpc::getall(iterpc::iterpc(Nmax + 1, 2, 0:Nmax, F,
-                                               T))[, 2:1]
+    possible  <- as.matrix(expand.grid(rep(list(0:Nmax), 2)))[, 2:1]
   } else {
     possible  <- Nmin:Nmax
     possible  <- cbind(possible, round(possible*pi0 + stats::qnorm(1 - alpha)*
