@@ -142,9 +142,7 @@ des_adaptive <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
       }
     }
   } else {
-    poss_n1n2max <- iterpc::getall(iterpc::iterpc(n = Nmax - 1, r = 2,
-                                                  labels = 1:(Nmax - 1),
-                                                  ordered = T, replace = T))
+    poss_n1n2max <- as.matrix(expand.grid(rep(list(1:(Nmax - 1), 2))))
     poss_n1n2max <- poss_n1n2max[which(rowSums(poss_n1n2max)  <= Nmax), ]
     possible     <- matrix(NA, nrow = nrow(poss_n1n2max), ncol = 14 + 3*Nmax)
     curr_min     <- Nmax

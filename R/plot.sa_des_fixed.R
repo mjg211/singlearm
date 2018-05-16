@@ -64,8 +64,7 @@ plot.sa_des_fixed <- function(x, ..., output = F) {
 
   plot_des <- list()
   if (num_add_des == 0) {
-    states <- iterpc::getall(iterpc::iterpc(des$des$n + 1, 2, 0:des$des$n, F,
-                                            T))[-1, ]
+    states <- as.matrix(expand.grid(rep(list(0:des$des$n), 2)))[-1, ]
     states <- tibble::tibble(s = states[, 1], m = states[, 2])
     states <- dplyr::mutate(states,
                             status = factor(ifelse(s <= des$des$a &
@@ -99,9 +98,7 @@ plot.sa_des_fixed <- function(x, ..., output = F) {
     }
     states             <- list()
     for (i in 1:(num_add_des + 1)) {
-      states[[i]] <- iterpc::getall(iterpc::iterpc(all_des[[i]]$des$n + 1, 2,
-                                                0:all_des[[i]]$des$n, F,
-                                                T))[-1, ]
+      states[[i]] <- as.matrix(expand.grid(rep(list(0:all_des[[i]]$des$n), 2)))[-1, ]
       states[[i]] <- tibble::tibble(Design = paste("Design ", i, ": (",
                                                    all_des[[i]]$des$a, ", ",
                                                    all_des[[i]]$des$r, ")/",

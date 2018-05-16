@@ -154,7 +154,7 @@ est_gs_umvue <- function(s, m, k, a, r, n) {
     return(sum((choose(n[1] - 1, s1 - 1)*choose(n[2], s - s1)))/
              sum((choose(n[1], s1)*choose(n[2], s - s1))))
   } else {
-    R_ms        <- iterpc::getall(iterpc::iterpc(s + 1, k, 0:s, T, T))
+    R_ms        <- as.matrix(expand.grid(rep(list(0:s), k)))
     R_ms        <- R_ms[which(rowSums(R_ms) == s), ]
     for (j in 1:(k - 1)) {
       cum_R_ms  <- rowSums(R_ms[, 1:j, drop = F])
@@ -217,10 +217,7 @@ est_gs_cond_mle <- function(s, m, k, a, r, n) {
                sum(stats::dbinom(range, n[1], pi)) + s/pi -
                (m - s)/(1 - pi))
     } else {
-      continuation_k   <- iterpc::getall(iterpc::iterpc(max(n[1:(k - 1)]) + 1,
-                                                        k - 1,
-                                                        0:max(n[1:(k - 1)]),
-                                                        T, T))
+      continuation_k   <- as.matrix(expand.grid(rep(list(0:max(n[1:(k - 1)])), k-1)))
       for (j in 1:(k - 1)) {
         continuation_k <- continuation_k[which(continuation_k[, j] <= n[j]), ]
         row_sums       <- rowSums(continuation_k[, 1:j, drop = F])

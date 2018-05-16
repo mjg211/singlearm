@@ -112,9 +112,7 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
   for (i in 1:nrow(sample_sizes)) {
     n1 <- sample_sizes[i, 1]
     n2 <- sample_sizes[i, 2]
-    poss_s1s2 <- iterpc::getall(iterpc::iterpc(n = max(n1, n2) + 2, r = 2,
-                               labels = c(NA, 0:max(n1, n2)),
-                               ordered = T, replace = T))
+    poss_s1s2 <- as.matrix(expand.grid(rep(list(c(NA, 0:max(n1, n2)), 2))))
     s1 <- which(D_mat[n1, 1:(n1 + 1)] > 0)[1]:(utils::tail(which(D_mat[n1, 1:(n1 + 1)] < 1), n = 1)) - 1
     s2 <- 0:n2
     poss_s1s2 <- poss_s1s2[which((poss_s1s2[, 1] %in% s1 & !is.na(poss_s1s2[, 2])) |
