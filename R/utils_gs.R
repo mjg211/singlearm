@@ -84,11 +84,10 @@ int_opchar_gs <- function(pi, J, a, r, n, N, k, summary, pmf_pi) {
                                           k == j)$`f(s,m|pi)`)
     }
     cum_S          <- cumsum(S <- A + R)
-    if (any(cum_S == 0.5)) {
-      Med          <- 0.5*(N[which(cum_S == 0.5)] + N[which(cum_S == 0.5) + 1])
-    } else {
-      Med          <- N[which(cum_S > 0.5)[1]]
-    }
+    Med            <- ifelse(any(cum_S == 0.5),
+                             0.5*(N[which(cum_S == 0.5)] +
+                                    N[which(cum_S == 0.5) + 1]),
+                             N[which(cum_S > 0.5)[1]])
     opchar[i, ]    <- c(int_pi[i], sum(R), sum(N*S), sum(N^2*S) - sum(N*S)^2,
                         Med, A, R, S, cum_S, N[J])
   }

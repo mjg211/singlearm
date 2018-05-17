@@ -2,8 +2,7 @@
 #' endpoint
 #'
 #' Determines curtailed group sequential single-arm clinical trial designs for a
-#' single binary primary endpoint. In particular, this allows Simon's two-stage
-#' designs (Simon, 1989) to be identified.
+#' single binary primary endpoint.
 #'
 #' \code{des_curtailed()} supports the determination of a variety of (optimised)
 #' curtailed group sequential single-arm clinical trial designs for a single
@@ -197,7 +196,7 @@
 #' }
 #' @examples
 #' # The minimax design for the default parameters with NSC
-#' minimax   <- des_curtailed(optimality = "minimax")
+#' minimax <- des_curtailed(optimality = "minimax")
 #' @seealso \code{\link{opchar_curtailed}}, and their associated \code{plot}
 #' family of functions.
 #' @export
