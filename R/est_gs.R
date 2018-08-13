@@ -147,7 +147,7 @@ est_gs <- function(des, k, pi, method = c("bias_adj", "bias_sub", "conditional",
              conditional = est_gs_cond_mle(est$s[i], est$m[i], est$k[i], a, r,
                                            n))
     if (all(summary, i%%100 == 0)) {
-      message("... ", i, " point estimates determined...")
+      message("...", i, " point estimates determined...")
     }
   }
   len_pi <- length(pi)
@@ -171,6 +171,7 @@ est_gs <- function(des, k, pi, method = c("bias_adj", "bias_sub", "conditional",
       message("...performance for ", i, " pi-method combinations evaluated...")
     }
   }
+  #Bias and rmse should be in a mutate afterward
 
   ##### Outputting #############################################################
 

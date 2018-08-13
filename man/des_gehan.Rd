@@ -4,8 +4,8 @@
 \alias{des_gehan}
 \title{Design a two-stage Gehan single-arm trial for a single binary endpoint}
 \usage{
-des_gehan(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha = 1,
-  summary = F)
+des_gehan(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
+  conservative = F, alpha = 0.05, pi0 = 0.1, find_D = F, summary = F)
 }
 \arguments{
 \item{pi1}{The (desirable) response probability used in computing the first

@@ -53,7 +53,7 @@ opchar_adaptive <- function(des, ..., k, pi, summary = F) {
 
   ##### Input Checking #########################################################
 
-  #check_sa_des_adaptive(des, "des")
+  check_sa_des_adaptive(des, "des")
   add_des     <- pryr::named_dots(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {

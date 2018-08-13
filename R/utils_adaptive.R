@@ -62,7 +62,7 @@ pmf_adaptive <- function(pi, a1, r1, n1, n2, k) {
 }
 
 # Function for determining operating characteristics of an adaptive design
-int_opchar_adaptive <- function(pi, a1, r1, a2, r2, n1, n2, k, pmf_pi){
+int_opchar_adaptive <- function(pi, a1, r1, a2, r2, n1, n2, k, pmf_pi) {
   if (missing(pmf_pi)) {
     pmf_pi <- pmf_adaptive(pi, a1, r1, n1, n2, k)
   }

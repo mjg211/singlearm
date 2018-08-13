@@ -5,29 +5,31 @@
 \title{Design a single-stage single-arm trial for a single binary endpoint}
 \usage{
 des_fixed(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
-  Nmax = 50, exact = T, summary = F)
+  Nmax = 30, exact = T, summary = F)
 }
 \arguments{
 \item{pi0}{The (undesirable) response probability used in the definition of
-the null hypothesis.}
+the null hypothesis. Defaults to 0.1.}
 
 \item{pi1}{The (desirable) response probability at which the trial is
-powered.}
+powered. Defaults to 0.3.}
 
-\item{alpha}{The desired maximal type-I error rate.}
+\item{alpha}{The desired maximal type-I error rate. Defaults to 0.05.}
 
-\item{beta}{The desired maximal type-II error rate.}
+\item{beta}{The desired maximal type-II error rate. Defaults to 0.2.}
 
-\item{Nmin}{The minimal sample size to allow in considered designs.}
+\item{Nmin}{The minimal sample size to allow in considered designs. Defaults
+to 1.}
 
-\item{Nmax}{The maximal sample size to allow in considered designs.}
+\item{Nmax}{The maximal sample size to allow in considered designs. Defaults
+to 30.}
 
 \item{exact}{A logical variable indicating whether exact binomial
 calculations or a normal approximation approach should be used to determine
-the optimal design.}
+the optimal design. Defaults to TRUE.}
 
 \item{summary}{A logical variable indicating whether a summary of the
-function's progress should be printed to the console.}
+function's progress should be printed to the console. Defaults to FALSE.}
 }
 \value{
 A list of class \code{"sa_des_fixed"} containing the following
@@ -35,7 +37,8 @@ elements
 \itemize{
 \item A tibble in the slot \code{$des} summarising the characteristics of the
 identified optimal design. This will be \code{NULL} if no feasible design was
-identified in the considered range for \ifelse{html}{\out{<i>n</i>}}{\eqn{n}}.
+identified in the considered range for
+\ifelse{html}{\out{<i>n</i>}}{\eqn{n}}.
 \item A tibble in the slot \code{$feasible}, consisting of the identified
 designs which met the required operating characteristics.
 \item Each of the input variables as specified, subject to internal
@@ -45,7 +48,7 @@ modification.
 \description{
 Determines single-stage single-arm clinical trial designs
 for a single binary primary endpoint, using either exact binomial
-calculations or a normal approximation approach.
+calculations, or a normal approximation approach.
 }
 \details{
 \code{des_fixed()} supports the determination of single-stage single-arm
@@ -127,9 +130,9 @@ recommended.
 }
 \examples{
 # The optimal design for the default parameters
-des <- des_fixed()
-# Find the optimal single-stage design for a 10\% type-I error rate
-des_10      <- des_fixed(alpha = 0.1)
+des    <- des_fixed()
+# The optimal single-stage design for a 10\% type-I error rate
+des_10 <- des_fixed(alpha = 0.1)
 }
 \references{
 A'Hern RP (2001) Sample size tables for exact single-stage phase

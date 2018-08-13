@@ -2,7 +2,7 @@
 #'
 #' Determines single-stage single-arm clinical trial designs
 #' for a single binary primary endpoint, using either exact binomial
-#' calculations or a normal approximation approach.
+#' calculations, or a normal approximation approach.
 #'
 #' \code{des_fixed()} supports the determination of single-stage single-arm
 #' clinical trial designs for a single binary primary endpoint. The following
@@ -82,24 +82,27 @@
 #' recommended.
 #'
 #' @param pi0 The (undesirable) response probability used in the definition of
-#' the null hypothesis.
+#' the null hypothesis. Defaults to 0.1.
 #' @param pi1 The (desirable) response probability at which the trial is
-#' powered.
-#' @param alpha The desired maximal type-I error rate.
-#' @param beta The desired maximal type-II error rate.
-#' @param Nmin The minimal sample size to allow in considered designs.
-#' @param Nmax The maximal sample size to allow in considered designs.
+#' powered. Defaults to 0.3.
+#' @param alpha The desired maximal type-I error rate. Defaults to 0.05.
+#' @param beta The desired maximal type-II error rate. Defaults to 0.2.
+#' @param Nmin The minimal sample size to allow in considered designs. Defaults
+#' to 1.
+#' @param Nmax The maximal sample size to allow in considered designs. Defaults
+#' to 30.
 #' @param exact A logical variable indicating whether exact binomial
 #' calculations or a normal approximation approach should be used to determine
-#' the optimal design.
+#' the optimal design. Defaults to TRUE.
 #' @param summary A logical variable indicating whether a summary of the
-#' function's progress should be printed to the console.
+#' function's progress should be printed to the console. Defaults to FALSE.
 #' @return A list of class \code{"sa_des_fixed"} containing the following
 #' elements
 #' \itemize{
 #' \item A tibble in the slot \code{$des} summarising the characteristics of the
 #' identified optimal design. This will be \code{NULL} if no feasible design was
-#' identified in the considered range for \ifelse{html}{\out{<i>n</i>}}{\eqn{n}}.
+#' identified in the considered range for
+#' \ifelse{html}{\out{<i>n</i>}}{\eqn{n}}.
 #' \item A tibble in the slot \code{$feasible}, consisting of the identified
 #' designs which met the required operating characteristics.
 #' \item Each of the input variables as specified, subject to internal
@@ -107,9 +110,9 @@
 #' }
 #' @examples
 #' # The optimal design for the default parameters
-#' des <- des_fixed()
-#' # Find the optimal single-stage design for a 10% type-I error rate
-#' des_10      <- des_fixed(alpha = 0.1)
+#' des    <- des_fixed()
+#' # The optimal single-stage design for a 10% type-I error rate
+#' des_10 <- des_fixed(alpha = 0.1)
 #' @references A'Hern RP (2001) Sample size tables for exact single-stage phase
 #' II designs. \emph{Statistics in Medicine} \strong{20:}859-66.
 #' @references Fleming TR (1982) One-sample multiple testing procedure for phase
@@ -120,7 +123,7 @@
 #' is available through \code{\link[clinfun]{ph2single}}.
 #' @export
 des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
-                      Nmax = 50, exact = T, summary = F) {
+                      Nmax = 30, exact = T, summary = F) {
 
   ##### Input Checking #########################################################
 
@@ -158,20 +161,20 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
 
   ##### Main Computations ######################################################
 
-  pmf         <- list()
+  pmf        <- list()
   for (n in 1:Nmax) {
     pmf[[n]] <- pmf_fixed(c(pi0, pi1), n)
   }
-  pmf         <- tibble::as_tibble(plyr::rbind.fill(pmf))
+  pmf        <- tibble::as_tibble(plyr::rbind.fill(pmf))
   if (exact) {
-    possible  <- as.matrix(expand.grid(rep(list(0:Nmax), 2)))[, 2:1]
+    possible <- as.matrix(expand.grid(rep(list(0:Nmax), 2)))[, 2:1]
   } else {
-    possible  <- Nmin:Nmax
-    possible  <- cbind(possible, round(possible*pi0 + stats::qnorm(1 - alpha)*
+    possible <- Nmin:Nmax
+    possible <- cbind(possible, round(possible*pi0 + stats::qnorm(1 - alpha)*
                                          sqrt(possible*pi0*(1 - pi0))))
   }
-  possible    <- possible[which(possible[, 1] > possible[, 2] &
-                                  possible[, 2] >= 0), ]
+  possible   <- possible[which(possible[, 1] > possible[, 2] &
+                                 possible[, 2] >= 0), ]
   possible   <- tibble::tibble(n = as.integer(possible[, 1]),
                                a = as.integer(possible[, 2]),
                                r = a + 1L, `P(pi0)` = NA, `P(pi1)` = NA)
@@ -205,11 +208,11 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
     feasible         <- dplyr::arrange(feasible, n, dplyr::desc(`P(pi1)`))
     feasible[, 4:19] <- dplyr::mutate_if(feasible[, 4:19], is.integer,
                                            as.double)
-    des                <- list(n = as.numeric(feasible[1, 1]),
-                               a = as.numeric(feasible[1, 2]),
-                               r = as.numeric(feasible[1, 3]), pi0 = pi0,
-                               pi1 = pi1, alpha = alpha, beta = beta,
-                               opchar = feasible[1, ])
+    des              <- list(n = as.numeric(feasible[1, 1]),
+                             a = as.numeric(feasible[1, 2]),
+                             r = as.numeric(feasible[1, 3]), pi0 = pi0,
+                             pi1 = pi1, alpha = alpha, beta = beta,
+                             opchar = feasible[1, ])
   } else {
     feasible <- des <- NULL
     if (summary) {

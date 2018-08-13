@@ -389,3 +389,33 @@ row_match <- function(vec, mat) {
   cmat <- do.call("paste", c(mat[, , drop = FALSE], sep = "\r"))
   return(match(cvec, cmat, nomatch = NA_integer_))
 }
+
+check_gs_boundaries <- function(J, n, a, r) {
+  if (any(!is.numeric(n), length(n) != J, n%%1 != 0)) {
+    stop("n must be a numeric vector of length ", J,
+         ", containing integer elements")
+  }
+  if (any(!is.numeric(a), length(a) != J)) {
+    stop("a must be a numeric vector of length ", J)
+  }
+  if (any(!is.numeric(r), length(r) != J)) {
+    stop("r must be a numeric vector of length ", J)
+  }
+  for (j in 1:(J - 1)) {
+    if (all(is.finite(a[j]), a[j]%%1 != 0)) {
+      stop("Finite elements of a must be integers")
+    }
+    if (all(is.finite(r[j]), r[j]%%1 != 0)) {
+      stop("Finite elements of r must be integers")
+    }
+  }
+  if (!is.finite(a[J])) {
+    stop("a[J] must be finite")
+  }
+  if (!is.finite(r[J])) {
+    stop("r[J] must be finite")
+  }
+  if (a[J] != r[J] - 1) {
+    stop("a[J] must be one less than r[J]")
+  }
+}
