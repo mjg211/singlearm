@@ -236,7 +236,7 @@ est_gs_cond_mle <- function(s, m, k, a, r, n) {
       return(-d_G/G  + s/pi - (m - s)/(1 - pi))
     }
   }
-
+  k                    <- as.numeric(as.character(k))
   if (k == 1) {
     return(s/m)
   } else if (k == 2) {
