@@ -5,9 +5,9 @@
 \title{Design an admissable group sequential single-arm trial for a single binary
 endpoint}
 \usage{
-des_admissable(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
-  Nmin = 1, Nmax = 50, futility = T, efficacy = F, equal_n = F,
-  ensign = F, summary = F)
+des_admissable(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
+  beta = 0.2, Nmin = 1, Nmax = 50, futility = T, efficacy = F,
+  equal_n = F, ensign = F, summary = F)
 }
 \arguments{
 \item{J}{The maximal number of stages to allow.}

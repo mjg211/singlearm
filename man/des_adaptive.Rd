@@ -4,8 +4,9 @@
 \alias{des_adaptive}
 \title{Design an adaptive two-stage single-arm trial for a single binary endpoint}
 \usage{
-des_adaptive(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
-  Nmax = 30, optimality = "null_ess", monotonic = F, summary = F)
+des_adaptive(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
+  Nmin = 1, Nmax = 30, optimality = "null_ess", monotonic = F,
+  summary = F)
 }
 \arguments{
 \item{pi0}{The (undesirable) response probability used in the definition of

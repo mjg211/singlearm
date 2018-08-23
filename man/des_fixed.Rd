@@ -4,8 +4,8 @@
 \alias{des_fixed}
 \title{Design a single-stage single-arm trial for a single binary endpoint}
 \usage{
-des_fixed(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
-  Nmax = 30, exact = T, summary = F)
+des_fixed(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
+  Nmin = 1, Nmax = 30, exact = T, summary = F)
 }
 \arguments{
 \item{pi0}{The (undesirable) response probability used in the definition of

@@ -11,11 +11,20 @@
 #' @param beta1 The desired maximal type-II error-rate for stage one.
 #' @param gamma The desired standard error for the estimate of the response
 #' probability by the end of stage two.
+#' @param alpha_pi_hat The confidence level to use in the formula for computing
+#' the interim estimated of the response rate.
+#' @param method Should be either "A" or "B", signifying the method used for
+#' computing the interim response rate.
+#' @param f Should be either "G", "L", or "EL", signifying the function used for
+#' determining the second stage sample sizes.
 #' @param alpha The confidence level to use in the formula for computing the
 #' second stage sample sizes.
+#' @param pi0 The null response rate. Only used when \code{find_D = T}.
+#' @param find_D A logical variable indicating whether an optimal discrete
+#' conditional error function should be found.
 #' @param summary A logical variable indicating a summary of the function's
 #' progress should be printed to the console.
-#' @return A list of class \code{"sa_des_adaptive"} containing the following
+#' @return A list of class \code{"sa_des_gehan"} containing the following
 #' elements
 #' \itemize{
 #' \item A list in the slot \code{$des} containing details of the identified
@@ -29,8 +38,8 @@
 #' gehan <- des_gehan()
 #' @export
 des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
-                      conservative = F, alpha = 0.05, pi0 = 0.1, find_D = F,
-                      summary = F) {
+                      method = "A", f = "G", alpha = 0.05, pi0 = 0.1,
+                      find_D = F, summary = F) {
 
   ##### Input Checking #########################################################
 
@@ -42,7 +51,8 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
     check_real_range_strict(pi1, "pi1", c(0, 1), "1")
   }
   check_real_range_strict(alpha_pi_hat, "alpha_pi_hat", c(0, 1), 1)
-  check_logical(conservative, "conservative")
+  check_belong(method, "method", c("A", "B"), 1)
+  check_belong(f, "f", c("G", "L", "EL"), 1)
   check_real_range_strict(beta1, "beta1", c(0, 1), 1)
   check_real_range_strict(gamma, "gamma", c(0, 1), "1")
   check_logical(summary, "summary")
@@ -61,19 +71,41 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
   s1              <- 0:n1
   n2              <- numeric(n1 + 1)
   for (s1 in 1:n1) {
-    if (!conservative) {
-      pi_hat      <- ci_fixed_wald(s1, n1, alpha_pi_hat)[2]
-    } else {
-      poss_pi_hat <- c(ci_fixed_clopper_pearson(s1, n1, alpha_pi_hat), s1/n1)
-      pi_hat      <- poss_pi_hat[which.min(abs(poss_pi_hat - 0.5))]
+    if (f != "L") {
+      if (method == "A") {
+        pi_hat      <- ci_fixed_wald(s1, n1, alpha_pi_hat)[2]
+      } else {
+        poss_pi_hat <- c(ci_fixed_clopper_pearson(s1, n1, alpha_pi_hat), s1/n1)
+        pi_hat      <- poss_pi_hat[which.min(abs(poss_pi_hat - 0.5))]
+      }
     }
-    while (sqrt(pi_hat*(1 - pi_hat)/(n1 + n2[s1 + 1])) > gamma) {
-      n2[s1 + 1]  <- n2[s1 + 1] + 1
+    if (f != "G") {
+      f_n2                    <- 1
+      while (f_n2 > gamma) {
+        n2[s1 + 1]            <- n2[s1 + 1] + 1
+        half_ci_len           <- numeric(n2[s1 + 1] + 1)
+        for (s2 in 0:n2[s1 + 1]) {
+          ci                  <- ci_fixed_clopper_pearson(s1 + s2,
+                                                          n1 + n2[s1 + 1],
+                                                          alpha)
+          half_ci_len[s2 + 1] <- 0.5*(ci[2] - ci[1])
+        }
+        if (f == "L") {
+          f_n2                <- max(half_ci_len)/qnorm(1 - alpha/2)
+        } else {
+          f_n2                <- sum(half_ci_len*
+                                       stats::dbinom(0:n2[s1 + 1], n2[s1 + 1],
+                                                     pi_hat))/qnorm(1 - alpha/2)
+        }
+      }
+    } else {
+      while (sqrt(pi_hat*(1 - pi_hat)/(n1 + n2[s1 + 1])) > gamma) {
+        n2[s1 + 1]            <- n2[s1 + 1] + 1
+      }
     }
   }
   if (find_D) {
     dbinom_pi0          <- stats::dbinom(0:n1, n1, pi0)
-    dbinom_pi1          <- stats::dbinom(0:n1, n1, pi1)
     dc_ef               <- dc_pf <- list()
     length_dc_ef        <- numeric(n1 + 1)
     for (s1 in 1:(n1 + 1)) {
@@ -108,7 +140,7 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
                                                n2, 1:2)
     des                 <- list(J = 2, n1 = n1, n2 = n2, a1 = a1, r1 = r1,
                                 a2 = a2, r2 = r2, D = D, pi0 = pi0, pi1 = pi1,
-                                beta1 = beta1, gamma = gamma,
+                                beta1 = beta1, gamma = gamma, f = f,
                                 alpha_pi_hat = alpha_pi_hat, alpha = alpha,
                                 opchar = opchar)
   } else {
@@ -120,7 +152,7 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
     }
     opchar <- int_opchar_gehan(pi1, a1, r1, n1, n2, 1:2)
     des    <- list(J = 2, n1 = n1, n2 = n2, a1 = a1, r1 = r1, pi1 = pi1,
-                   beta1 = beta1, gamma = gamma, alpha_pi_hat = alpha_pi_hat,
+                   beta1 = beta1, alpha_pi_hat = alpha_pi_hat,
                    opchar = opchar)
   }
 
@@ -130,8 +162,9 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
     message("...outputting.")
   }
   output        <- list(des = des, pi1 = pi1, beta1 = beta1, gamma = gamma,
-                        alpha_pi_hat = alpha_pi_hat, alpha = alpha, pi0 = pi0,
-                        find_D = find_D, summary = summary)
+                        alpha_pi_hat = alpha_pi_hat, method = method, f = f,
+                        alpha = alpha, pi0 = pi0, find_D = find_D,
+                        summary = summary)
   class(output) <- "sa_des_gehan"
   return(output)
 }

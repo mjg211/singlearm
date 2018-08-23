@@ -29,4 +29,4 @@ LinkingTo: Rcpp
 Date: 2018-05-14
 URL: http://github.com/mjg211/singlearm
 BugReports: http://github.com/mjg211/singlearm/issues
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0

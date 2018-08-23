@@ -1,6 +1,6 @@
 # News: singlearm
 
-## Version 1.0
+## Version 0.1
 
 - Package launched with support for the design, analysis, and visualisation of
 single-stage and group sequential single-arm clinical trials with a single

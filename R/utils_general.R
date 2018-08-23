@@ -177,8 +177,8 @@ check_k <- function(k, des, add_des) {
       stop("k must contain values in [1,max(J)]")
     }
   } else {
-    if (!all(k %in% 1:des$J)) {
-      stop("k must contain values in [1,des$J].")
+    if (!all(k %in% 1:des$des$J)) {
+      stop("k must contain values in [1,des$des$J].")
     }
   }
 }
@@ -325,6 +325,12 @@ check_sa_des_gs <- function(des, name) {
 check_sa_des_adaptive <- function(des, name) {
   if (!("sa_des_adaptive" %in% class(des))) {
     stop(name, " must be of class \"sa_des_adaptive\"")
+  }
+}
+
+check_sa_des_gehan <- function(des, name) {
+  if (!("sa_des_gehan" %in% class(des))) {
+    stop(name, " must be of class \"sa_des_gehan\"")
   }
 }
 

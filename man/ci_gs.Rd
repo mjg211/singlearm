@@ -5,8 +5,8 @@
 \title{Determine confidence intervals in a group sequential single-arm trial design
 for a single binary endpoint}
 \usage{
-ci_gs(des, k, pi, alpha = des$alpha, method = c("exact", "mid_p", "naive"),
-  summary = F)
+ci_gs(des, k, pi, alpha = des$alpha, method = c("exact", "mid_p",
+  "naive"), summary = F)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_gs"}, as returned by

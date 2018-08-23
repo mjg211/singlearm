@@ -2,14 +2,14 @@
 % Please edit documentation in R/ci_gehan.R
 \name{ci_gehan}
 \alias{ci_gehan}
-\title{Determine confidence intervals in a group sequential single-arm trial design
+\title{Determine confidence intervals in gehan single-arm trial designs
 for a single binary endpoint}
 \usage{
 ci_gehan(des, k, pi, alpha = des$alpha, summary = F)
 }
 \arguments{
-\item{des}{An object of class \code{"sa_des_gs"}, as returned by
-\code{des_gs()}.}
+\item{des}{An object of class \code{"sa_des_gehan"}, as returned by
+\code{des_gehan()}.}
 
 \item{k}{Calculations are performed conditional on the trial stopping in one
 of the stages listed in vector \code{k}. Thus, \code{k} should be a vector of
@@ -17,7 +17,7 @@ integers, with elements between one and the maximum number of possible
 stages.}
 
 \item{pi}{A vector of response probabilities to evaluate the expected
-performance of the point estimation procedures at. This will internally
+performance of the point estimation procedure at. This will internally
 default to be the \ifelse{html}{\out{<i>&pi;</i><sub>0</sub>}}{\deqn{\pi_0}}
 and \ifelse{html}{\out{<i>&pi;</i><sub>1</sub>}}{\deqn{\pi_1}} from
 \code{des} if it is left unspecified.}
@@ -28,14 +28,10 @@ construction of \code{des} (i.e., \code{des$alpha}).}
 
 \item{summary}{A logical variable indicating whether a summary of the
 function's progress should be printed to the console.}
-
-\item{method}{A vector of methods to use to construct confidence intervals.
-Currently, support is available to use the naive (\code{"naive"}), exact
-(\code{"exact"}), and Mid-p (\code{"mid_p"}) approaches. Defaults to all
-available methods.}
 }
 \value{
-A list of class \code{"sa_ci_gs"} containing the following elements
+A list of class \code{"sa_ci_gehan"} containing the following
+elements
 \itemize{
 \item A tibble in the slot \code{$ci} summarising the possible confidence
 intervals at the end of the trial for the supplied design, according to the
@@ -48,11 +44,10 @@ modification.
 }
 }
 \description{
-Determines possible confidence intervals at the end of a
-group sequential single-arm trial for a single binary endpoint, as determined
-using \code{des_gs()}. Support is available to compute confidence intervals
-using the naive (\code{"naive"}), exact (\code{"exact"}), and Mid-p
-(\code{"mid_p"}) approaches.
+Determines possible confidence intervals at the end of a gehan
+single-arm trial for a single binary endpoint, as determined
+using \code{des_gehan()}. Support is available to compute confidence
+intervals a naive (\code{"naive"}) approach only.
 }
 \details{
 In addition, the performance of the chosen confidence interval determination
@@ -65,13 +60,12 @@ Calculations are performed conditional on the trial stopping in one of the
 stages specified using the input (vector) \code{k}.
 }
 \examples{
-# Find the optimal two-stage design for the default parameters
-des <- des_gs()
+# Find the gehan two-stage design for the default parameters
+des <- des_gehan()
 # Determine the performance of all supported confidence interval
 # determination procedures for a range of possible response probabilities
-ci  <- ci_gs(des, pi = seq(0, 1, 0.01))
+ci  <- ci_gehan(des, pi = seq(0, 1, 0.01))
 }
 \seealso{
-\code{\link{des_gs}}, \code{\link{opchar_gs}}, \code{\link{est_gs}},
-\code{\link{pval_gs}}, and their associated \code{plot} family of functions.
+\code{\link{des_gehan}} and \code{\link{opchar_gehan}}.
 }

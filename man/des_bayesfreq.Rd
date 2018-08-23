@@ -4,10 +4,10 @@
 \alias{des_bayesfreq}
 \title{Design a Bayesian-frequentist single-arm trial for a single binary endpoint}
 \usage{
-des_bayesfreq(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
-  mu = 0.1, nu = 0.9, Nmin = 1, Nmax = 30, optimality = "ess",
-  control = c("frequentist", "bayesian"), equal_n = F, PL = 0.5,
-  PU = 0.9, PT = 0.95, summary = F)
+des_bayesfreq(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
+  beta = 0.2, mu = 0.1, nu = 0.9, Nmin = 1, Nmax = 30,
+  optimality = "ess", control = c("frequentist", "bayesian"),
+  equal_n = F, PL = 0.5, PU = 0.9, PT = 0.95, summary = F)
 }
 \arguments{
 \item{J}{The maximal number of stages to allow.}

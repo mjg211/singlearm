@@ -5,8 +5,8 @@
 \title{Determine point estimates in a group sequential single-arm trial design for
 a single binary endpoint}
 \usage{
-est_gs(des, k, pi, method = c("bias_adj", "bias_sub", "conditional", "naive",
-  "mue", "umvcue", "umvue"), summary = F)
+est_gs(des, k, pi, method = c("bias_adj", "bias_sub", "conditional",
+  "naive", "mue", "umvcue", "umvue"), summary = F)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_gs"}, as returned by

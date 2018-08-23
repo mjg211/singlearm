@@ -45,7 +45,7 @@ gehan_dc_ef <- function(pi0, pi1, alpha, n1, n2, dc_ef, dc_pf,
   dc_pf        <<- dc_pf
   length_dc_ef <<- length_dc_ef
   branch_gehan(1, 1)
-  if (is.null(combination)){
+  if (is.null(combination)) {
     return(list())
   } else {
     D0 <- D1  <- numeric(n1 + 1)

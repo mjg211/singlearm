@@ -1,25 +1,26 @@
-#' Determine the operating characteristics of adaptive two-stage single-arm
+#' Determine the operating characteristics of Gehan two-stage single-arm
 #' trial designs for a single binary endpoint
 #'
-#' \code{opchar_adaptive()} supports the simultaneous evaluation of the
-#' operating characteristics of multiple adaptive two-stage single-arm clinical
+#' \code{opchar_gehan()} supports the simultaneous evaluation of the
+#' operating characteristics of multiple Gehan two-stage single-arm clinical
 #' trial designs for a single binary primary endpoint, determined using
-#' \code{des_adaptive()}.
+#' \code{des_gehan()}.
 #'
 #' Note that each of the supplied designs must have been designed for the same
-#' value of \ifelse{html}{\out{<i>&pi;</i><sub>0</sub>}}{\deqn{\pi_0}}.
+#' values of \ifelse{html}{\out{<i>&pi;</i><sub>0</sub>}}{\deqn{\pi_0}} and
+#' \code{find_D}.
 #'
 #' For each value of \ifelse{html}{\out{<i>pi</i>)}}{\eqn{\pi}} in
 #' the supplied vector \ifelse{html}{\out{<b><i>pi</i></b>)}}{\eqn{\bold{\pi}}},
-#' \code{opchar_adaptive()} evaluates the power, ESS, and other key
-#' characteristics, of each of the supplied designs.
+#' \code{opchar_gehan()} evaluates the power (if find_D = \code{T}), ESS, and
+#' other key characteristics, of each of the supplied designs.
 #'
 #' Calculations are performed conditional on the trial stopping in one of the
 #' stages specified using the input (vector) \code{k}.
 #'
-#' @param des An object of class \code{"sa_des_adaptive"}, as returned by
-#' \code{des_adaptive()}.
-#' @param ... Additional objects of class \code{"sa_des_adaptive"}. These will
+#' @param des An object of class \code{"sa_des_gehan"}, as returned by
+#' \code{des_gehan()}.
+#' @param ... Additional objects of class \code{"sa_des_gehan"}. These will
 #' be grouped in to a list named \code{"add_des"}.
 #' @param k Calculations are performed conditional on the trial stopping in one
 #' of the stages listed in vector \code{k}. Thus, \code{k} should be a vector of
@@ -32,7 +33,7 @@
 #' supplied designs if it is left unspecified.
 #' @param summary A logical variable indicating whether a summary of the
 #' function's progress should be printed to the console.
-#' @return A list of class \code{"sa_opchar_adaptive"} containing the following
+#' @return A list of class \code{"sa_opchar_gehan"} containing the following
 #' elements
 #' \itemize{
 #' \item A tibble in the slot \code{$opchar} summarising the operating
@@ -42,27 +43,30 @@
 #' }
 #' @examples
 #' # Find the optimal adaptive design for the default parameters
-#' des    <- des_adaptive()
+#' des    <- des_gehan()
 #' # Find its operating characteristics for a range of possible response
 #' # probabilities
-#' opchar <- opchar_adaptive(des)
-#' @seealso \code{\link{des_adaptive}}, and their associated \code{plot} family
+#' opchar <- opchar_gehan(des)
+#' @seealso \code{\link{des_gehan}}, and their associated \code{plot} family
 #' of functions.
 #' @export
-opchar_adaptive <- function(des, ..., k, pi, summary = F) {
+opchar_gehan <- function(des, ..., k, pi, summary = F) {
 
   ##### Input Checking #########################################################
 
-  check_sa_des_adaptive(des, "des")
+  check_sa_des_gehan(des, "des")
   add_des     <- pryr::named_dots(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_adaptive(eval(add_des[[i]]), paste("add_des", i, sep = ""))
+      check_sa_des_gehan(eval(add_des[[i]]), paste("add_des", i, sep = ""))
     }
     for (i in 1:num_add_des) {
       if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
+      }
+      if (eval(add_des[[i]])$find_D != des$find_D) {
+        stop("Each supplied design must have been designed for the same value of find_D")
       }
     }
   }
@@ -82,7 +86,7 @@ opchar_adaptive <- function(des, ..., k, pi, summary = F) {
 
   if (summary){
     message(rep("-", 10))
-    message("Operating characteristic determination for adaptive single-arm trials with a single binary endpoint")
+    message("Operating characteristic determination for gehan single-arm trials with a single binary endpoint")
     message(rep("-", 10))
     Sys.sleep(2)
     message("You have chosen to make your calculations conditional on k \u2208 {", k[1], ",...,", k[length(k)], "}.\n")
