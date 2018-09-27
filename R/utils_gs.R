@@ -146,63 +146,100 @@ ess_gs_beta <- function(pi, J, a, r, n, N, beta_prior) {
 
 # Function for finding UMVUE in a group sequential design
 est_gs_umvue <- function(s, m, k, a, r, n) {
-  if (k == 1) {
-    return(s/m)
-  } else if (k == 2) {
-    s1 <- max(a[1] + 1, s - n[2], 0):min(s, r[1] - 1, n[1])
-    return(sum((choose(n[1] - 1, s1 - 1)*choose(n[2], s - s1)))/
-             sum((choose(n[1], s1)*choose(n[2], s - s1))))
+  k                <- as.numeric(as.character(k))
+  umvues           <- numeric(length(s))
+  if (any(k > 2)) {
+    terminal_ind  <- matrix(1L, sum(n) + 1, sum(n))
+    N             <- cumsum(n)
+    for (i in 1:sum(n)) {
+      if (i %in% N) {
+        if (is.finite(r[which(N == i)])) {
+          terminal_ind[r[which(N == i)] + 1, i] <- 0L
+        }
+        if (is.finite(a[which(N == i)])) {
+          terminal_ind[a[which(N == i)] + 1, i] <- 0L
+        }
+      }
+    }
+    num_paths_one       <- num_paths <- matrix(0L, sum(n) + 1, sum(n))
+    num_paths[1:2, 1]   <- 1L
+    num_paths_one[2, 1] <- 1L
+    num_paths[1, 1:sum(n[1:which.max(is.finite(a))])] <- 1
+    for (j in 2:sum(n)) {
+      for (i in 2:(j + 1)) {
+        num_paths[i, j]     <- num_paths[i - 1, j - 1]*
+                                 terminal_ind[i - 1, j - 1] +
+                                   num_paths[i, j - 1]*terminal_ind[i, j - 1]
+        num_paths_one[i, j] <- num_paths_one[i - 1, j - 1]*
+                                 terminal_ind[i - 1, j - 1] +
+                                   num_paths_one[i, j - 1]*
+                                     terminal_ind[i, j - 1]
+      }
+    }
+    for (sm in 1:length(s)) {
+      umvues[sm] <- num_paths_one[s[sm] + 1, m[sm]]/num_paths[s[sm] + 1, m[sm]]
+    }
   } else {
-    R_ms        <- as.matrix(expand.grid(rep(list(0:s), k)))
-    R_ms        <- R_ms[which(rowSums(R_ms) == s), ]
-    for (j in 1:(k - 1)) {
-      cum_R_ms  <- rowSums(R_ms[, 1:j, drop = F])
-      R_ms      <- R_ms[which(cum_R_ms > a[j] & cum_R_ms < r[j]), , drop = F]
+    for (sm in 1:length(s)) {
+      if (k[sm] == 1) {
+        umvues[sm] <- s[sm]/m[sm]
+      } else  {
+        s1         <- max(a[1] + 1, s[sm] - n[2], 0):min(s[sm], r[1] - 1, n[1])
+        umvues[sm] <- sum((choose(n[1] - 1, s1 - 1)*choose(n[2], s[sm] - s1)))/
+          sum((choose(n[1], s1)*choose(n[2], s[sm] - s1)))
+      }
     }
-    sum_num     <- 0
-    sum_denom   <- 0
-    for (i in 1:nrow(R_ms)) {
-      sum_num   <- sum_num + prod(choose(n[1:k] - c(1, numeric(k - 1)),
-                                  R_ms[i, ] - c(1, numeric(k - 1))))
-      sum_denom <- sum_denom + prod(choose(n[1:k], R_ms[i, ]))
-    }
-    return(sum_num/sum_denom)
   }
+  return(umvues)
 }
 
 # Function for finding UMVCUE in a group sequential design
 est_gs_umvcue <- function(s, m, k, a, r, n) {
-  if (k == 1) {
-    return(s/m)
-  } else {
-    s1 <- max(a[1] + 1, s - n[2], 0):min(s, r[1] - 1, n[1])
-    return(sum((choose(n[1], s1)*choose(n[2] - 1, s - s1 - 1)))/
-                sum((choose(n[1], s1)*choose(n[2], s - s1))))
+  k       <- as.numeric(as.character(k))
+  umvcues <- numeric(length(s))
+  for (sm in 1:length(s)) {
+    if (k[sm] == 1) {
+      umvcues[sm] <- s[sm]/m[sm]
+    } else {
+      s1          <- max(a[1] + 1, s[sm] - n[2], 0):min(s[sm], r[1] - 1, n[1])
+      umvcues[sm] <- sum((choose(n[1], s1)*choose(n[2] - 1, s[sm] - s1 - 1)))/
+                       sum((choose(n[1], s1)*choose(n[2], s[sm] - s1)))
+    }
   }
+  return(umvcues)
 }
 
 # Function for finding bias-subtracted estimate in a group sequential design
 est_gs_bias_sub <- function(s, m, J, a, r, n) {
-  pmf <- pmf_gs(s/m, J, a, r, n, 1:J)
-  return(2*s/m - sum(pmf$s*pmf$`f(s,m|pi)`/pmf$m))
+  bias_subs       <- numeric(length(s))
+  for (sm in 1:length(s)) {
+    pmf           <- pmf_gs(s[sm]/m[sm], J, a, r, n, 1:J)
+    bias_subs[sm] <- 2*s[sm]/m[sm] - sum(pmf$s*pmf$`f(s,m|pi)`/pmf$m)
+  }
+  return(bias_subs)
 }
 
 # Function for finding bias-adjusted estimate in a group sequential design
 est_gs_bias_adj <- function(s, m, J, a, r, n) {
 
   int_est_gs_bias_adj <- function(pi, J, a, r, n, pi_mle) {
-    pmf <- pmf_gs(pi, J, a, r, n, 1:J)
+    pmf             <- pmf_gs(pi, J, a, r, n, 1:J)
     return(pi_mle - sum(pmf$s*pmf$`f(s,m|pi)`/pmf$m))
   }
 
-  if (s == 0) {
-    return(0)
-  } else if (s == m) {
-    return(1)
-  } else {
-    return(stats::uniroot(int_est_gs_bias_adj, c(0, 1), J = J, a = a, r = r,
-                          n = n, pi_mle = s/m)$root)
+  bias_adjs         <- numeric(length(s))
+  for (sm in 1:length(s)) {
+    if (s[sm] == 0) {
+      bias_adjs[sm] <- 0
+    } else if (s[sm] == m[sm]) {
+      bias_adjs[sm] <- 1
+    } else {
+      bias_adjs[sm] <- stats::uniroot(int_est_gs_bias_adj, c(0, 1), J = J,
+                                      a = a, r = r, n = n,
+                                      pi_mle = s[sm]/m[sm])$root
+    }
   }
+  return(bias_adjs)
 }
 
 # Function for finding conditional MLE in a group sequential design
@@ -236,42 +273,56 @@ est_gs_cond_mle <- function(s, m, k, a, r, n) {
       return(-d_G/G  + s/pi - (m - s)/(1 - pi))
     }
   }
+
   k                    <- as.numeric(as.character(k))
-  if (k == 1) {
-    return(s/m)
-  } else if (k == 2) {
-    if (s <= max(0, a[1] + 1)) {
-      return(0)
-    } else if (s >= min(r[1] - 1, n[1]) + n[2]) {
-      return(1)
+  cond_mles            <- numeric(length(s))
+  for (sm in 1:length(s)) {
+    if (k[sm] == 1) {
+      cond_mles[sm]    <- s[sm]/m[sm]
+    } else if (k[sm] == 2) {
+      if (s[sm] <= max(0, a[1] + 1)) {
+        cond_mles[sm]  <- 0
+      } else if (s[sm] >= min(r[1] - 1, n[1]) + n[2]) {
+        cond_mles[sm]  <- 1
+      } else {
+        cond_mles[sm]  <- stats::uniroot(int_est_gs_cond_mle,
+                                         c(10^-10, 1 - 10^-10), s = s[sm],
+                                         m = m[sm], k = 2, a = a, r = r,
+                                         n = n)$root
+      }
     } else {
-      return(stats::uniroot(int_est_gs_cond_mle, c(10^-10, 1 - 10^-10), s = s,
-                            m = m, k = 2, a = a, r = r, n = n)$root)
-    }
-  } else {
-    if (s <= max(0, a[k] + 1)) {
-      return(0)
-    } else if (s >= min(r[k - 1] - 1, n[k - 1]) + n[k]) {
-      return(1)
-    } else {
-      return(stats::uniroot(int_est_gs_cond_mle, c(10^-10, 1 - 10^-10), s = s,
-                            m = m, k = k, a = a, r = r, n = n)$root)
+      if (s[sm] <= max(0, a[k[sm]] + 1)) {
+        cond_mles[sm]  <- 0
+      } else if (s[sm] >= min(r[k[sm] - 1] - 1, n[k[sm] - 1]) + n[k[sm]]) {
+        cond_mles[sm]  <- 1
+      } else {
+        cond_mles[sm]  <- stats::uniroot(int_est_gs_cond_mle,
+                                         c(10^-10, 1 - 10^-10), s = s[sm],
+                                         m = m[sm], k = k[sm], a = a, r = r,
+                                         n = n)$root
+      }
     }
   }
+  return(cond_mles)
 }
 
 # Function for finding MUE in a group sequential design
 est_gs_mue <- function(s, m, k, J, a, r, n) {
-  if (s == 0) {
-    return(0)
-  } else if (s == m) {
-    return(1)
-  } else {
-    return(stats::uniroot(function(pi, s, m, k, J, a, r, n)
-                          pval_gs_umvue(pi, s, m, k, J, a, r, n) - 0.5, c(0, 1),
-                          s = s, m = m, k = as.numeric(k), J = J, a = a, r = r,
-                          n = n)$root)
+  k            <- as.numeric(as.character(k))
+  mues         <- numeric(length(s))
+  for (sm in 1:length(s)) {
+    if (s[sm] == 0) {
+      mues[sm] <- 0
+    } else if (s[sm] == m[sm]) {
+      mues[sm] <- 1
+    } else {
+      mues[sm] <- stats::uniroot(function(pi, s, m, k, J, a, r, n)
+                                   pval_gs_umvue(pi, s, m, k, J, a, r, n) - 0.5,
+                                 c(0, 1), s = s[sm], m = m[sm], k = k[sm],
+                                 J = J, a = a, r = r, n = n)$root
+    }
   }
+  return(mues)
 }
 
 # Function for finding p-value, based on MLE ordering, in a group sequential

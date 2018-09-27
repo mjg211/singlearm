@@ -358,6 +358,12 @@ check_sa_des_curtailed <- function(des, name) {
   }
 }
 
+check_sa_est_curtailed <- function(est, name) {
+  if (!("sa_est_curtailed" %in% class(est))) {
+    stop(name, " must be of class \"sa_est_curtailed\"")
+  }
+}
+
 check_sa_opchar_curtailed <- function(des, name) {
   if (!("sa_opchar_curtailed" %in% class(des))) {
     stop(name, " must be of class \"sa_opchar_curtailed\"")
