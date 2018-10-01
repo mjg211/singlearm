@@ -5,7 +5,7 @@ build_curtailed <- function(J = 2, n = c(10, 19), a = c(1, 5), r = c(Inf, 6),
 
   ##### Input checking #########################################################
 
-  check_integer_range(J, "J", c(1, Inf))
+  check_integer_range(J, "J", c(0, Inf))
   check_real_pair_range_strict(pi0, pi1, "pi0", "pi1", c(0, 1))
   check_real_range_strict(alpha, "alpha", c(0, 1), 1)
   check_real_range_strict(beta, "beta", c(0, 1), 1)
