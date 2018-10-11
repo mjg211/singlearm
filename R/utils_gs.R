@@ -161,9 +161,9 @@ est_gs_umvue <- function(s, m, k, a, r, n) {
         }
       }
     }
-    num_paths_one       <- num_paths <- matrix(0L, sum(n) + 1, sum(n))
-    num_paths[1:2, 1]   <- 1L
-    num_paths_one[2, 1] <- 1L
+    num_paths_one       <- num_paths <- matrix(0, sum(n) + 1, sum(n))
+    num_paths[1:2, 1]   <- 1
+    num_paths_one[2, 1] <- 1
     num_paths[1, 1:sum(n[1:which.max(is.finite(a))])] <- 1
     for (j in 2:sum(n)) {
       for (i in 2:(j + 1)) {
