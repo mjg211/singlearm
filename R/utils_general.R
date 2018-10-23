@@ -413,12 +413,14 @@ check_gs_boundaries <- function(J, n, a, r) {
   if (any(!is.numeric(r), length(r) != J)) {
     stop("r must be a numeric vector of length ", J)
   }
-  for (j in 1:(J - 1)) {
-    if (all(is.finite(a[j]), a[j]%%1 != 0)) {
-      stop("Finite elements of a must be integers")
-    }
-    if (all(is.finite(r[j]), r[j]%%1 != 0)) {
-      stop("Finite elements of r must be integers")
+  if (J > 1) {
+    for (j in 1:(J - 1)) {
+      if (all(is.finite(a[j]), a[j]%%1 != 0)) {
+        stop("Finite elements of a must be integers")
+      }
+      if (all(is.finite(r[j]), r[j]%%1 != 0)) {
+        stop("Finite elements of r must be integers")
+      }
     }
   }
   if (!is.finite(a[J])) {
