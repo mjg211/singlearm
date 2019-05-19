@@ -29,7 +29,7 @@
 #' @param PL Predictive probability value used in determining when to stop the
 #' trial early for futility.
 #' @param PU Predictive probability value used in determining when to stop the
-#' trial early for futility.
+#' trial early for efficacy.
 #' @param PT Terminal predictie probability value used in determining when the
 #' trial is a success.
 #' @param summary A logical variable indicating a summary of the function's
@@ -344,8 +344,17 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                                  pi0 = pi0, pi1 = pi1, alpha = alpha, beta = beta,
                                  mu = mu, nu = nu,
                                  opchar = feasible[1, ])
-      feasible[, c(1:6, 17)] <- dplyr::mutate_if(feasible[, c(1:6, 17)],
-                                                 is.double, as.integer)
+      if (PL >= 0 & PU <= 1) {
+        range           <- c(1:6, 17)
+      } else if (PL >= 0 & PU > 1) {
+        range           <- c(1:4, 6, 17)
+      } else if (PL < 0 & PU <= 1) {
+        range           <- c(1:2, 4:6, 17)
+      } else {
+        range           <- c(1:2, 4, 6, 17)
+      }
+      feasible[, range] <- dplyr::mutate_if(feasible[, range], is.double,
+                                            as.integer)
     }
   }
 

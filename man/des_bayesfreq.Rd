@@ -44,7 +44,7 @@ stage should be equal.}
 trial early for futility.}
 
 \item{PU}{Predictive probability value used in determining when to stop the
-trial early for futility.}
+trial early for efficacy.}
 
 \item{PT}{Terminal predictie probability value used in determining when the
 trial is a success.}
