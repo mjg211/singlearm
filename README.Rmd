@@ -1,11 +1,30 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit README.Rmd -->
+<!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# singlearm
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
 
-Coming soon!
+```{r, echo = F}
+suppressPackageStartupMessages(library(singlearm))
+```
+
+# singlearm <img src='man/figures/singlearm.png' align="right" height="139" />
+
+*Design and analysis of single-arm clinical trials*
+
+`r badger::badge_devel("mjg211/singlearm", "blue")`
+`r badger::badge_code_size("mjg211/singlearm")`
+`r badger::badge_custom("contributions", "welcome", "blue")`
+
+## Description
+
+...
