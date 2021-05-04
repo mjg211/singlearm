@@ -177,13 +177,15 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
                                  possible[, 2] >= 0), ]
   possible   <- tibble::tibble(n = as.integer(possible[, 1]),
                                a = as.integer(possible[, 2]),
-                               r = a + 1L, `P(pi0)` = NA, `P(pi1)` = NA)
+                               r = a + 1L, `P(pi0)` = NA_real_,
+                               `P(pi1)` = NA_real_)
   for (i in 1:nrow(possible)) {
-    possible[i, 4:5] <-
-      c(sum(dplyr::filter(pmf, pi == pi0 & m == as.integer(possible[i, 1]) &
-                            s > as.integer(possible[i, 2]))$`f(s,m|pi)`),
+    possible[i, 4] <-
+      sum(dplyr::filter(pmf, pi == pi0 & m == as.integer(possible[i, 1]) &
+                            s > as.integer(possible[i, 2]))$`f(s,m|pi)`)
+    possible[i, 5] <-
         sum(dplyr::filter(pmf, pi == pi1 & m == as.integer(possible[i, 1]) &
-                            s > as.integer(possible[i, 2]))$`f(s,m|pi)`))
+                            s > as.integer(possible[i, 2]))$`f(s,m|pi)`)
     if (all(summary, i%%1000 == 0)) {
       message("...", i, " designs evaluated...")
     }
