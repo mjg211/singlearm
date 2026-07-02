@@ -56,7 +56,7 @@
 #' @export
 ci_fixed <- function(des, pi, alpha = des$alpha,
                      method = c("agresti_coull", "clopper_pearson", "jeffreys",
-                                "mid_p", "wald", "wilson"), summary = F) {
+                                "mid_p", "wald", "wilson"), summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -110,7 +110,7 @@ ci_fixed <- function(des, pi, alpha = des$alpha,
                                        levels = method), `clow(s,m)` = NA,
                        `cupp(s,m)` = NA)
   for (i in 1:nrow(ci)) {
-    ci[i, 4:5] <- switch(as.character(ci$method[i]),
+    result <- switch(as.character(ci$method[i]),
                          agresti_coull   = ci_fixed_agresti_coull(ci$s[i],
                                                                   ci$m[i],
                                                                   alpha),
@@ -125,6 +125,8 @@ ci_fixed <- function(des, pi, alpha = des$alpha,
                                                          alpha),
                          wilson          = ci_fixed_wilson(ci$s[i], ci$m[i],
                                                            alpha))
+    ci$`clow(s,m)`[i] <- result[1]
+    ci$`cupp(s,m)`[i] <- result[2]
     if (all(summary, i%%100 == 0)) {
       message("...", i, " confidence intervals determined...")
     }

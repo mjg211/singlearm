@@ -202,9 +202,9 @@
 #' @export
 des_curtailed <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                           thetaF = rep(0, J), thetaE = rep(1, J), Nmin = 1,
-                          Nmax = 50, futility = T, efficacy = F,
+                          Nmax = 50, futility = TRUE, efficacy = FALSE,
                           optimality = "null_ess", point_prior, beta_prior,
-                          equal_n = F, ensign = F, summary = F) {
+                          equal_n = FALSE, ensign = FALSE, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -293,7 +293,7 @@ des_curtailed <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
 
   if (J == 1) {
     des <- des_fixed(pi0 = pi0, pi1 = pi1, alpha = alpha, beta = beta,
-                     Nmin = Nmin, Nmax = Nmax, exact = T, summary = summary)
+                     Nmin = Nmin, Nmax = Nmax, exact = TRUE, summary = summary)
   } else {
     des <- des_gs(J = J, pi0 = pi0, pi1 = pi1, alpha = alpha, beta = beta,
                   Nmin = Nmin, Nmax = Nmax, futility = futility,

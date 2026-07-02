@@ -4,10 +4,23 @@
 \alias{des_gs}
 \title{Design a group sequential single-arm trial for a single binary endpoint}
 \usage{
-des_gs(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
-  Nmin = 1, Nmax = 30, futility = T, efficacy = F,
-  optimality = "null_ess", point_prior, beta_prior, equal_n = F,
-  ensign = F, summary = F)
+des_gs(
+  J = 2,
+  pi0 = 0.1,
+  pi1 = 0.3,
+  alpha = 0.05,
+  beta = 0.2,
+  Nmin = 1,
+  Nmax = 30,
+  futility = TRUE,
+  efficacy = FALSE,
+  optimality = "null_ess",
+  point_prior,
+  beta_prior,
+  equal_n = FALSE,
+  ensign = FALSE,
+  summary = FALSE
+)
 }
 \arguments{
 \item{J}{The maximal number of stages to allow.}
@@ -261,6 +274,5 @@ II cancer trials. \emph{Journal of Biopharmaceutical Statistics}
 \code{\link{opchar_gs}}, \code{\link{est_gs}},
 \code{\link{pval_gs}}, \code{\link{ci_gs}}, and their associated \code{plot}
 family of functions. Note that similar functionality is available through
-\code{\link[clinfun]{ph2simon}} and
-\code{\link[OneArmPhaseTwoStudy]{getSolutions}}.
+\code{\link[clinfun]{ph2simon}}.
 }

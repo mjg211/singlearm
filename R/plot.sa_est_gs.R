@@ -28,7 +28,7 @@
 #' \code{\link{pval_gs}}, \code{\link{ci_gs}}, and their associated \code{plot}
 #' family of functions.
 #' @export
-plot.sa_est_gs <- function(x, ..., output = F) {
+plot.sa_est_gs <- function(x, ..., output = FALSE) {
 
   est <- x
 
@@ -59,12 +59,9 @@ plot.sa_est_gs <- function(x, ..., output = F) {
       new_levels[i] <- "UMVCUE"
     }
   }
-  est$est$method <- plyr::mapvalues(est$est$method,
-                                    from = levels(est$est$method),
-                                    to = new_levels)
+  levels(est$est$method) <- new_levels
 
-  est$est$k <- plyr::mapvalues(est$est$k, from = levels(est$est$k),
-                               to = paste("k =", levels(est$est$k)))
+  levels(est$est$k) <- paste("k =", levels(est$est$k))
 
   plot_est$est <- ggplot2::ggplot(data = est$est,
                                   ggplot2::aes(x = s, y = `hat(pi)(s,m)`,
@@ -99,9 +96,7 @@ plot.sa_est_gs <- function(x, ..., output = F) {
         new_levels[i] <- "UMVCUE"
       }
     }
-    est$perf$method <- plyr::mapvalues(est$perf$method,
-                                      from = levels(est$perf$method),
-                                      to = new_levels)
+    levels(est$perf$method) <- new_levels
 
     if (min(est$pi) < est$des$des$pi0) {
       red   <- tibble::tibble(start = min(est$pi),

@@ -123,7 +123,7 @@
 #' is available through \code{\link[clinfun]{ph2single}}.
 #' @export
 des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
-                      Nmax = 30, exact = T, summary = F) {
+                      Nmax = 30, exact = TRUE, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -165,7 +165,7 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
   for (n in 1:Nmax) {
     pmf[[n]] <- pmf_fixed(c(pi0, pi1), n)
   }
-  pmf        <- tibble::as_tibble(plyr::rbind.fill(pmf))
+  pmf        <- tibble::as_tibble(dplyr::bind_rows(pmf))
   if (exact) {
     possible <- as.matrix(expand.grid(rep(list(0:Nmax), 2)))[, 2:1]
   } else {
@@ -208,8 +208,8 @@ des_fixed <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2, Nmin = 1,
                                       `S1(pi1)` = 1, `cum(S1(pi0))` = 1,
                                       `cum(S1(pi1))` = 1)
     feasible         <- dplyr::arrange(feasible, n, dplyr::desc(`P(pi1)`))
-    feasible[, 4:19] <- dplyr::mutate_if(feasible[, 4:19], is.integer,
-                                           as.double)
+    feasible[, 4:19] <- dplyr::mutate(feasible[, 4:19],
+                                        dplyr::across(where(is.integer), as.double))
     des              <- list(n = as.numeric(feasible[1, 1]),
                              a = as.numeric(feasible[1, 2]),
                              r = as.numeric(feasible[1, 3]), pi0 = pi0,

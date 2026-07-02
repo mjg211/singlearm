@@ -173,8 +173,8 @@
 #' family of functions.
 #' @export
 des_admissable <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
-                           beta = 0.2, Nmin = 1, Nmax = 50, futility = T,
-                           efficacy = F, equal_n = F, ensign = F, summary = F) {
+                           beta = 0.2, Nmin = 1, Nmax = 50, futility = TRUE,
+                           efficacy = FALSE, equal_n = FALSE, ensign = FALSE, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -271,7 +271,7 @@ des_admissable <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
         feasible         <- cbind(feasible[, 1:(2*J + 1)], feasible[, 2*J] + 1,
                                   feasible[, (2*J + 2):ncol(feasible)])
       }
-      feasible           <- tibble::as.tibble(feasible)
+      feasible           <- tibble::as_tibble(feasible)
       colnames(feasible) <- c(paste(rep(c("n", "a", "r"), each = J),
                                     rep(1:J, 3), sep = ""), "P(pi0)", "P(pi1)",
                               paste(rep("PET", 2*(J - 1)),
@@ -281,8 +281,8 @@ des_admissable <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
                               "Med(pi0)", "Med(pi1)", "VSS(pi0)", "VSS(pi1)")
       feasible            <- dplyr::mutate(feasible,
                                            `max(N)` = rowSums(feasible[, 1:J]))
-      feasible[, 1:(3*J)] <- dplyr::mutate_if(feasible[, 1:(3*J)], is.double,
-                                              as.integer)
+      feasible[, 1:(3*J)] <- dplyr::mutate(feasible[, 1:(3*J)],
+                                           dplyr::across(where(is.double), as.integer))
       if (!futility) {
         feasible[, (J + 1):(2*J - 1)]   <- -Inf
       }
@@ -324,7 +324,7 @@ des_admissable <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
                                 Design = factor(optimal_des,
                                                 levels = unique(optimal_des)))
       new_levels      <- levels(weights$Design)
-      if (efficacy == F) {
+      if (efficacy == FALSE) {
         for (i in 1:length(new_levels)) {
           new_levels[i] <- paste(paste(new_levels[i], ": ",
                                        paste(des[[i]]$a[1:(J - 1)], "/",
@@ -348,9 +348,7 @@ des_admissable <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
                                  sum(des[[i]]$n), sep = "", collapse = "")
         }
       }
-      weights$Design   <- plyr::mapvalues(weights$Design,
-                                          from = levels(weights$Design),
-                                          to = new_levels)
+      levels(weights$Design) <- new_levels
       admissable <- tibble::as_tibble(cbind(new_levels, admissable))
       colnames(admissable)[1] <- "Design"
       admissable$Design <- as.factor(admissable$Design)

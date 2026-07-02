@@ -50,22 +50,22 @@
 #' @seealso \code{\link{des_gehan}}, and their associated \code{plot} family
 #' of functions.
 #' @export
-opchar_gehan <- function(des, ..., k, pi, summary = F) {
+opchar_gehan <- function(des, ..., k, pi, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
   check_sa_des_gehan(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_gehan(eval(add_des[[i]]), paste("add_des", i, sep = ""))
+      check_sa_des_gehan(add_des[[i]], paste("add_des", i, sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
-      if (eval(add_des[[i]])$find_D != des$find_D) {
+      if (add_des[[i]]$find_D != des$find_D) {
         stop("Each supplied design must have been designed for the same value of find_D")
       }
     }
@@ -100,39 +100,60 @@ opchar_gehan <- function(des, ..., k, pi, summary = F) {
   if (num_add_des == 0) {
     pmf     <- pmf_adaptive(pi, des$des$a1, des$des$r1, des$des$n1, des$des$n2,
                             k)
-    opchar  <- int_opchar_adaptive(pi, des$des$a1, des$des$r1, des$des$a2,
-                                   des$des$r2, des$des$n1, des$des$n2, k, pmf)
+    if (des$find_D) {
+      opchar <- int_opchar_adaptive(pi, des$des$a1, des$des$r1, des$des$a2,
+                                    des$des$r2, des$des$n1, des$des$n2, k, pmf)
+    } else {
+      opchar <- int_opchar_gehan(pi, des$des$a1, des$des$r1, des$des$n1,
+                                 des$des$n2, k, pmf)
+    }
     add_des <- NULL
   } else {
     opchar      <- list()
     pmf[[1]]    <- cbind("Design" = "Design 1",
                          pmf_adaptive(pi, des$des$a1, des$des$r1, des$des$n1,
                                       des$des$n2, k))
-    opchar[[1]] <- cbind("Design" = "Design 1",
-                         int_opchar_adaptive(pi, des$des$a1, des$des$r1,
-                                             des$des$a2, des$des$r2, des$des$n1,
-                                             des$des$n2, k, pmf[[1]]))
+    if (des$find_D) {
+      opchar[[1]] <- cbind("Design" = "Design 1",
+                           int_opchar_adaptive(pi, des$des$a1, des$des$r1,
+                                               des$des$a2, des$des$r2,
+                                               des$des$n1, des$des$n2, k,
+                                               pmf[[1]]))
+    } else {
+      opchar[[1]] <- cbind("Design" = "Design 1",
+                           int_opchar_gehan(pi, des$des$a1, des$des$r1,
+                                            des$des$n1, des$des$n2, k,
+                                            pmf[[1]]))
+    }
     if (summary) {
       message("...performance for Design 1 evaluated...")
     }
     for (i in 1:num_add_des) {
-      des_i           <- eval(add_des[[i]])
+      des_i           <- add_des[[i]]
       pmf[[i + 1]]    <- cbind("Design" = paste("Design", i + 1),
                                pmf_adaptive(pi, des_i$des$a1, des_i$des$r1,
                                             des_i$des$n1, des_i$des$n2, k))
-      opchar[[i + 1]] <- cbind("Design" = paste("Design ", i + 1),
-                               int_opchar_adaptive(pi, des_i$des$a1,
-                                                   des_i$des$r1, des_i$des$a2,
-                                                   des_i$des$r2, des_i$des$n1,
-                                                   des_i$des$n2, k,
-                                                   pmf[[i + 1]]))
+      if (des_i$find_D) {
+        opchar[[i + 1]] <- cbind("Design" = paste("Design ", i + 1),
+                                 int_opchar_adaptive(pi, des_i$des$a1,
+                                                     des_i$des$r1, des_i$des$a2,
+                                                     des_i$des$r2, des_i$des$n1,
+                                                     des_i$des$n2, k,
+                                                     pmf[[i + 1]]))
+      } else {
+        opchar[[i + 1]] <- cbind("Design" = paste("Design ", i + 1),
+                                 int_opchar_gehan(pi, des_i$des$a1,
+                                                  des_i$des$r1, des_i$des$n1,
+                                                  des_i$des$n2, k,
+                                                  pmf[[i + 1]]))
+      }
       if (summary) {
         message("...performance for Design ", i + 1, " evaluated...")
       }
     }
-    pmf                <- tibble::as_tibble(plyr::rbind.fill(pmf))
+    pmf                <- tibble::as_tibble(dplyr::bind_rows(pmf))
     pmf$m              <- as.integer(pmf$m)
-    opchar             <- tibble::as_tibble(plyr::rbind.fill(opchar))
+    opchar             <- tibble::as_tibble(dplyr::bind_rows(opchar))
     opchar$Design      <- as.factor(opchar$Design)
   }
 

@@ -106,7 +106,7 @@
 #' @export
 des_adaptive <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                          Nmin = 1, Nmax = 30, optimality = "null_ess",
-                         monotonic = F, summary = F){
+                         monotonic = FALSE, summary = FALSE){
 
   ##### Input Checking #########################################################
 
@@ -179,9 +179,9 @@ des_adaptive <- function(pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                                           w[3]*`max(N)`)
     feasible           <- dplyr::arrange(feasible, O)
     feasible[, c(1:(3*(Nmax + 1)), 14 + 3*Nmax)] <-
-      suppressWarnings(dplyr::mutate_if(feasible[, c(1:(3*(Nmax + 1)),
-                                                     14 + 3*Nmax)], is.double,
-                       as.integer))
+      suppressWarnings(dplyr::mutate(feasible[, c(1:(3*(Nmax + 1)),
+                                                   14 + 3*Nmax)],
+                       dplyr::across(where(is.double), as.integer)))
     max_feas_n1        <- max(feasible$n1)
     feasible           <- feasible[, c(1:(max_feas_n1 + 2),
                                        (Nmax + 2):(Nmax + 4 + max_feas_n1),

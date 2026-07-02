@@ -1,7 +1,8 @@
+#' @noRd
 des_continuous <- function(J = 2, delta0 = 10, delta1 = 0, sigma = 10,
-                           alpha = 0.05, beta = 0.2, efficacy = F, futility = T,
-                           optimality = "null_ess", equal_n = F, summary = F,
-                           parallel = F, popSize = 100, maxiter = 1000,
+                           alpha = 0.05, beta = 0.2, efficacy = FALSE, futility = TRUE,
+                           optimality = "null_ess", equal_n = FALSE, summary = FALSE,
+                           parallel = FALSE, popSize = 100, maxiter = 1000,
                            run = 100, seed = Sys.time()) {
 
   # Need a sigma_known option - that only works with J=1,2 - not sure I want to

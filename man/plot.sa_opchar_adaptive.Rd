@@ -5,7 +5,7 @@
 \title{Plot the operating characteristics of adaptive two-stage single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_opchar_adaptive}(x, ..., output = F)
+\method{plot}{sa_opchar_adaptive}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_opchar_adaptive"}, as returned by \code{opchar_adaptive()}.}

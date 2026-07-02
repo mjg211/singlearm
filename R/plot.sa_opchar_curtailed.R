@@ -24,7 +24,7 @@
 #' @seealso \code{\link{des_curtailed}}, \code{\link{opchar_curtailed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_curtailed <- function(x, ..., output = F) {
+plot.sa_opchar_curtailed <- function(x, ..., output = FALSE) {
 
   opchar <- x
 

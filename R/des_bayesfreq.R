@@ -55,8 +55,8 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                           mu = 0.1, nu = 0.9, Nmin = 1, Nmax = 30,
                           optimality = "ess", control = c("frequentist",
                                                           "bayesian"),
-                          equal_n = F, PL = 0.5, PU = 0.9, PT = 0.95,
-                          summary = F) {
+                          equal_n = FALSE, PL = 0.5, PU = 0.9, PT = 0.95,
+                          summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -136,7 +136,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
         for (s1 in 0:n1) {
           cond_s2 <- prob_s2_s1n1n2[1:(n2 + 1), s1 + 1, n1, n2]
           prob    <- stats::pbeta(pi0, mu + s1 + 0:n2, nu + n1 + n2 - s1 - 0:n2,
-                           lower.tail = F)
+                           lower.tail = FALSE)
           PP_TS_s1n1n2[s1 + 1, n1, n2] <- sum(cond_s2[which(prob > PT)])
         }
       }
@@ -157,7 +157,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
         RF_pi0 <- sum(dbinomial_pi0[(r + 1):(n + 1), n])
         AB_pi1 <- sum(prob_s1_n1[1:(a + 1), n]*stats::pbeta(pi1, mu + 0:a,
                                                      nu + n - 0:a,
-                                                     lower.tail = F))
+                                                     lower.tail = FALSE))
         AF_pi1 <- sum(dbinomial_pi1[1:(a + 1), n])
         if (length(control) == 1) {
           if (control == "frequentist") {
@@ -208,7 +208,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
         if (a1 > -Inf) {
           AB_pi1[1]  <- sum(prob_s1_n1[1:(a1 + 1), n1]*stats::pbeta(pi1, mu + 0:a1,
                                                              nu + n1 - 0:a1,
-                                                             lower.tail = F))/
+                                                             lower.tail = FALSE))/
                           sum(prob_s1_n1[1:(a1 + 1), n1])
           AF_pi1[1]  <- sum(dbinomial_pi1[1:(a1 + 1), n1])
         }
@@ -262,7 +262,7 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                     numer <- numer + sum(choose(n1, s1)*choose(n2, s2)*
                                            beta(mu + s, nu + n - s)*
                                            stats::pbeta(pi1, mu + s, nu + n - s,
-                                                 lower.tail = F)/Beta)
+                                                 lower.tail = FALSE)/Beta)
                     denom <- denom + sum(choose(n1, s1)*choose(n2, s2)*
                                            beta(mu + s, nu + n - s)/Beta)
                     freq  <- freq + dbinomial_pi1[s1 + 1, n1]*
@@ -324,8 +324,8 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                                  r = as.numeric(feasible$r[1]), pi0 = pi0,
                                  pi1 = pi1, alpha = alpha, beta = beta, mu = mu,
                                  nu = nu, opchar = feasible[1, ])
-      feasible[, 1:3]    <- dplyr::mutate_if(feasible[, 1:3], is.double,
-                                             as.integer)
+      feasible[, 1:3]    <- dplyr::mutate(feasible[, 1:3],
+                                          dplyr::across(where(is.double), as.integer))
     } else {
       colnames(feasible) <- c("n1", "n2", "a1", "a2", "r1", "r2", "margPB(pi0)",
                               "margPB(pi1)", "PF(pi0)", "PF(pi1)", "ESSB",
@@ -353,8 +353,8 @@ des_bayesfreq <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
       } else {
         range           <- c(1:2, 4, 6, 17)
       }
-      feasible[, range] <- dplyr::mutate_if(feasible[, range], is.double,
-                                            as.integer)
+      feasible[, range] <- dplyr::mutate(feasible[, range],
+                                         dplyr::across(where(is.double), as.integer))
     }
   }
 

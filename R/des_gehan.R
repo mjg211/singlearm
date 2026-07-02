@@ -19,7 +19,7 @@
 #' determining the second stage sample sizes.
 #' @param alpha The confidence level to use in the formula for computing the
 #' second stage sample sizes.
-#' @param pi0 The null response rate. Only used when \code{find_D = T}.
+#' @param pi0 The null response rate. Only used when \code{find_D = TRUE}.
 #' @param find_D A logical variable indicating whether an optimal discrete
 #' conditional error function should be found.
 #' @param summary A logical variable indicating a summary of the function's
@@ -39,7 +39,7 @@
 #' @export
 des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
                       method = "A", f = "G", alpha = 0.05, pi0 = 0.1,
-                      find_D = F, summary = F) {
+                      find_D = FALSE, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -120,8 +120,8 @@ des_gehan <- function(pi1 = 0.3, beta1 = 0.1, gamma = 0.05, alpha_pi_hat = 0.25,
           dc_ef[[s1]]   <- dc_pf[[s1]] <- 1
         }
       } else {
-        dc_ef[[s1]]     <- pbinom((n2[s1] - 1):0, n2[s1], pi0, lower.tail = F)
-        dc_pf[[s1]]     <- pbinom((n2[s1] - 1):0, n2[s1], pi1, lower.tail = F)
+        dc_ef[[s1]]     <- pbinom((n2[s1] - 1):0, n2[s1], pi0, lower.tail = FALSE)
+        dc_pf[[s1]]     <- pbinom((n2[s1] - 1):0, n2[s1], pi1, lower.tail = FALSE)
         dc_pf[[s1]]     <- dc_pf[[s1]][which(dc_ef[[s1]]*dbinom_pi0[s1] <=
                                                alpha)]
         dc_ef[[s1]]     <- dc_ef[[s1]][which(dc_ef[[s1]]*dbinom_pi0[s1] <=

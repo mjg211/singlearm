@@ -26,7 +26,7 @@
 #' @seealso \code{\link{des_gs}}, \code{\link{opchar_gs}}, \code{\link{est_gs}}, \code{\link{pval_gs}},
 #' and \code{\link{ci_gs}}, and their associated \code{plot} family of functions.
 #' @export
-plot.sa_pval_gs <- function(x, ..., output = F) {
+plot.sa_pval_gs <- function(x, ..., output = FALSE) {
 
   pval <- x
 
@@ -51,12 +51,9 @@ plot.sa_pval_gs <- function(x, ..., output = F) {
       new_levels[i] <- "UMVUE-ordering"
     }
   }
-  pval$pval$method <- plyr::mapvalues(pval$pval$method,
-                                      from = levels(pval$pval$method),
-                                      to = new_levels)
+  levels(pval$pval$method) <- new_levels
 
-  pval$pval$k <- plyr::mapvalues(pval$pval$k, from = levels(pval$pval$k),
-                               to = paste("k =", levels(pval$pval$k)))
+  levels(pval$pval$k) <- paste("k =", levels(pval$pval$k))
   plot_pval$pval <- ggplot2::ggplot(data = pval$pval,
                                     ggplot2::aes(x = s, y = `p(s,m)`,
                                                  color = method)) +
@@ -85,9 +82,7 @@ plot.sa_pval_gs <- function(x, ..., output = F) {
         new_levels[i] <- "UMVUE-ordering"
       }
     }
-    pval$perf$method <- plyr::mapvalues(pval$perf$method,
-                                       from = levels(pval$perf$method),
-                                       to = new_levels)
+    levels(pval$perf$method) <- new_levels
 
     if (min(pval$pi) < pval$des$des$pi0) {
       red   <- tibble::tibble(start = min(pval$pi),

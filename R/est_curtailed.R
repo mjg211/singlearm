@@ -50,18 +50,17 @@
 #' }
 #' @examples
 #' # Find the optimal non-stochastically curtailed two-stage design for the
-#' default parameters
+#' # default parameters
 #' des <- des_curtailed()
 #' # Determine the performance of all supported point estimation procedures for
 #' # a range of possible response probabilities
-#' est <- est_gs(des, pi = seq(0, 1, 0.01))
+#' est <- est_curtailed(des, pi = seq(0, 1, 0.01))
 #' @seealso \code{\link{des_curtailed}}, \code{\link{opchar_curtailed}},
-#' \code{\link{pval_curtailed}}, \code{\link{ci_curtailed}}, and their
-#' associated \code{plot} family of functions.
+#' and their associated \code{plot} family of functions.
 #' @export
 est_curtailed <- function(des, k, pi,
                           method = c("bias_adj", "bias_sub", "conditional",
-                                     "naive", "mue", "umvue"), summary = F) {
+                                     "naive", "mue", "umvue"), summary = FALSE) {
 
   ##### Input Checking #########################################################
 

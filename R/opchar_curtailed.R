@@ -56,19 +56,19 @@
 #' \code{\link{ci_gs}}, and their associated \code{plot} family of functions.
 #' @export
 #' @export
-opchar_curtailed <- function(des, ..., k, pi, summary = F) {
+opchar_curtailed <- function(des, ..., k, pi, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
   check_sa_des_curtailed(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_curtailed(eval(add_des[[i]]), paste("add_des", i, sep = ""))
+      check_sa_des_curtailed(add_des[[i]], paste("add_des", i, sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
     }
@@ -84,7 +84,7 @@ opchar_curtailed <- function(des, ..., k, pi, summary = F) {
     Js          <- numeric(num_add_des + 1)
     Js[1]       <- des$des$J
     for (i in 1:num_add_des) {
-      Js[i + 1] <- eval(add_des[[i]])$des$J
+      Js[i + 1] <- add_des[[i]]$des$J
     }
     k           <- 1:max(Js)
   } else if (!missing(k)){
@@ -146,7 +146,7 @@ opchar_curtailed <- function(des, ..., k, pi, summary = F) {
       message("...performance for Design 1 evaluated...")
     }
     for (i in 1:num_add_des) {
-      des_i           <- eval(add_des[[i]])
+      des_i           <- add_des[[i]]
       if (Js[i + 1] == 1) {
         des_val <- paste("Design ", i + 1, ": (", des_i$des$a, ",", des_i$des$r,
                          ")/", des_i$des$n, ", thetaF = ", des_i$des$thetaF,
@@ -177,9 +177,9 @@ opchar_curtailed <- function(des, ..., k, pi, summary = F) {
         message("...performance for Design ", i + 1, " evaluated...")
       }
     }
-    pmf                <- tibble::as_tibble(plyr::rbind.fill(pmf))
+    pmf                <- tibble::as_tibble(dplyr::bind_rows(pmf))
     pmf$m              <- as.integer(pmf$m)
-    opchar             <- tibble::as_tibble(plyr::rbind.fill(opchar))
+    opchar             <- tibble::as_tibble(dplyr::bind_rows(opchar))
     opchar$Design      <- as.factor(opchar$Design)
   }
 

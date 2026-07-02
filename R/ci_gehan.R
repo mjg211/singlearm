@@ -51,7 +51,7 @@
 #' ci  <- ci_gehan(des, pi = seq(0, 1, 0.01))
 #' @seealso \code{\link{des_gehan}} and \code{\link{opchar_gehan}}.
 #' @export
-ci_gehan <- function(des, k, pi, alpha = des$alpha, summary = F) {
+ci_gehan <- function(des, k, pi, alpha = des$alpha, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -92,7 +92,9 @@ ci_gehan <- function(des, k, pi, alpha = des$alpha, summary = F) {
                                k = factor(terminal$k, k), `clow(s,m)` = NA,
                                `cupp(s,m)` = NA)
   for (i in 1:nrow(ci)) {
-    ci[i, 4:5] <- ci_fixed_clopper_pearson(ci$s[i], ci$m[i], alpha)
+    result <- ci_fixed_clopper_pearson(ci$s[i], ci$m[i], alpha)
+    ci$`clow(s,m)`[i] <- result[1]
+    ci$`cupp(s,m)`[i] <- result[2]
     if (all(summary, i%%100 == 0)) {
       message("... ", i, " confidence intervals determined...")
     }

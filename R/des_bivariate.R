@@ -1,3 +1,4 @@
+#' @noRd
 des_bivariate <- function() {
   #BD
   Nmin <- 1

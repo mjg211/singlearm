@@ -59,7 +59,7 @@ gehan_dc_ef <- function(pi0, pi1, alpha, n1, n2, dc_ef, dc_pf,
     c2        <- rep(NA, n1 + 1)
     c2[which(!(D0 %in% c(0, 1)))] <-
       stats::qbinom(D0[which(!(D0 %in% c(0, 1)))],
-                    n2[which(!(D0 %in% c(0, 1)))], pi0, lower.tail = F) + 1
+                    n2[which(!(D0 %in% c(0, 1)))], pi0, lower.tail = FALSE) + 1
     r2        <- 0:n1 + c2
     a2        <- r2 - 1
     return(list(D = D0, a1 = a1, r1 = r1, a2 = a2, r2 = r2))
@@ -94,21 +94,21 @@ bound_gehan <- function(k, j) {
   }
   if (k <= n1) {
     if (any(local_dc_ef[2:k] < local_dc_ef[1:(k - 1)])) {
-      return(F)
+      return(FALSE)
     } else if (sum(local_dc_ef[1:k]*dbinom_pi0[1:k]) > nomalpha) {
-      return(F)
+      return(FALSE)
     } else if (sum(local_dc_pf[1:k]*dbinom_pi1[1:k]) +
                  sum(dbinom_pi1[(k + 1):(n1 + 1)]) < maxpower) {
-      return(F)
+      return(FALSE)
     }
   } else {
     if (any(local_dc_ef[2:(n1 + 1)] < local_dc_ef[1:n1])) {
-      return(F)
+      return(FALSE)
     } else if (sum(local_dc_ef*dbinom_pi0) > nomalpha) {
-      return(F)
+      return(FALSE)
     } else if (sum(local_dc_pf*dbinom_pi1) < maxpower) {
-      return(F)
+      return(FALSE)
     }
   }
-  return(T)
+  return(TRUE)
 }

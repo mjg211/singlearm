@@ -49,19 +49,19 @@
 #' @seealso \code{\link{des_adaptive}}, and their associated \code{plot} family
 #' of functions.
 #' @export
-opchar_adaptive <- function(des, ..., k, pi, summary = F) {
+opchar_adaptive <- function(des, ..., k, pi, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
   #check_sa_des_adaptive(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_adaptive(eval(add_des[[i]]), paste("add_des", i, sep = ""))
+      check_sa_des_adaptive(add_des[[i]], paste("add_des", i, sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
     }
@@ -112,7 +112,7 @@ opchar_adaptive <- function(des, ..., k, pi, summary = F) {
       message("...performance for Design 1 evaluated...")
     }
     for (i in 1:num_add_des) {
-      des_i           <- eval(add_des[[i]])
+      des_i           <- add_des[[i]]
       pmf[[i + 1]]    <- cbind("Design" = paste("Design", i + 1),
                                pmf_adaptive(pi, des_i$des$a1, des_i$des$r1,
                                             des_i$des$n1, des_i$des$n2, k))
@@ -126,9 +126,9 @@ opchar_adaptive <- function(des, ..., k, pi, summary = F) {
         message("...performance for Design ", i + 1, " evaluated...")
       }
     }
-    pmf                <- tibble::as_tibble(plyr::rbind.fill(pmf))
+    pmf                <- tibble::as_tibble(dplyr::bind_rows(pmf))
     pmf$m              <- as.integer(pmf$m)
-    opchar             <- tibble::as_tibble(plyr::rbind.fill(opchar))
+    opchar             <- tibble::as_tibble(dplyr::bind_rows(opchar))
     opchar$Design      <- as.factor(opchar$Design)
   }
 

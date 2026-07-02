@@ -5,7 +5,7 @@
 \title{Determine the operating characteristics of admissable group sequential
 single-arm trial designs for a single binary endpoint}
 \usage{
-opchar_admissable(des, k, pi, summary = F)
+opchar_admissable(des, k, pi, summary = FALSE)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_admissable"}, as returned by

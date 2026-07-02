@@ -21,7 +21,7 @@
 #' }
 #' @examples
 #' # Find the optimal curtailed group sequential design for the default
-#' parameters
+#' # parameters
 #' des <- des_curtailed()
 #' # Determine the performance of the point estimation procedure for a range of
 #' # possible response probabilities
@@ -29,11 +29,10 @@
 #' # Plot the point estimates and the estimation procedure performance
 #' plot(est)
 #' @seealso \code{\link{des_curtailed}}, \code{\link{opchar_curtailed}},
-#' \code{\link{est_curtailed}}, \code{\link{pval_curtailed}},
-#' \code{\link{ci_curtailed}}, and their associated \code{plot} family of
+#' \code{\link{est_curtailed}}, and their associated \code{plot} family of
 #' functions.
 #' @export
-plot.sa_est_curtailed <- function(x, ..., output = F) {
+plot.sa_est_curtailed <- function(x, ..., output = FALSE) {
 
   est <- x
 
@@ -62,9 +61,7 @@ plot.sa_est_curtailed <- function(x, ..., output = F) {
         new_levels[i] <- "UMVUE"
       }
     }
-    est$perf$method <- plyr::mapvalues(est$perf$method,
-                                       from = levels(est$perf$method),
-                                       to = new_levels)
+    levels(est$perf$method) <- new_levels
 
     if (min(est$pi) < est$des$des$pi0) {
       red   <- tibble::tibble(start = min(est$pi),

@@ -6,7 +6,7 @@
 a curtailed group sequential single-arm trial design for a single binary
 endpoint}
 \usage{
-\method{plot}{sa_est_curtailed}(x, ..., output = F)
+\method{plot}{sa_est_curtailed}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_est_curtailed"}, as returned by
@@ -34,7 +34,7 @@ plots are available, of which the bias curve will be printed by default.
 }
 \examples{
 # Find the optimal curtailed group sequential design for the default
-parameters
+# parameters
 des <- des_curtailed()
 # Determine the performance of the point estimation procedure for a range of
 # possible response probabilities
@@ -44,7 +44,6 @@ plot(est)
 }
 \seealso{
 \code{\link{des_curtailed}}, \code{\link{opchar_curtailed}},
-\code{\link{est_curtailed}}, \code{\link{pval_curtailed}},
-\code{\link{ci_curtailed}}, and their associated \code{plot} family of
+\code{\link{est_curtailed}}, and their associated \code{plot} family of
 functions.
 }

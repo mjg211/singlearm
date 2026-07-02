@@ -5,7 +5,7 @@
 \title{Determine p-values in a single-stage single-arm trial design for a single
 binary endpoint}
 \usage{
-pval_fixed(des, pi, method = c("exact", "normal"), summary = F)
+pval_fixed(des, pi, method = c("exact", "normal"), summary = FALSE)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_fixed"}, as returned by

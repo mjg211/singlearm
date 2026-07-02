@@ -27,7 +27,7 @@
 #' \code{\link{pval_gs}}, \code{\link{ci_gs}}, and their associated \code{plot}
 #' family of functions.
 #' @export
-plot.sa_ci_gs <- function(x, ..., output = F) {
+plot.sa_ci_gs <- function(x, ..., output = FALSE) {
 
   ci <- x
 
@@ -49,15 +49,12 @@ plot.sa_ci_gs <- function(x, ..., output = F) {
       new_levels[i] <- "Naive"
     }
   }
-  ci$ci$method <- plyr::mapvalues(ci$ci$method,
-                                      from = levels(ci$ci$method),
-                                      to = new_levels)
+  levels(ci$ci$method) <- new_levels
 
   local_ci <- tidyr::gather(ci$ci, key = "limit", value = "pi",
                             `clow(s,m)`:`cupp(s,m)`)
 
-  local_ci$k <- plyr::mapvalues(ci$ci$k, from = levels(ci$ci$k),
-                             to = paste("k =", levels(ci$ci$k)))
+  levels(local_ci$k) <- paste("k =", levels(local_ci$k))
 
   plot_ci$ci <- ggplot2::ggplot() +
     ggplot2::xlab(expression(italic(s))) +
@@ -149,9 +146,7 @@ plot.sa_ci_gs <- function(x, ..., output = F) {
         new_levels[i] <- "Naive"
       }
     }
-    ci$perf$method <- plyr::mapvalues(ci$perf$method,
-                                    from = levels(ci$perf$method),
-                                    to = new_levels)
+    levels(ci$perf$method) <- new_levels
 
     plot_ci$`bar(L)` <- ggplot2::ggplot(data = dplyr::filter(ci$perf,
                                                              pi ==

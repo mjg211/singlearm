@@ -5,7 +5,7 @@
 \title{Plot the operating characteristics of single-stage single-arm trial designs
 for a single binary endpoint}
 \usage{
-\method{plot}{sa_opchar_fixed}(x, ..., output = F)
+\method{plot}{sa_opchar_fixed}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_opchar_fixed"}, as returned by

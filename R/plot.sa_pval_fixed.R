@@ -31,7 +31,7 @@
 #' \code{\link{est_fixed}}, \code{\link{pval_fixed}}, \code{\link{ci_fixed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_pval_fixed <- function(x, ..., output = F) {
+plot.sa_pval_fixed <- function(x, ..., output = FALSE) {
 
   pval <- x
 
@@ -49,9 +49,7 @@ plot.sa_pval_fixed <- function(x, ..., output = F) {
     split[1]      <- toupper(split[1])
     new_levels[i] <- paste(split, collapse = "")
   }
-  pval$pval$method <- plyr::mapvalues(pval$pval$method,
-                                      from = levels(pval$pval$method),
-                                      to = new_levels)
+  levels(pval$pval$method) <- new_levels
 
   plot_pval$pval <- ggplot2::ggplot() +
                       ggplot2::xlab(expression(italic(s))) +
@@ -70,9 +68,7 @@ plot.sa_pval_fixed <- function(x, ..., output = F) {
     theme_singlearm()
   print(plot_pval$pval)
 
-  pval$perf$method <- plyr::mapvalues(pval$perf$method,
-                                      from = levels(pval$perf$method),
-                                      to = new_levels)
+  levels(pval$perf$method) <- new_levels
   pi      <- pval$pi
   des     <- pval$des$des
   if (min(pi) < des$pi0) {

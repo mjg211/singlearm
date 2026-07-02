@@ -44,7 +44,7 @@
 #' @seealso \code{\link{des_admissable}}, and their associated \code{plot}
 #' family of functions.
 #' @export
-opchar_admissable <- function(des, k, pi, summary = F) {
+opchar_admissable <- function(des, k, pi, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -91,15 +91,15 @@ opchar_admissable <- function(des, k, pi, summary = F) {
                                    cumsum(des$des[[i]]$n), sep = "",
                                    collapse = ", "), sep = "", collapse = ""),
             int_opchar_gs(pi, des$des[[i]]$J, des$des[[i]]$a, des$des[[i]]$r,
-                          des$des[[i]]$n, cumsum(des$des[[i]]$n), k, F,
+                          des$des[[i]]$n, cumsum(des$des[[i]]$n), k, FALSE,
                           pmf[[i]]))
     if (summary) {
       message("...performance for Design ", i, " evaluated...")
     }
   }
-  pmf           <- tibble::as_tibble(plyr::rbind.fill(pmf))
+  pmf           <- tibble::as_tibble(dplyr::bind_rows(pmf))
   pmf$m         <- as.integer(pmf$m)
-  opchar        <- tibble::as_tibble(plyr::rbind.fill(opchar))
+  opchar        <- tibble::as_tibble(dplyr::bind_rows(opchar))
   opchar$Design <- as.factor(opchar$Design)
 
   ##### Outputting #############################################################

@@ -5,8 +5,13 @@
 \title{Determine confidence intervals in a single-stage single-arm trial design for
 a single binary endpoint}
 \usage{
-ci_fixed(des, pi, alpha = des$alpha, method = c("agresti_coull",
-  "clopper_pearson", "jeffreys", "mid_p", "wald", "wilson"), summary = F)
+ci_fixed(
+  des,
+  pi,
+  alpha = des$alpha,
+  method = c("agresti_coull", "clopper_pearson", "jeffreys", "mid_p", "wald", "wilson"),
+  summary = FALSE
+)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_fixed"}, as returned by

@@ -5,7 +5,7 @@
 \title{Plot the operating characteristics of Bayesian-frequentist single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_opchar_bayesfreq}(x, ..., output = F)
+\method{plot}{sa_opchar_bayesfreq}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_opchar_bayesfreq"}, as returned by \code{opchar_bayesfreq()}.}

@@ -1,4 +1,5 @@
-opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
+#' @noRd
+opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = FALSE) {
   # need to check J=2
   pi0 <- des$pi0
   a   <- des$des$a
@@ -10,7 +11,7 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
     D[(r[1] + 1):(n[1] + 1)] <- 1
   }
   for (s in max(0, a[1] + 1):min(r[1] - 1, n[1])) {
-    D[s + 1]                 <- stats::pbinom(r[2] - s - 1, n[2], pi0, lower.tail = F)
+    D[s + 1]                 <- stats::pbinom(r[2] - s - 1, n[2], pi0, lower.tail = FALSE)
   }
 
 
@@ -63,7 +64,7 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
       effn1star      <- n1star - num0 - num1
       if (effn1star == 0) {
         diag_effn1star <- diag(effn1star + 1)
-        ui <- coef_mat[which(D > 0 & D < 1), (num0 + 1):(n1star + 1 - num1), drop = F]
+        ui <- coef_mat[which(D > 0 & D < 1), (num0 + 1):(n1star + 1 - num1), drop = FALSE]
         ci <- D[which(D > 0 & D < 1)]
         D_mat[poss_n1[i], 1:(poss_n1[i] + 1)] <- c(rep(0, num0),
                                                    min(1, min(ci/ui)),
@@ -72,10 +73,10 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
         D_mat[poss_n1[i], 1:(poss_n1[i] + 1)] <- c(rep(0, num0),
                                                    rep(1, n1star + 1 - num0))
       } else {
-        coef_mat <- coef_mat[which(D > 0 & D < 1), (num0 + 1):(n1star + 1 - num1), drop = F]
+        coef_mat <- coef_mat[which(D > 0 & D < 1), (num0 + 1):(n1star + 1 - num1), drop = FALSE]
         diag_effn1star <- diag(effn1star + 1)
         if (effn1star > 0) {
-          ineq           <- -diag_effn1star[-(effn1star + 1), , drop = F]
+          ineq           <- -diag_effn1star[-(effn1star + 1), , drop = FALSE]
           for (j in 1:effn1star) {
             ineq[j, j + 1] <- 1
           }
@@ -86,7 +87,7 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
         ci <- -c(rep(0, effn1star + 1), rep(-1, effn1star + 1), rep(0, effn1star),
                  -D[which(D > 0 & D < 1)])
 
-        optimal_i <- CEoptim::CEoptim(f = max_Dstar, maximize = T,
+        optimal_i <- CEoptim::CEoptim(f = max_Dstar, maximize = TRUE,
                              f.arg = list(n1star = n1star, pi0 = pi0,
                                           begin = num0, end = n1star - num1),
                              continuous = list(mean = seq(from = 1e-2, to = 1e-1,
@@ -98,7 +99,7 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
                                                smoothSd = 0.5),
                              N = as.integer(1000*(effn1star + 1)),
                              rho = 0.01,
-                             verbose = T, noImproveThr = 20)
+                             verbose = TRUE, noImproveThr = 20)
         D_mat[poss_n1[i], 1:(poss_n1[i] + 1)] <- c(rep(0, num0),
                                                    optimal_i$optimizer$continuous,
                                                    rep(1, num1))
@@ -125,7 +126,7 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
     if (any(D_mat[n1, 1:(n1 + 1)] == 1)) {
       r1 <- which(D_mat[n1, 1:(n1 + 1)] == 1)[1] - 1
     }
-    r2 <- stats::qbinom(D, n2, pi0, lower.tail = F) + 1 + poss_s1s2[, 1]
+    r2 <- stats::qbinom(D, n2, pi0, lower.tail = FALSE) + 1 + poss_s1s2[, 1]
     r2[which(is.na(poss_s1s2[, 2]))] <- NA_real_
     s <- rowSums(poss_s1s2)
     m <- rep(n1 + n2, nrow(poss_s1s2))
@@ -152,7 +153,7 @@ opchar_deviation <- function(des, pmf_n1n2, k, pi, summary = F) {
       counter        <- counter + 1
     }
   }
-  pmf <- plyr::rbind.fill(pmf)
+  pmf <- dplyr::bind_rows(pmf)
 
 
   max_Dstar <- function(Dstar, n1star, pi0, begin, end) {

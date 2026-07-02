@@ -5,7 +5,7 @@
 \title{Determine confidence intervals in gehan single-arm trial designs
 for a single binary endpoint}
 \usage{
-ci_gehan(des, k, pi, alpha = des$alpha, summary = F)
+ci_gehan(des, k, pi, alpha = des$alpha, summary = FALSE)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_gehan"}, as returned by

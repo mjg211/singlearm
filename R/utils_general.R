@@ -6,13 +6,13 @@ theme_singlearm <- function(base_size = 11, base_family = "") {
                                                            colour = NA),
                       panel.border = ggplot2::element_rect(fill = NA,
                                                            colour = "grey70",
-                                                           size = 0.5),
+                                                           linewidth = 0.5),
                       panel.grid.major =
-                        ggplot2::element_line(colour = "grey87", size = 0.25),
+                        ggplot2::element_line(colour = "grey87", linewidth = 0.25),
                       panel.grid.minor =
-                        ggplot2::element_line(colour = "grey87", size = 0.125),
+                        ggplot2::element_line(colour = "grey87", linewidth = 0.125),
                       axis.ticks = ggplot2::element_line(colour = "grey70",
-                                                         size = 0.25),
+                                                         linewidth = 0.25),
                       legend.key = ggplot2::element_rect(fill = "white",
                                                          colour = NA),
                       strip.background = ggplot2::element_rect(fill = "grey70",
@@ -171,7 +171,7 @@ check_k <- function(k, des, add_des) {
   if (num_add_des > 0) {
     Js <- c(des$des$J, rep(0, num_add_des))
     for (i in 1:num_add_des) {
-      Js[i + 1] <- eval(add_des)$des$J
+      Js[i + 1] <- add_des$des$J
     }
     if (!all(k %in% 1:max(Js))) {
       stop("k must contain values in [1,max(J)]")

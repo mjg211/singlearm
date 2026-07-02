@@ -5,7 +5,7 @@
 \title{Determine point estimates in a single-stage single-arm trial design for a
 single binary endpoint}
 \usage{
-est_fixed(des, pi, summary = F)
+est_fixed(des, pi, summary = FALSE)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_fixed"}, as returned by

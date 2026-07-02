@@ -5,7 +5,7 @@
 \title{Determine the operating characteristics of Gehan two-stage single-arm
 trial designs for a single binary endpoint}
 \usage{
-opchar_gehan(des, ..., k, pi, summary = F)
+opchar_gehan(des, ..., k, pi, summary = FALSE)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_gehan"}, as returned by

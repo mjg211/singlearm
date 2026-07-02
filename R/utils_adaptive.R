@@ -170,17 +170,17 @@ des_adaptive_n2forn1 <- function(pi0, pi1, alpha, beta, n1, n2min, n2max,
   } else {
     quantiles <-  unlist(sapply(n2min:n2max, function(x){-1:(x - 1)}))
     sam_sizes <-  rep(n2min:n2max, n2min:n2max + 1)
-    dc_ef     <<- stats::pbinom(quantiles, sam_sizes, pi0, lower.tail = F)
-    dc_pf     <<- stats::pbinom(quantiles, sam_sizes, pi1, lower.tail = F)
+    dc_ef     <<- stats::pbinom(quantiles, sam_sizes, pi0, lower.tail = FALSE)
+    dc_pf     <<- stats::pbinom(quantiles, sam_sizes, pi1, lower.tail = FALSE)
     dc_ss     <<- rep(n1 + n2min:n2max, n2min:n2max + 1)
     dc        <<- cbind(dc_ef, dc_pf, dc_ss)
     dc        <<- dc[order(dc[, 1]), ]
     dc_ef     <<- matrix(c(0, dc[, 1], 1), nrow = n1 + 1, ncol = nrow(dc) + 2,
-                         byrow = T)
+                         byrow = TRUE)
     dc_pf     <<- matrix(c(0, dc[, 2], 1), nrow = n1 + 1, ncol = nrow(dc) + 2,
-                         byrow = T)
+                         byrow = TRUE)
     dc_ss     <<- matrix(c(n1, dc[, 3], n1), nrow = n1 + 1, ncol = nrow(dc) + 2,
-                         byrow = T)
+                         byrow = TRUE)
   }
   card_P2     <<- 0.5*(n2max^2 - n2min^2) + 1.5*n2max - 0.5*n2min + 3
   elem        <<- cbind(1:(n1 + 1), 1)
@@ -204,7 +204,7 @@ des_adaptive_n2forn1 <- function(pi0, pi1, alpha, beta, n1, n2min, n2max,
     c2      <- rep(NA, n1 + 1)
     c2[which(!(D0 %in% c(0, 1)))] <- stats::qbinom(D0[which(!(D0 %in% c(0, 1)))],
                                             n2[which(!(D0 %in% c(0, 1)))], pi0,
-                                            lower.tail = F) + 1
+                                            lower.tail = FALSE) + 1
     r2      <- 0:n1 + c2
     a2      <- r2 - 1
     P_pi0   <- sum(D0*dbinomial_pi0)
@@ -271,56 +271,56 @@ bound_ek <- function(k, j) {
   if (k <= n1) {
     if (sum(dc_ef[elem[1:k, ]]*dbinomial_pi0[1:k]) +
           dc_ef[j]*sum(dbinomial_pi0[(k + 1):(n1 + 1)]) > nomalpha) {
-      return(F)
+      return(FALSE)
     } else if (sum(dc_pf[elem[1:k, ]]*dbinomial_pi1[1:k]) +
                  sum(dbinomial_pi1[(k + 1):(n1 + 1)]) < 1 - nombeta) {
-      return(F)
+      return(FALSE)
     } else if (w[1]*(sum(dc_ss[elem[1:k, ]]*dbinomial_pi0[1:k]) +
                        n1*sum(dbinomial_pi0[(k + 1):(n1 + 1)])) +
                  w[2]*(sum(dc_ss[elem[1:k, ]]*dbinomial_pi1[1:k]) +
                          n1*sum(dbinomial_pi1[(k + 1):(n1 + 1)])) +
                  w[3]*max(dc_ss[elem[1:k, ]]) > en) {
-      return(F)
+      return(FALSE)
     }
   } else {
     if (sum(dc_ef[elem]*dbinomial_pi0) > nomalpha) {
-      return(F)
+      return(FALSE)
     } else if (sum(dc_pf[elem]*dbinomial_pi1) < 1 - nombeta) {
-      return(F)
+      return(FALSE)
     } else if (w[1]*sum(dc_ss[elem]*dbinomial_pi0) +
                  w[2]*sum(dc_ss[elem]*dbinomial_pi1) +
                  w[3]*max(dc_ss[elem]) > en) {
-      return(F)
+      return(FALSE)
     }
   }
-  return(T)
+  return(TRUE)
 }
 
 # Bounding function for Shan et al. adaptive design
 bound_shan <- function(k, j) {
   if (k <= n1) {
     if (sum(dc_ef[elem[1:k, ]]*dbinomial_pi0[1:k]) > nomalpha) {
-      return(F)
+      return(FALSE)
     } else if (sum(dc_pf[elem[1:k, ]]*dbinomial_pi1[1:k]) +
                  sum(dbinomial_pi1[(k + 1):(n1 + 1)]) < 1 - nombeta) {
-      return(F)
+      return(FALSE)
     } else if (w[1]*(sum(dc_ss[elem[1:k, ]]*dbinomial_pi0[1:k]) +
                        n1*sum(dbinomial_pi0[(k + 1):(n1 + 1)])) +
                  w[2]*(sum(dc_ss[elem[1:k, ]]*dbinomial_pi1[1:k]) +
                          n1*sum(dbinomial_pi1[(k + 1):(n1 + 1)])) +
                  w[3]*max(dc_ss[elem[1:k, ]]) > en) {
-      return(F)
+      return(FALSE)
     }
   } else {
     if (sum(dc_ef[elem]*dbinomial_pi0) > nomalpha) {
-      return(F)
+      return(FALSE)
     } else if (sum(dc_pf[elem]*dbinomial_pi1) < 1 - nombeta) {
-      return(F)
+      return(FALSE)
     } else if (w[1]*sum(dc_ss[elem]*dbinomial_pi0) +
                  w[2]*sum(dc_ss[elem]*dbinomial_pi1) +
                  w[3]*max(dc_ss[elem])  > en) {
-      return(F)
+      return(FALSE)
     }
   }
-  return(T)
+  return(TRUE)
 }

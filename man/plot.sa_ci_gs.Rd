@@ -5,7 +5,7 @@
 \title{Plot the confidence intervals, and the confidence interval determination procedures
 performance, in a group sequential single-arm trial design for a single binary endpoint}
 \usage{
-\method{plot}{sa_ci_gs}(x, ..., output = F)
+\method{plot}{sa_ci_gs}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_ci_gs"}, as returned by \code{ci_gs()}.}

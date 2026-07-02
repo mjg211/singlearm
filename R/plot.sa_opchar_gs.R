@@ -24,7 +24,7 @@
 #' @seealso \code{\link{des_gs}}, \code{\link{opchar_gs}}, \code{\link{est_gs}}, \code{\link{pval_gs}},
 #' and \code{\link{ci_gs}}, and their associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_gs <- function(x, ..., output = F) {
+plot.sa_opchar_gs <- function(x, ..., output = FALSE) {
 
   opchar <- x
 
@@ -48,9 +48,7 @@ plot.sa_opchar_gs <- function(x, ..., output = F) {
           outcome[i] <- "Accept"
         }
       }
-      pmf_pi0$k      <- plyr::mapvalues(pmf_pi0$k, from = levels(pmf_pi0$k),
-                                           to = paste("k =",
-                                                      levels(pmf_pi0$k)))
+      levels(pmf_pi0$k) <- paste("k =", levels(pmf_pi0$k))
       pmf_pi0        <- dplyr::mutate(pmf_pi0,
                                       outcome = factor(outcome,
                                                        levels = c("Accept",
@@ -85,9 +83,7 @@ plot.sa_opchar_gs <- function(x, ..., output = F) {
                                       outcome = factor(outcome,
                                                        levels = c("Accept",
                                                                   "Reject")))
-      pmf_pi1$k      <- plyr::mapvalues(pmf_pi1$k, from = levels(pmf_pi1$k),
-                                        to = paste("k =",
-                                                   levels(pmf_pi1$k)))
+      levels(pmf_pi1$k) <- paste("k =", levels(pmf_pi1$k))
       plot_opchar$`f(s,m|pi)` <- ggplot2::ggplot(data = pmf_pi1,
                                              ggplot2::aes(x = s,
                                                           y = `f(s,m|pi)`,
@@ -120,10 +116,7 @@ plot.sa_opchar_gs <- function(x, ..., output = F) {
                                       outcome = factor(outcome,
                                                        levels = c("Accept",
                                                                   "Reject")))
-      pmf_pi0pi1$k   <- plyr::mapvalues(pmf_pi0pi1$k,
-                                        from = levels(pmf_pi0pi1$k),
-                                        to = paste("k =",
-                                                   levels(pmf_pi0pi1$k)))
+      levels(pmf_pi0pi1$k) <- paste("k =", levels(pmf_pi0pi1$k))
       facet_pi        <- numeric(nrow(pmf_pi0pi1))
       facet_k         <- numeric(nrow(pmf_pi0pi1))
       for (i in 1:nrow(pmf_pi0pi1)) {

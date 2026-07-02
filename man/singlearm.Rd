@@ -2,8 +2,8 @@
 % Please edit documentation in R/singlearm.R
 \docType{package}
 \name{singlearm}
-\alias{singlearm}
 \alias{singlearm-package}
+\alias{singlearm}
 \title{singlearm: A package for designing and analysing single-arm clinical trials}
 \description{
 singlearm provides five categories of important function: \code{des},
@@ -80,3 +80,20 @@ confidence intervals for a design determined using \code{\link{des_gs}}.
 }
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/mjg211/singlearm}
+  \item Report bugs at \url{https://github.com/mjg211/singlearm/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Michael Grayling \email{michael.grayling@newcastle.ac.uk}
+
+Authors:
+\itemize{
+  \item Michael Grayling \email{michael.grayling@newcastle.ac.uk}
+}
+
+}

@@ -5,7 +5,7 @@
 \title{Plot the stopping boundaries of group sequential single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_des_gs}(x, ..., output = F)
+\method{plot}{sa_des_gs}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_des_gs"}, as returned by \code{des_gs()}.}

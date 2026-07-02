@@ -24,7 +24,7 @@
 #' @seealso \code{\link{des_admissable}}, \code{\link{opchar_admissable}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_admissable <- function(x, ..., output = F) {
+plot.sa_opchar_admissable <- function(x, ..., output = FALSE) {
 
   opchar <- x
 
@@ -101,7 +101,7 @@ plot.sa_opchar_admissable <- function(x, ..., output = F) {
       theme_singlearm() +
       ggplot2::scale_x_continuous(expand = c(0, 0), limits = c(min(opchar$opchar$pi),
                                                                max(opchar$opchar$pi))) +
-      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = T))
+      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = TRUE))
     print(plot_opchar$`ESS(pi)`)
     plot_opchar$`VSS(pi)` <- ggplot2::ggplot()
     if (min(opchar$pi) < opchar$des$des[[1]]$pi0) {
@@ -148,7 +148,7 @@ plot.sa_opchar_admissable <- function(x, ..., output = F) {
       theme_singlearm() +
       ggplot2::scale_x_continuous(expand = c(0, 0), limits = c(min(opchar$opchar$pi),
                                                                max(opchar$opchar$pi))) +
-      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = T))
+      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = TRUE))
 
     plot_opchar$`Med(pi)` <- ggplot2::ggplot()
     if (min(opchar$pi) < opchar$des$des[[1]]$pi0) {
@@ -195,7 +195,7 @@ plot.sa_opchar_admissable <- function(x, ..., output = F) {
       theme_singlearm() +
       ggplot2::scale_x_continuous(expand = c(0, 0), limits = c(min(opchar$opchar$pi),
                                                                max(opchar$opchar$pi))) +
-      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = T))
+      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = TRUE))
     plot_opchar$`P(pi)` <- ggplot2::ggplot()
     if (min(opchar$pi) < opchar$des$des[[1]]$pi0) {
       plot_opchar$`P(pi)` <- plot_opchar$`P(pi)` +
@@ -240,7 +240,7 @@ plot.sa_opchar_admissable <- function(x, ..., output = F) {
       theme_singlearm() +
       ggplot2::scale_x_continuous(expand = c(0, 0), limits = c(min(opchar$opchar$pi),
                                                                max(opchar$opchar$pi))) +
-      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = T))
+      ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = TRUE))
     print(plot_opchar$`P(pi)`)
 
   } else {

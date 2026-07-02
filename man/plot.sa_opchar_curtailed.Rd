@@ -5,7 +5,7 @@
 \title{Plot the operating characteristics of curtailed group sequential single-arm trial designs for a
 single binary endpoint}
 \usage{
-\method{plot}{sa_opchar_curtailed}(x, ..., output = F)
+\method{plot}{sa_opchar_curtailed}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_opchar_curtailed"}, as returned by \code{opchar_curtailed()}.}

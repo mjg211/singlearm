@@ -57,7 +57,7 @@
 #' \code{\link{pval_gs}}, and their associated \code{plot} family of functions.
 #' @export
 ci_gs <- function(des, k, pi, alpha = des$alpha,
-                  method = c("exact", "mid_p", "naive"), summary = F) {
+                  method = c("exact", "mid_p", "naive"), summary = FALSE) {
 
   ##### Input Checking #########################################################
 
@@ -112,7 +112,7 @@ ci_gs <- function(des, k, pi, alpha = des$alpha,
                                                method), `clow(s,m)` = NA,
                                `cupp(s,m)` = NA)
   for (i in 1:nrow(ci)) {
-    ci[i, 5:6] <- switch(as.character(ci$method[i]),
+    result <- switch(as.character(ci$method[i]),
                          naive = ci_fixed_clopper_pearson(ci$s[i], ci$m[i],
                                                           alpha),
                          exact = ci_gs_exact(ci$s[i], ci$m[i],
@@ -121,6 +121,8 @@ ci_gs <- function(des, k, pi, alpha = des$alpha,
                          mid_p = ci_gs_mid_p(ci$s[i], ci$m[i],
                                              as.numeric(ci$k[i]), J, a, r, n,
                                              alpha))
+    ci$`clow(s,m)`[i] <- result[1]
+    ci$`cupp(s,m)`[i] <- result[2]
     if (all(summary, i%%100 == 0)) {
       message("... ", i, " confidence intervals determined...")
     }

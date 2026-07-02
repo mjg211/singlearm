@@ -55,19 +55,19 @@
 #' @seealso \code{\link{des_gs}}, \code{\link{est_gs}}, \code{\link{pval_gs}},
 #' \code{\link{ci_gs}}, and their associated \code{plot} family of functions.
 #' @export
-opchar_gs <- function(des, ..., k, pi, summary = F) {
+opchar_gs <- function(des, ..., k, pi, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
   check_sa_des_gs(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_gs(eval(add_des[[i]]), paste("add_des", i, sep = ""))
+      check_sa_des_gs(add_des[[i]], paste("add_des", i, sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
     }
@@ -83,7 +83,7 @@ opchar_gs <- function(des, ..., k, pi, summary = F) {
     Js          <- numeric(num_add_des + 1)
     Js[1]       <- des$des$J
     for (i in 1:num_add_des) {
-      Js[i + 1] <- eval(add_des[[i]])$des$J
+      Js[i + 1] <- add_des[[i]]$des$J
     }
     k           <- 1:max(Js)
   } else if (!missing(k)){
@@ -125,12 +125,12 @@ opchar_gs <- function(des, ..., k, pi, summary = F) {
                                    cumsum(des$des$n), sep = "",
                                    collapse = ", "), sep = "", collapse = ""),
             int_opchar_gs(pi, des$des$J, des$des$a, des$des$r, des$des$n,
-                          cumsum(des$des$n), k[which(k <= Js[1])], F, pmf[[1]]))
+                          cumsum(des$des$n), k[which(k <= Js[1])], FALSE, pmf[[1]]))
     if (summary) {
       message("...performance for Design 1 evaluated...")
     }
     for (i in 1:num_add_des) {
-      des_i           <- eval(add_des[[i]])
+      des_i           <- add_des[[i]]
       pmf[[i + 1]]    <-
         cbind("Design" = paste("Design ", i + 1, ": ",
                                paste("(", des_i$des$a,
@@ -147,14 +147,14 @@ opchar_gs <- function(des, ..., k, pi, summary = F) {
                                      collapse = ", "), sep = "", collapse = ""),
               int_opchar_gs(pi, des_i$des$J, des_i$des$a, des_i$des$r,
                             des_i$des$n, cumsum(des_i$des$n),
-                            k[which(k <= Js[i + 1])], F, pmf[[i + 1]]))
+                            k[which(k <= Js[i + 1])], FALSE, pmf[[i + 1]]))
       if (summary) {
         message("...performance for Design ", i + 1, " evaluated...")
       }
     }
-    pmf                <- tibble::as_tibble(plyr::rbind.fill(pmf))
+    pmf                <- tibble::as_tibble(dplyr::bind_rows(pmf))
     pmf$m              <- as.integer(pmf$m)
-    opchar             <- tibble::as_tibble(plyr::rbind.fill(opchar))
+    opchar             <- tibble::as_tibble(dplyr::bind_rows(opchar))
     opchar$Design      <- as.factor(opchar$Design)
   }
 

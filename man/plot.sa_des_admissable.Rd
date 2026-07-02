@@ -5,7 +5,7 @@
 \title{Plot the stopping boundaries of admissable group sequential single-arm trial
 designs for a single binary endpoint}
 \usage{
-\method{plot}{sa_des_admissable}(x, ..., output = F)
+\method{plot}{sa_des_admissable}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_des_admissable"}, as returned by

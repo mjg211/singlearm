@@ -221,13 +221,12 @@
 #' @seealso \code{\link{opchar_gs}}, \code{\link{est_gs}},
 #' \code{\link{pval_gs}}, \code{\link{ci_gs}}, and their associated \code{plot}
 #' family of functions. Note that similar functionality is available through
-#' \code{\link[clinfun]{ph2simon}} and
-#' \code{\link[OneArmPhaseTwoStudy]{getSolutions}}.
+#' \code{\link[clinfun]{ph2simon}}.
 #' @export
 des_gs <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
-                   Nmin = 1, Nmax = 30, futility = T, efficacy = F,
+                   Nmin = 1, Nmax = 30, futility = TRUE, efficacy = FALSE,
                    optimality = "null_ess", point_prior, beta_prior,
-                   equal_n = F, ensign = F, summary = F){
+                   equal_n = FALSE, ensign = FALSE, summary = FALSE){
 
   ##### Input Checking #########################################################
 
@@ -331,7 +330,7 @@ des_gs <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
         feasible         <- cbind(feasible[, 1:(2*J + J - 1)], feasible[, 2*J] + 1,
                                   feasible[, (2*J + J):ncol(feasible)])
       }
-      feasible           <- tibble::as.tibble(feasible)
+      feasible           <- tibble::as_tibble(feasible)
       colnames(feasible) <- c(paste(rep(c("n", "a", "r"), each = J),
                                     rep(1:J, 3), sep = ""), "P(pi0)", "P(pi1)",
                               paste(rep("PET", 2*(J - 1)),
@@ -341,8 +340,8 @@ des_gs <- function(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05, beta = 0.2,
                               "Med(pi0)", "Med(pi1)", "VSS(pi0)", "VSS(pi1)")
       feasible            <- dplyr::mutate(feasible,
                                            `max(N)` = rowSums(feasible[, 1:J]))
-      feasible[, 1:(3*J)] <- dplyr::mutate_if(feasible[, 1:(3*J)], is.double,
-                                              as.integer)
+      feasible[, 1:(3*J)] <- dplyr::mutate(feasible[, 1:(3*J)],
+                                           dplyr::across(where(is.double), as.integer))
       if (!futility) {
         feasible[, (J + 1):(2*J - 1)]   <- -Inf
       }

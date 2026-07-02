@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // saBivariateBD
 NumericMatrix saBivariateBD(int J, double alphaR, double alphaT, double beta, int Nmin, int Nmax, int equal_n, Rcpp::List dbivar_00_list, Rcpp::List dbivar_01_list, Rcpp::List dbivar_10_list, Rcpp::List dbivar_11_min_list, Rcpp::List dbivar_11_max_list, int summary);
 RcppExport SEXP _singlearm_saBivariateBD(SEXP JSEXP, SEXP alphaRSEXP, SEXP alphaTSEXP, SEXP betaSEXP, SEXP NminSEXP, SEXP NmaxSEXP, SEXP equal_nSEXP, SEXP dbivar_00_listSEXP, SEXP dbivar_01_listSEXP, SEXP dbivar_10_listSEXP, SEXP dbivar_11_min_listSEXP, SEXP dbivar_11_max_listSEXP, SEXP summarySEXP) {

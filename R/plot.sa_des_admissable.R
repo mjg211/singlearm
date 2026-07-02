@@ -31,7 +31,7 @@
 #' @seealso \code{\link{des_admissable}}, \code{\link{opchar_admissable}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_des_admissable <- function(x, ..., output = F) {
+plot.sa_des_admissable <- function(x, ..., output = FALSE) {
 
   des <- x
 
@@ -51,7 +51,7 @@ plot.sa_des_admissable <- function(x, ..., output = F) {
   all_states     <- NULL
   J              <- all_des[[1]]$J
   for (i in 1:num_des) {
-    states <- tibble::as.tibble(expand.grid(s = 0:all_des[[i]]$n[1],
+    states <- tibble::as_tibble(expand.grid(s = 0:all_des[[i]]$n[1],
                                             m = 1:all_des[[i]]$n[1]))
     states <- dplyr::filter(states, s <= m)
     states <- dplyr::mutate(states,
@@ -64,7 +64,7 @@ plot.sa_des_admissable <- function(x, ..., output = F) {
     cont   <- c(max(0, all_des[[i]]$a[1] + 1),
                 min(all_des[[i]]$r[1] - 1, all_des[[i]]$n[1]))
     for (j in 2:J) {
-      vals_j     <- tibble::as.tibble(expand.grid(s = 0:all_des[[i]]$n[j],
+      vals_j     <- tibble::as_tibble(expand.grid(s = 0:all_des[[i]]$n[j],
                                                   m = 1:all_des[[i]]$n[j]))
       vals_j     <- dplyr::filter(vals_j, s <= m)
       states_j   <- NULL
@@ -109,7 +109,7 @@ plot.sa_des_admissable <- function(x, ..., output = F) {
     ggplot2::geom_point(shape = 20) +
     ggplot2::xlab(expression(italic(w[0]))) +
     ggplot2::ylab(expression(italic(w[1]))) +
-    ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = T)) +
+    ggplot2::guides(colour = ggplot2::guide_legend(nrow = ceiling(num_des/3), byrow = TRUE)) +
     ggplot2::scale_shape_manual(values = c(1, 4, 3)) +
     ggplot2::scale_x_continuous(expand = c(0, 0), limits = c(0, 1)) +
     ggplot2::scale_y_continuous(expand = c(0, 0), limits = c(0, 1)) +
@@ -225,7 +225,7 @@ plot.sa_des_admissable <- function(x, ..., output = F) {
                                            fill = check_null),
                               color = "grey", alpha = 0.9,
                               box.padding = ggplot2::unit(0.25, "lines"),
-                              show.legend = F) +
+                              show.legend = FALSE) +
     ggplot2::xlab(expression(italic(N[J]))) +
     ggplot2::ylab(expression(paste(italic(ESS), "(",
                                    pi[0], ")",
@@ -256,7 +256,7 @@ plot.sa_des_admissable <- function(x, ..., output = F) {
                                            fill = check_alt),
                               color = "grey", alpha = 0.9,
                               box.padding = ggplot2::unit(0.25, "lines"),
-                              show.legend = F) +
+                              show.legend = FALSE) +
     ggplot2::xlab(expression(italic(N[J]))) +
     ggplot2::ylab(expression(paste(italic(ESS), "(",
                                    pi[1], ")",

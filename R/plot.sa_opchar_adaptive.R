@@ -24,7 +24,7 @@
 #' @seealso \code{\link{des_adaptive}}, \code{\link{opchar_adaptive}}, and their
 #' associated \code{plot} family of functions.
 #' @export
-plot.sa_opchar_adaptive <- function(x, ..., output = F) {
+plot.sa_opchar_adaptive <- function(x, ..., output = FALSE) {
 
   opchar <- x
 

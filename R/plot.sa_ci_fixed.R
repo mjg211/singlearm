@@ -32,7 +32,7 @@
 #' \code{\link{est_fixed}}, \code{\link{pval_fixed}}, \code{\link{ci_fixed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_ci_fixed <- function(x, ..., output = F) {
+plot.sa_ci_fixed <- function(x, ..., output = FALSE) {
 
   ci <- x
 
@@ -60,8 +60,7 @@ plot.sa_ci_fixed <- function(x, ..., output = F) {
       new_levels[i] <- "Wilson"
     }
   }
-  ci$ci$method <- plyr::mapvalues(ci$ci$method, from = levels(ci$ci$method),
-                                  to = new_levels)
+  levels(ci$ci$method) <- new_levels
   local_ci   <- tidyr::gather(ci$ci, key = "limit", value = "c",
                               `clow(s,m)`:`cupp(s,m)`)
   plot_ci$ci <- ggplot2::ggplot() +
@@ -105,9 +104,7 @@ plot.sa_ci_fixed <- function(x, ..., output = F) {
                  ggthemes::scale_color_ptol("method") +
     theme_singlearm()
 
-  ci$perf$method <- plyr::mapvalues(ci$perf$method,
-                                    from = levels(ci$perf$method),
-                                    to = new_levels)
+  levels(ci$perf$method) <- new_levels
 
   plot_ci$`bar(L)` <- ggplot2::ggplot(data = dplyr::filter(ci$perf,
                                                            pi ==

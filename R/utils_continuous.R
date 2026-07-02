@@ -222,9 +222,9 @@ est_bias_adj_continuous <- function(z, k, delta0, f, e, I) {
 
 pval_continuous_so <- function(z, k, delta, delta0, f, e, I, Lambda) {
   if (k == 1) {
-    return(pnorm(z, mean = (delta - delta0)*sqrt(I[1]), lower.tail = F))
+    return(pnorm(z, mean = (delta - delta0)*sqrt(I[1]), lower.tail = FALSE))
   } else {
-    return(pnorm(e[1], mean = (delta - delta0)*sqrt(I[1]), lower.tail = F) +
+    return(pnorm(e[1], mean = (delta - delta0)*sqrt(I[1]), lower.tail = FALSE) +
              mvtnorm::pmvnorm(lower = c(f[1], z), upper = c(e[1], Inf),
                               mean = (delta - delta0)*sqrt(I),
                               sigma = Lambda)[1])

@@ -32,21 +32,21 @@
 #' @seealso \code{\link{des_adaptive}}, \code{\link{opchar_adaptive}}, and their
 #' associated \code{plot} family of functions.
 #' @export
-plot.sa_des_adaptive <- function(x, ..., output = F) {
+plot.sa_des_adaptive <- function(x, ..., output = FALSE) {
 
   des <- x
 
   ##### Input Checking #########################################################
 
   check_sa_des_adaptive(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_adaptive(eval(add_des[[i]]), paste("add_des", i, sep = ""))
+      check_sa_des_adaptive(add_des[[i]], paste("add_des", i, sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
     }
@@ -75,7 +75,7 @@ plot.sa_des_adaptive <- function(x, ..., output = F) {
     all_des            <- list()
     all_des[[1]]       <- des
     for (i in 1:num_add_des) {
-      all_des[[i + 1]] <- eval(add_des[[i]])
+      all_des[[i + 1]] <- add_des[[i]]
     }
     num_des            <- 1 + num_add_des
     int_tibble         <- NULL

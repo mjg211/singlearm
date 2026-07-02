@@ -2,7 +2,7 @@
 # design
 cr_gs <- function(pi, s, m, J, a, r, n) {
   if (J == 1) {
-    cr         <- stats::pbinom(r - s - 1, n - m, pi, lower.tail = F)
+    cr         <- stats::pbinom(r - s - 1, n - m, pi, lower.tail = FALSE)
   } else {
     if (m <= n[1]) {
       if (s >= r[1]) {
@@ -20,7 +20,7 @@ cr_gs <- function(pi, s, m, J, a, r, n) {
                         stats::dbinom(poss_s[, 2], n[2], pi))
       }
     } else {
-      cr       <- stats::pbinom(r[2] - s - 1, sum(n) - m, pi, lower.tail = F)
+      cr       <- stats::pbinom(r[2] - s - 1, sum(n) - m, pi, lower.tail = FALSE)
     }
   }
   return(cr)

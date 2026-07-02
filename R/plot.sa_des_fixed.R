@@ -38,22 +38,22 @@
 #' \code{\link{est_fixed}}, \code{\link{pval_fixed}}, \code{\link{ci_fixed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_des_fixed <- function(x, ..., output = F) {
+plot.sa_des_fixed <- function(x, ..., output = FALSE) {
 
   des <- x
 
   ##### Input Checking #########################################################
 
   check_sa_des_fixed(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_fixed(eval(add_des[[i]]), paste("add_des[[", i, "]]",
+      check_sa_des_fixed(add_des[[i]], paste("add_des[[", i, "]]",
                                                    sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
     }
@@ -94,7 +94,7 @@ plot.sa_des_fixed <- function(x, ..., output = F) {
     all_des            <- list()
     all_des[[1]]       <- des
     for (i in 1:num_add_des) {
-      all_des[[i + 1]] <- eval(add_des[[i]])
+      all_des[[i + 1]] <- add_des[[i]]
     }
     states             <- list()
     for (i in 1:(num_add_des + 1)) {
@@ -115,7 +115,7 @@ plot.sa_des_fixed <- function(x, ..., output = F) {
                                                     "Reject", "Continue")),
                                       c("Continue", "Do not reject", "Reject")))
     }
-    states <- tibble::as_tibble(plyr::rbind.fill(states))
+    states <- tibble::as_tibble(dplyr::bind_rows(states))
     plot_des$states <- ggplot2::ggplot(states,
                                        ggplot2::aes(x = m, y = s,
                                                     colour = status,

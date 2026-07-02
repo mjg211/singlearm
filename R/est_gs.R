@@ -61,7 +61,7 @@
 #' @export
 est_gs <- function(des, k, pi, method = c("bias_adj", "bias_sub", "conditional",
                                           "naive", "mue", "umvcue", "umvue"),
-                   summary = F) {
+                   summary = FALSE) {
 
   ##### Input Checking #########################################################
 

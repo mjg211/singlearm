@@ -5,7 +5,7 @@
 \title{Plot the point estimates, and the point estimation procedures performance, in
 a single-stage single-arm trial design for a single binary endpoint}
 \usage{
-\method{plot}{sa_est_fixed}(x, ..., output = F)
+\method{plot}{sa_est_fixed}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_est_fixed"}, as returned by

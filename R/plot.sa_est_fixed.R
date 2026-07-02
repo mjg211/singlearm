@@ -31,7 +31,7 @@
 #' \code{\link{est_fixed}}, \code{\link{pval_fixed}}, \code{\link{ci_fixed}},
 #' and their associated \code{plot} family of functions.
 #' @export
-plot.sa_est_fixed <- function(x, ..., output = F) {
+plot.sa_est_fixed <- function(x, ..., output = FALSE) {
 
   est <- x
 

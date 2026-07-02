@@ -31,12 +31,12 @@ terminal_states_fixed <- function(n) {
 
 # Function for finding p-value, using the exact method, in a fixed design
 pval_fixed_exact <- function(s, m, pi0) {
-  return(stats::pbinom(s - 1, m, pi0, lower.tail = F))
+  return(stats::pbinom(s - 1, m, pi0, lower.tail = FALSE))
 }
 
 # Function for finding p-value, using the normal method, in a fixed design
 pval_fixed_normal <- function(s, m, pi0) {
-  return(stats::pnorm(s/m, pi0, sqrt(pi0*(1 - pi0)/m), lower.tail = F))
+  return(stats::pnorm(s/m, pi0, sqrt(pi0*(1 - pi0)/m), lower.tail = FALSE))
 }
 
 # Function for determining Agresti-Coull CI in a fixed design
@@ -102,7 +102,7 @@ ci_fixed_mid_p <- function(s, m, alpha) {
   } else {
     Clow <- stats::uniroot(function(pi, s, m, alpha)
                              0.5*stats::dbinom(s, m, pi) +
-                             stats::pbinom(s, m, pi, F) - alpha/2,
+                             stats::pbinom(s, m, pi,FALSE) - alpha/2,
                            c(0, s/m), s = s, m = m, alpha = alpha)$root
     Cupp <- stats::uniroot(function(pi, s, m, alpha)
                              0.5*stats::dbinom(s, m, pi) +

@@ -256,7 +256,7 @@ est_gs_cond_mle <- function(s, m, k, a, r, n) {
       continuation_k   <- as.matrix(expand.grid(rep(list(0:max(n[1:(k - 1)])), k-1)))
       for (j in 1:(k - 1)) {
         continuation_k <- continuation_k[which(continuation_k[, j] <= n[j]), ]
-        row_sums       <- rowSums(continuation_k[, 1:j, drop = F])
+        row_sums       <- rowSums(continuation_k[, 1:j, drop = FALSE])
         continuation_k <- continuation_k[which(row_sums > a[j] &
                                                  row_sums < r[j]), ]
       }
@@ -349,7 +349,7 @@ pval_gs_umvue <- function(pi, s, m, k, J, a, r, n) {
 # Function for finding conditional p-value in a group sequential design
 pval_gs_cond <- function(pi, s, m, k, J, a, r, n) {
   if (k == 1) {
-    return(stats::pbinom(s - 1, n[1], pi, F))
+    return(stats::pbinom(s - 1, n[1], pi,FALSE))
   } else {
     pmf <- pmf_gs(pi, J, a, r, n, k)
     return(sum(pmf$`f(s,m|pi)`[which(pmf$s >= s)]))

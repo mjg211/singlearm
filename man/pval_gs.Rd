@@ -5,8 +5,13 @@
 \title{Determine p-values in a group sequential single-arm trial design for a single
 binary endpoint}
 \usage{
-pval_gs(des, k, pi, method = c("conditional", "mle", "naive", "umvue"),
-  summary = F)
+pval_gs(
+  des,
+  k,
+  pi,
+  method = c("conditional", "mle", "naive", "umvue"),
+  summary = FALSE
+)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_gs"}, as returned by

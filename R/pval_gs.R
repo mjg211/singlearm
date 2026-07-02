@@ -55,7 +55,7 @@
 #' \code{\link{ci_gs}}, and their associated \code{plot} family of functions.
 #' @export
 pval_gs <- function(des, k, pi, method = c("conditional", "mle", "naive",
-                                           "umvue"), summary = F) {
+                                           "umvue"), summary = FALSE) {
 
   ##### Input Checking #########################################################
 

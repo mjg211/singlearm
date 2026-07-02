@@ -41,7 +41,7 @@
 #' \code{\link{pval_fixed}}, \code{\link{ci_fixed}}, and their associated
 #' \code{plot} family of functions.
 #' @export
-est_fixed <- function(des, pi, summary = F) {
+est_fixed <- function(des, pi, summary = FALSE) {
 
   ##### Input Checking #########################################################
 

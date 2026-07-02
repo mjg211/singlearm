@@ -5,10 +5,25 @@
 \title{Design a curtailed group sequential single-arm trial for a single binary
 endpoint}
 \usage{
-des_curtailed(J = 2, pi0 = 0.1, pi1 = 0.3, alpha = 0.05,
-  beta = 0.2, thetaF = rep(0, J), thetaE = rep(1, J), Nmin = 1,
-  Nmax = 50, futility = T, efficacy = F, optimality = "null_ess",
-  point_prior, beta_prior, equal_n = F, ensign = F, summary = F)
+des_curtailed(
+  J = 2,
+  pi0 = 0.1,
+  pi1 = 0.3,
+  alpha = 0.05,
+  beta = 0.2,
+  thetaF = rep(0, J),
+  thetaE = rep(1, J),
+  Nmin = 1,
+  Nmax = 50,
+  futility = TRUE,
+  efficacy = FALSE,
+  optimality = "null_ess",
+  point_prior,
+  beta_prior,
+  equal_n = FALSE,
+  ensign = FALSE,
+  summary = FALSE
+)
 }
 \arguments{
 \item{J}{The maximal number of stages to allow.}

@@ -33,22 +33,22 @@
 #' @seealso \code{\link{des_bayesfreq}}, \code{\link{opchar_bayesfreq}}, and
 #'  their associated \code{plot} family of functions.
 #' @export
-plot.sa_des_bayesfreq <- function(x, ..., output = F) {
+plot.sa_des_bayesfreq <- function(x, ..., output = FALSE) {
 
   des <- x
 
   ##### Input Checking #########################################################
 
   check_sa_des_bayesfreq(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_bayesfreq(eval(add_des[[i]]), paste("add_des[[", i, "]]",
+      check_sa_des_bayesfreq(add_des[[i]], paste("add_des[[", i, "]]",
                                                        sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
     }
@@ -61,7 +61,7 @@ plot.sa_des_bayesfreq <- function(x, ..., output = F) {
   plot_des     <- list()
   if (num_add_des == 0) {
     if (J == 1) {
-      states  <- tibble::as.tibble(expand.grid(s = 0:des$des$n,
+      states  <- tibble::as_tibble(expand.grid(s = 0:des$des$n,
                                                m = 1:des$des$n))
       states  <- dplyr::filter(states, s <= m)
       states  <- dplyr::mutate(states,
@@ -76,7 +76,7 @@ plot.sa_des_bayesfreq <- function(x, ..., output = F) {
       a          <- des$des$a
       r          <- des$des$r
       n          <- des$des$n
-      states     <- tibble::as.tibble(expand.grid(s = 0:n[1],
+      states     <- tibble::as_tibble(expand.grid(s = 0:n[1],
                                                   m = 1:n[1]))
       states     <- dplyr::filter(states, s <= m)
       states     <- dplyr::mutate(states,
@@ -87,7 +87,7 @@ plot.sa_des_bayesfreq <- function(x, ..., output = F) {
                                                          "Continue")))
       cont       <- c(max(0, a[1] + 1), min(r[1] - 1, n[1]))
       for (j in 2:J) {
-        vals_j     <- tibble::as.tibble(expand.grid(s = 0:n[j], m = 1:n[j]))
+        vals_j     <- tibble::as_tibble(expand.grid(s = 0:n[j], m = 1:n[j]))
         vals_j     <- dplyr::filter(vals_j, s <= m)
         states_j   <- NULL
         for (sj in seq(from = cont[1], to = cont[2], by = 1)) {
@@ -125,7 +125,7 @@ plot.sa_des_bayesfreq <- function(x, ..., output = F) {
     all_des            <- list()
     all_des[[1]]       <- des
     for (i in 1:num_add_des) {
-      all_des[[i + 1]] <- eval(add_des[[i]])
+      all_des[[i + 1]] <- add_des[[i]]
     }
     num_des            <- 1 + num_add_des
     Js   <- NULL
@@ -134,7 +134,7 @@ plot.sa_des_bayesfreq <- function(x, ..., output = F) {
     }
     all_states         <- NULL
     for (i in 1:num_des) {
-      states <- tibble::as.tibble(expand.grid(s = 0:all_des[[i]]$des$n[1],
+      states <- tibble::as_tibble(expand.grid(s = 0:all_des[[i]]$des$n[1],
                                               m = 1:all_des[[i]]$des$n[1]))
       states <- dplyr::filter(states, s <= m)
       states <- dplyr::mutate(states,
@@ -148,7 +148,7 @@ plot.sa_des_bayesfreq <- function(x, ..., output = F) {
                   min(all_des[[i]]$des$r[1] - 1, all_des[[i]]$des$n[1]))
       if (Js[i] > 1) {
         for (j in 2:Js[i]) {
-          vals_j     <- tibble::as.tibble(expand.grid(s = 0:all_des[[i]]$des$n[j],
+          vals_j     <- tibble::as_tibble(expand.grid(s = 0:all_des[[i]]$des$n[j],
                                                       m = 1:all_des[[i]]$des$n[j]))
           vals_j     <- dplyr::filter(vals_j, s <= m)
           states_j   <- NULL
@@ -191,9 +191,7 @@ plot.sa_des_bayesfreq <- function(x, ..., output = F) {
                                sum(all_des[[i]]$des$n), sep = "", collapse = ""))
       }
     }
-    all_states$Design   <- plyr::mapvalues(all_states$Design,
-                                           from = levels(all_states$Design),
-                                           to = new_levels)
+    levels(all_states$Design) <- new_levels
     plot_des$states <- ggplot2::ggplot(all_states, ggplot2::aes(x = m, y = s,
                                                                 colour = status,
                                                                 shape = status)) +

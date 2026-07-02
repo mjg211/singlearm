@@ -66,4 +66,25 @@
 #'
 #' @docType package
 #' @name singlearm
+#' @importFrom stats dnorm integrate pbinom pnorm qnorm
 NULL
+
+utils::globalVariables(c(
+  # Column names used in dplyr/ggplot2 pipelines
+  "Bias(hat(pi)|pi)", "Cover(C|pi)", "Design", "E(L|pi)", "E(hat(pi)|pi)",
+  "E(p|pi)", "ESS(beta)", "ESS(mu,nu)", "ESS(pi)", "ESS(pi0)", "ESS(pi1)",
+  "ESS(point)", "Med(mu,nu)", "Med(pi)", "Med(pi0)", "Med(pi1)", "O",
+  "P(mu,nu)", "P(pi)", "P(pi0)", "P(pi1)", "PB(pi1)",
+  "RMSE(hat(pi)|pi)", "VSS(mu,nu)", "VSS(pi)", "Var(L|pi)",
+  "Var(hat(pi)|pi)", "Var(p|pi)",
+  "a", "bar(L)", "card_P2", "clow(s,m)", "combination", "cupp(s,m)",
+  "dbinom_pi0", "dbinom_pi1", "dbinomial_pi0", "dbinomial_pi1",
+  "dc", "dc_ef", "dc_pf", "dc_ss", "delta",
+  "elem", "en", "end", "f(s,m|pi)", "hat(pi)(s,m)",
+  "key", "l(s,m)", "length_dc_ef", "limit", "m", "margPB(pi1)",
+  "max(L)", "max(N)", "maxpower", "method", "mu",
+  "n1", "n2", "nomalpha", "nombeta", "nu",
+  "p(s,m)", "pi(hat)(s,m)",
+  "s", "s1", "sample_sizes", "start", "status",
+  "store", "umvue", "value", "w", "w0", "w1", "where"
+))

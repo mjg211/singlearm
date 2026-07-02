@@ -68,25 +68,25 @@
 #' @seealso \code{\link{des_bayesfreq}}, and their associated \code{plot} family
 #' of functions.
 #' @export
-opchar_bayesfreq <- function(des, ..., k, mu, nu, pi, summary = F) {
+opchar_bayesfreq <- function(des, ..., k, mu, nu, pi, summary = FALSE) {
 
   ##### Input Checking #########################################################
 
   check_sa_des_bayesfreq(des, "des")
-  add_des     <- pryr::named_dots(...)
+  add_des     <- list(...)
   num_add_des <- length(add_des)
   if (num_add_des > 0) {
     for (i in 1:num_add_des) {
-      check_sa_des_bayesfreq(eval(add_des[[i]]), paste("add_des", i, sep = ""))
+      check_sa_des_bayesfreq(add_des[[i]], paste("add_des", i, sep = ""))
     }
     for (i in 1:num_add_des) {
-      if (eval(add_des[[i]])$des$mu != des$des$mu) {
+      if (add_des[[i]]$des$mu != des$des$mu) {
         stop("Each supplied design must have been designed for the same value of mu")
       }
-      if (eval(add_des[[i]])$des$nu != des$des$nu) {
+      if (add_des[[i]]$des$nu != des$des$nu) {
         stop("Each supplied design must have been designed for the same value of nu")
       }
-      if (eval(add_des[[i]])$des$pi0 != des$des$pi0) {
+      if (add_des[[i]]$des$pi0 != des$des$pi0) {
         stop("Each supplied design must have been designed for the same value of pi0")
       }
     }
@@ -112,7 +112,7 @@ opchar_bayesfreq <- function(des, ..., k, mu, nu, pi, summary = F) {
     Js          <- numeric(num_add_des + 1)
     Js[1]       <- des$des$J
     for (i in 1:num_add_des) {
-      Js[i + 1] <- eval(add_des[[i]])$des$J
+      Js[i + 1] <- add_des[[i]]$des$J
     }
     k           <- 1:max(Js)
   } else if (!missing(k)){
@@ -161,7 +161,7 @@ opchar_bayesfreq <- function(des, ..., k, mu, nu, pi, summary = F) {
                                    cumsum(des$des$n), sep = "",
                                    collapse = ", "), sep = "", collapse = ""),
             int_opchar_gs(pi, des$des$J, des$des$a, des$des$r, des$des$n,
-                          cumsum(des$des$n), k[which(k <= Js[1])], F,
+                          cumsum(des$des$n), k[which(k <= Js[1])], FALSE,
                           pmf_freq[[1]]))
     pmf_bayes[[1]]    <-
       cbind("Design" = paste("Design 1: ",
@@ -182,7 +182,7 @@ opchar_bayesfreq <- function(des, ..., k, mu, nu, pi, summary = F) {
       message("...performance for Design 1 evaluated...")
     }
     for (i in 1:num_add_des) {
-      des_i           <- eval(add_des[[i]])
+      des_i           <- add_des[[i]]
       pmf_freq[[i + 1]]    <-
         cbind("Design" = paste("Design ", i + 1, ": ",
                                paste("(", des_i$des$a,
@@ -199,7 +199,7 @@ opchar_bayesfreq <- function(des, ..., k, mu, nu, pi, summary = F) {
                                      collapse = ", "), sep = "", collapse = ""),
               int_opchar_gs(pi, des_i$des$J, des_i$des$a, des_i$des$r,
                             des_i$des$n, cumsum(des_i$des$n),
-                            k[which(k <= Js[i + 1])], F, pmf_freq[[i + 1]]))
+                            k[which(k <= Js[i + 1])], FALSE, pmf_freq[[i + 1]]))
       pmf_bayes[[i + 1]]    <-
         cbind("Design" = paste("Design ", i + 1, ": ",
                                paste("(", des_i$des$a,
@@ -223,13 +223,13 @@ opchar_bayesfreq <- function(des, ..., k, mu, nu, pi, summary = F) {
         message("...performance for Design ", i + 1, " evaluated...")
       }
     }
-    pmf_freq           <- tibble::as_tibble(plyr::rbind.fill(pmf_freq))
+    pmf_freq           <- tibble::as_tibble(dplyr::bind_rows(pmf_freq))
     pmf_freq$m         <- as.integer(pmf_freq$m)
-    opchar_freq        <- tibble::as_tibble(plyr::rbind.fill(opchar_freq))
+    opchar_freq        <- tibble::as_tibble(dplyr::bind_rows(opchar_freq))
     opchar_freq$Design <- as.factor(opchar_freq$Design)
-    pmf_bayes           <- tibble::as_tibble(plyr::rbind.fill(pmf_bayes))
+    pmf_bayes           <- tibble::as_tibble(dplyr::bind_rows(pmf_bayes))
     pmf_bayes$m         <- as.integer(pmf_bayes$m)
-    opchar_bayes        <- tibble::as_tibble(plyr::rbind.fill(opchar_bayes))
+    opchar_bayes        <- tibble::as_tibble(dplyr::bind_rows(opchar_bayes))
     opchar_bayes$Design <- as.factor(opchar_bayes$Design)
   }
 

@@ -5,7 +5,7 @@
 \title{Determine the operating characteristics of single-stage single-arm trial
 designs for a single binary endpoint}
 \usage{
-opchar_fixed(des, ..., pi, summary = F)
+opchar_fixed(des, ..., pi, summary = FALSE)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_fixed"}, as returned by

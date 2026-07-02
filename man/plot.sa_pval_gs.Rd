@@ -5,7 +5,7 @@
 \title{Plot the p-values, and the p-value calculation procedures performance, in a group sequential
 single-arm trial design for a single binary endpoint}
 \usage{
-\method{plot}{sa_pval_gs}(x, ..., output = F)
+\method{plot}{sa_pval_gs}(x, ..., output = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{"sa_pval_gs"}, as returned by \code{pval_gs()}.}

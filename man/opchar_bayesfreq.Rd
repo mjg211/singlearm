@@ -5,7 +5,7 @@
 \title{Determine the operating characteristics of Bayesian-frequentist single-arm
 trial designs for a single binary endpoint}
 \usage{
-opchar_bayesfreq(des, ..., k, mu, nu, pi, summary = F)
+opchar_bayesfreq(des, ..., k, mu, nu, pi, summary = FALSE)
 }
 \arguments{
 \item{des}{An object of class \code{"sa_des_bayesfreq"}, as returned by

@@ -4,9 +4,18 @@
 \alias{des_gehan}
 \title{Design a two-stage Gehan single-arm trial for a single binary endpoint}
 \usage{
-des_gehan(pi1 = 0.3, beta1 = 0.1, gamma = 0.05,
-  alpha_pi_hat = 0.25, method = "A", f = "G", alpha = 0.05,
-  pi0 = 0.1, find_D = F, summary = F)
+des_gehan(
+  pi1 = 0.3,
+  beta1 = 0.1,
+  gamma = 0.05,
+  alpha_pi_hat = 0.25,
+  method = "A",
+  f = "G",
+  alpha = 0.05,
+  pi0 = 0.1,
+  find_D = FALSE,
+  summary = FALSE
+)
 }
 \arguments{
 \item{pi1}{The (desirable) response probability used in computing the first
@@ -29,7 +38,7 @@ determining the second stage sample sizes.}
 \item{alpha}{The confidence level to use in the formula for computing the
 second stage sample sizes.}
 
-\item{pi0}{The null response rate. Only used when \code{find_D = T}.}
+\item{pi0}{The null response rate. Only used when \code{find_D = TRUE}.}
 
 \item{find_D}{A logical variable indicating whether an optimal discrete
 conditional error function should be found.}
